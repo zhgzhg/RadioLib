@@ -39,9 +39,15 @@
   #define RADIOLIB_PLATFORM                           "Custom"
 
   // the following parameters must always be defined
-  #define RADIOLIB_PIN_TYPE                           uint8_t
-  #define RADIOLIB_PIN_MODE                           uint8_t
-  #define RADIOLIB_PIN_STATUS                         uint8_t
+  #ifndef RADIOLIB_PIN_TYPE
+    #define RADIOLIB_PIN_TYPE                           uint8_t
+  #endif
+  #ifndef RADIOLIB_PIN_MODE
+    #define RADIOLIB_PIN_MODE                           uint8_t
+  #endif
+  #ifndef RADIOLIB_PIN_STATUS
+    #define RADIOLIB_PIN_STATUS                         uint8_t
+  #endif
   #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
   #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
   #define RADIOLIB_NC                                 (0xFF)
