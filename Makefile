@@ -1,6 +1,6 @@
 CC = g++
-LIBS = -lwiringPi -lm -lpthread -lrt -lcrypt
-CFLAGS = -std=c++14 -Wall -DLINUX -DARDUINO=999 -Isrc/ -Isrc/modules/ -Isrc/linux-workarounds/ -Isrc/linux-workarounds/SPI/
+LIBS = -lm -lpthread -lrt -lcrypt
+CFLAGS = -std=c++14 -Wall -DLINUX -DARDUINO=999 -DNOWIRINGIPI -Isrc/ -Isrc/modules/ -Isrc/linux-workarounds/ -Isrc/linux-workarounds/SPI/
 
 # Should be equivalent to your list of C files, if you don't build selectively
 SRC = $(wildcard src/linux-workarounds/SPI/*.cpp) $(wildcard src/linux-workarounds/*.cpp) \
