@@ -31,7 +31,7 @@
     void delayMicroseconds(unsigned int howLong) { }
   #else
     void yield() {
-      delayMillis(1);
+      delayMicroseconds(500);
     }
   #endif
 

@@ -233,7 +233,7 @@
     #define RADIOLIB_PIN_STATUS                         int
     #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
     #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
-    #define RADIOLIB_NC                                 (0xFF)
+    #define RADIOLIB_NC                                 (0xFFFFFFFF)
     #define RADIOLIB_DEFAULT_SPI                        SPI
     #define RADIOLIB_PROGMEM                            PROGMEM
     #define RADIOLIB_PROGMEM_READ_BYTE(addr)            pgm_read_byte(addr)
