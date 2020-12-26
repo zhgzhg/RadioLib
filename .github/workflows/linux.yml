@@ -1,0 +1,13 @@
+name: CI-Linux
+  on:
+    push:
+      branches: [ linux ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile on Linux
+        shell: bash
+        run: make 
