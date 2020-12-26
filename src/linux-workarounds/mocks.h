@@ -228,9 +228,9 @@
   #ifndef RADIOLIB_PLATFORM
     #define RADIOLIB_CUSTOM_PLATFORM
 
-    #define RADIOLIB_PIN_TYPE                           int
-    #define RADIOLIB_PIN_MODE                           int
-    #define RADIOLIB_PIN_STATUS                         int
+    #define RADIOLIB_PIN_TYPE                           uint32_t
+    #define RADIOLIB_PIN_MODE                           uint32_t
+    #define RADIOLIB_PIN_STATUS                         uint32_t
     #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
     #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
     #define RADIOLIB_NC                                 (0xFFFFFFFF)
