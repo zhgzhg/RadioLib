@@ -1,7 +1,7 @@
 name: CI-Linux
-  on:
-    push:
-      branches: [ linux ]
+on:
+  push:
+    branches: [ linux ]
 
 jobs:
   build:
