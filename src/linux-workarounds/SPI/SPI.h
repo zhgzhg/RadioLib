@@ -28,9 +28,9 @@
   #define LOW 0
   #define HIGH 1
 
-  void digitalWrite(int pin, int value);
-  int digitalRead(int pin);
-  void pinMode(int pin, int mode);
+  void digitalWrite(uint32_t pin, uint32_t value);
+  uint32_t digitalRead(uint32_t pin);
+  void pinMode(uint32_t pin, uint32_t mode);
 #endif
 
 
