@@ -96,18 +96,35 @@ int16_t CC1101::begin(float freq, float br, float freqDev, float rxBw, int8_t po
 }
 
 int16_t CC1101::transmit(uint8_t* data, size_t len, uint8_t addr) {
+  // calculate timeout (5ms + 500 % of expected time-on-air)
+  uint32_t timeout = 5000000 + (uint32_t)((((float)(len * 8)) / (_br * 1000.0)) * 5000000.0);
+
   // start transmission
   int16_t state = startTransmit(data, len, addr);
   RADIOLIB_ASSERT(state);
 
-  // wait for transmission start
+  // wait for transmission start or timeout
+  uint32_t start = Module::micros();
   while(!Module::digitalRead(_mod->getIrq())) {
     Module::yield();
+
+    if(Module::micros() - start > timeout) {
+      standby();
+      SPIsendCommand(CC1101_CMD_FLUSH_TX);
+      return(ERR_TX_TIMEOUT);
+    }
   }
 
-  // wait for transmission end
+  // wait for transmission end or timeout
+  start = Module::micros();
   while(Module::digitalRead(_mod->getIrq())) {
     Module::yield();
+
+    if(Module::micros() - start > timeout) {
+      standby();
+      SPIsendCommand(CC1101_CMD_FLUSH_TX);
+      return(ERR_TX_TIMEOUT);
+    }
   }
 
   // set mode to standby
@@ -120,18 +137,35 @@ int16_t CC1101::transmit(uint8_t* data, size_t len, uint8_t addr) {
 }
 
 int16_t CC1101::receive(uint8_t* data, size_t len) {
+  // calculate timeout (500 ms + 400 full max-length packets at current bit rate)
+  uint32_t timeout = 500000 + (1.0/(_br*1000.0))*(CC1101_MAX_PACKET_LENGTH*400.0);
+
   // start reception
   int16_t state = startReceive();
   RADIOLIB_ASSERT(state);
 
-  // wait for sync word
+  // wait for sync word or timeout
+  uint32_t start = Module::micros();
   while(!Module::digitalRead(_mod->getIrq())) {
     Module::yield();
+
+    if(Module::micros() - start > timeout) {
+      standby();
+      SPIsendCommand(CC1101_CMD_FLUSH_TX);
+      return(ERR_RX_TIMEOUT);
+    }
   }
 
-  // wait for packet end
+  // wait for packet end or timeout
+  start = Module::micros();
   while(Module::digitalRead(_mod->getIrq())) {
     Module::yield();
+
+    if(Module::micros() - start > timeout) {
+      standby();
+      SPIsendCommand(CC1101_CMD_FLUSH_TX);
+      return(ERR_RX_TIMEOUT);
+    }
   }
 
   // read packet data
@@ -351,6 +385,9 @@ int16_t CC1101::setBitRate(float br) {
   // set bit rate value
   int16_t state = SPIsetRegValue(CC1101_REG_MDMCFG4, e, 3, 0);
   state |= SPIsetRegValue(CC1101_REG_MDMCFG3, m);
+  if(state == ERR_NONE) {
+    CC1101::_br = br;
+  }
   return(state);
 }
 
@@ -375,14 +412,13 @@ int16_t CC1101::setRxBandwidth(float rxBw) {
 }
 
 int16_t CC1101::setFrequencyDeviation(float freqDev) {
-  // set frequency deviation to lowest available setting (required for RTTY)
-  if(freqDev == 0.0) {
-    int16_t state = SPIsetRegValue(CC1101_REG_DEVIATN, 0, 6, 4);
-    state |= SPIsetRegValue(CC1101_REG_DEVIATN, 0, 2, 0);
-    return(state);
+  // set frequency deviation to lowest available setting (required for digimodes)
+  float newFreqDev = freqDev;
+  if(freqDev < 0.0) {
+    newFreqDev = 1.587;
   }
 
-  RADIOLIB_CHECK_RANGE(freqDev, 1.587, 380.8, ERR_INVALID_FREQUENCY_DEVIATION);
+  RADIOLIB_CHECK_RANGE(newFreqDev, 1.587, 380.8, ERR_INVALID_FREQUENCY_DEVIATION);
 
   // set mode to standby
   SPIsendCommand(CC1101_CMD_IDLE);
@@ -390,7 +426,7 @@ int16_t CC1101::setFrequencyDeviation(float freqDev) {
   // calculate exponent and mantissa values
   uint8_t e = 0;
   uint8_t m = 0;
-  getExpMant(freqDev * 1000.0, 8, 17, 7, e, m);
+  getExpMant(newFreqDev * 1000.0, 8, 17, 7, e, m);
 
   // set frequency deviation value
   int16_t state = SPIsetRegValue(CC1101_REG_DEVIATN, (e << 4), 6, 4);

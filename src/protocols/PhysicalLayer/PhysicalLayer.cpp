@@ -167,3 +167,17 @@ int32_t PhysicalLayer::random(int32_t min, int32_t max) {
 
   return(PhysicalLayer::random(max - min) + min);
 }
+
+int16_t PhysicalLayer::startDirect() {
+  // disable encodings
+  int16_t state = setEncoding(RADIOLIB_ENCODING_NRZ);
+  RADIOLIB_ASSERT(state);
+
+  // disable shaping
+  state = setDataShaping(RADIOLIB_SHAPING_NONE);
+  RADIOLIB_ASSERT(state);
+
+  // set frequency deviation to the lowest possible value
+  state = setFrequencyDeviation(-1);
+  return(state);
+}

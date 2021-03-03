@@ -802,17 +802,23 @@ int16_t SX128x::setFrequencyDeviation(float freqDev) {
     return(ERR_WRONG_MODEM);
   }
 
-  RADIOLIB_CHECK_RANGE(freqDev, 0.0, 3200.0, ERR_INVALID_FREQUENCY_DEVIATION);
+  // set frequency deviation to lowest available setting (required for digimodes)
+  float newFreqDev = freqDev;
+  if(freqDev < 0.0) {
+    newFreqDev = 62.5;
+  }
+
+  RADIOLIB_CHECK_RANGE(newFreqDev, 62.5, 1000.0, ERR_INVALID_FREQUENCY_DEVIATION);
 
   // override for the lowest possible frequency deviation - required for some PhysicalLayer protocols
-  if(freqDev == 0.0) {
+  if(newFreqDev == 0.0) {
     _modIndex = SX128X_BLE_GFSK_MOD_IND_0_35;
     _br = SX128X_BLE_GFSK_BR_0_125_BW_0_3;
     return(setModulationParams(_br, _modIndex, _shaping));
   }
 
   // update modulation parameters
-  uint8_t modIndex = (uint8_t)((8.0 * (freqDev / (float)_brKbps)) - 1.0);
+  uint8_t modIndex = (uint8_t)((8.0 * (newFreqDev / (float)_brKbps)) - 1.0);
   if(modIndex > SX128X_BLE_GFSK_MOD_IND_4_00) {
     return(ERR_INVALID_MODULATION_PARAMETERS);
   }
@@ -1429,7 +1435,7 @@ int16_t SX128x::SPItransfer(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* d
     // some faster platforms require a short delay here
     // not sure why, but it seems that long enough SPI transaction
     // (e.g. setPacketParams for GFSK) will fail without it
-    #if defined(ARDUINO_ARCH_STM32) || defined(SAMD_SERIES)
+    #if defined(RADIOLIB_SPI_SLOWDOWN)
       Module::delay(1);
     #endif
   #endif

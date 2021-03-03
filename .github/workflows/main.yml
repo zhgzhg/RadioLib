@@ -5,6 +5,7 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  workflow_dispatch:
 
 jobs:
 
@@ -20,13 +21,12 @@ jobs:
           - arduino:megaavr:uno2018
           - arduino:sam:arduino_due_x
           - arduino:samd:arduino_zero_native
-          - arduino:samd:arduino_zero_native
           - adafruit:samd:adafruit_feather_m0
           - adafruit:nrf52:feather52832
           - esp32:esp32:esp32
           - esp8266:esp8266:generic
           - Intel:arc32:arduino_101
-          - SparkFun:apollo3:amap3redboard
+          - SparkFun:apollo3:sfe_artemis
           - STM32:stm32:GenF3
           - stm32duino:STM32F1:mapleMini
           - MegaCoreX:megaavr:4809
@@ -108,8 +108,9 @@ jobs:
 
           elif [[ "${{ contains(matrix.board, 'SparkFun:apollo3') }}" == "true" ]]; then
             # SparkFun Apollo
-            echo "::set-output name=index-url::--additional-urls https://raw.githubusercontent.com/sparkfun/Arduino_Boards/master/IDE_Board_Manager/package_sparkfun_index.json"
+            echo "::set-output name=index-url::--additional-urls https://raw.githubusercontent.com/sparkfun/Arduino_Apollo3/master/package_sparkfun_apollo3_index.json"
             echo "::set-output name=warnings::'none'"
+            echo "::set-output name=skip-pattern::(HTTP|MQTT).*ino"
 
           elif [[ "${{ contains(matrix.board, 'STM32:stm32') }}" == "true" ]]; then
             # STM32 (official core)
@@ -159,23 +160,3 @@ jobs:
               fi
             fi
           done
-
-  doxygen:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install Doxygen
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y doxygen
-
-      - uses: actions/checkout@v2
-
-      - name: Generate docs
-        run: doxygen Doxyfile
-
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/html

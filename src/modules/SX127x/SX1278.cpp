@@ -10,15 +10,11 @@ int16_t SX1278::begin(float freq, float bw, uint8_t sf, uint8_t cr, uint8_t sync
   int16_t state = SX127x::begin(SX1278_CHIP_VERSION, syncWord, preambleLength);
   RADIOLIB_ASSERT(state);
 
-  // configure settings not accessible by API
-  state = config();
-  RADIOLIB_ASSERT(state);
-
   // configure publicly accessible settings
-  state = setFrequency(freq);
+  state = setBandwidth(bw);
   RADIOLIB_ASSERT(state);
 
-  state = setBandwidth(bw);
+  state = setFrequency(freq);
   RADIOLIB_ASSERT(state);
 
   state = setSpreadingFactor(sf);
@@ -477,6 +473,14 @@ int16_t SX1278::autoLDRO() {
   return(ERR_NONE);
 }
 
+int16_t SX1278::implicitHeader(size_t len) {
+  return(setHeaderType(SX1278_HEADER_IMPL_MODE, len));
+}
+
+int16_t SX1278::explicitHeader() {
+  return(setHeaderType(SX1278_HEADER_EXPL_MODE));
+}
+
 int16_t SX1278::setBandwidthRaw(uint8_t newBandwidth) {
   // set mode to standby
   int16_t state = SX127x::standby();
@@ -514,6 +518,26 @@ int16_t SX1278::setCodingRateRaw(uint8_t newCodingRate) {
   return(state);
 }
 
+int16_t SX1278::setHeaderType(uint8_t headerType, size_t len) {
+  // check active modem
+  if(getActiveModem() != SX127X_LORA) {
+    return(ERR_WRONG_MODEM);
+  }
+
+  // set requested packet mode
+  int16_t state = _mod->SPIsetRegValue(SX127X_REG_MODEM_CONFIG_1, headerType, 0, 0);
+  RADIOLIB_ASSERT(state);
+
+  // set length to register
+  state = _mod->SPIsetRegValue(SX127X_REG_PAYLOAD_LENGTH, len);
+  RADIOLIB_ASSERT(state);
+
+  // update cached value
+  _packetLength = len;
+
+  return(state);
+}
+
 int16_t SX1278::configFSK() {
   // configure common registers
   int16_t state = SX127x::configFSK();
@@ -521,11 +545,6 @@ int16_t SX1278::configFSK() {
 
   // set fast PLL hop
   state = _mod->SPIsetRegValue(SX1278_REG_PLL_HOP, SX127X_FAST_HOP_ON, 7, 7);
-  RADIOLIB_ASSERT(state);
-
-  // set Gauss filter BT product to 0.5
-  state = _mod->SPIsetRegValue(SX127X_REG_PA_RAMP, SX1278_FSK_GAUSSIAN_0_5, 6, 5);
-
   return(state);
 }
 

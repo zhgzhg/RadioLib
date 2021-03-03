@@ -732,11 +732,17 @@ int16_t SX126x::setFrequencyDeviation(float freqDev) {
   if(getPacketType() != SX126X_PACKET_TYPE_GFSK) {
     return(ERR_WRONG_MODEM);
   }
+  
+  // set frequency deviation to lowest available setting (required for digimodes)
+  float newFreqDev = freqDev;
+  if(freqDev < 0.0) {
+    newFreqDev = 0.6;
+  }
 
-  RADIOLIB_CHECK_RANGE(freqDev, 0.0, 200.0, ERR_INVALID_FREQUENCY_DEVIATION);
+  RADIOLIB_CHECK_RANGE(newFreqDev, 0.6, 200.0, ERR_INVALID_FREQUENCY_DEVIATION);
 
   // calculate raw frequency deviation value
-  uint32_t freqDevRaw = (uint32_t)(((freqDev * 1000.0) * (float)((uint32_t)(1) << 25)) / (SX126X_CRYSTAL_FREQ * 1000000.0));
+  uint32_t freqDevRaw = (uint32_t)(((newFreqDev * 1000.0) * (float)((uint32_t)(1) << 25)) / (SX126X_CRYSTAL_FREQ * 1000000.0));
 
   // check modulation parameters
   /*if(2 * freqDevRaw + _br > _rxBwKhz * 1000.0) {
@@ -1128,6 +1134,13 @@ uint32_t SX126x::getTimeOnAir(size_t len) {
   } else {
     return((len * 8 * _br) / (SX126X_CRYSTAL_FREQ * 32));
   }
+}
+
+float SX126x::getRSSIInst() {
+  uint8_t data[3] = {0, 0, 0};  // RssiInst, Status, RFU
+  SPIreadCommand(SX126X_CMD_GET_RSSI_INST, data, 3);
+
+  return (float)data[0] / (-2.0);
 }
 
 int16_t SX126x::implicitHeader(size_t len) {
@@ -1717,7 +1730,7 @@ int16_t SX126x::SPItransfer(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* d
     // some faster platforms require a short delay here
     // not sure why, but it seems that long enough SPI transaction
     // (e.g. setPacketParams for GFSK) will fail without it
-    #if defined(ARDUINO_ARCH_STM32) || defined(SAMD_SERIES)
+    #if defined(RADIOLIB_SPI_SLOWDOWN)
       Module::delay(1);
     #endif
   #endif
