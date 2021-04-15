@@ -124,9 +124,9 @@
 #define SX127X_DETECT_OPTIMIZE_SF_7_12                0b00000011  //  2     0     SF7 to SF12 detection optimization
 
 // SX127X_REG_INVERT_IQ
-#define SX127X_INVERT_IQ_RXPATH_ON                    0b01000000  //  6     6     I and Q signals are inverted    
+#define SX127X_INVERT_IQ_RXPATH_ON                    0b01000000  //  6     6     I and Q signals are inverted
 #define SX127X_INVERT_IQ_RXPATH_OFF                   0b00000000  //  6     6     normal mode
-#define SX127X_INVERT_IQ_TXPATH_ON                    0b00000001  //  0     0     I and Q signals are inverted    
+#define SX127X_INVERT_IQ_TXPATH_ON                    0b00000001  //  0     0     I and Q signals are inverted
 #define SX127X_INVERT_IQ_TXPATH_OFF                   0b00000000  //  0     0     normal mode
 
 // SX127X_REG_DETECTION_THRESHOLD
@@ -866,6 +866,33 @@ class SX127x: public PhysicalLayer {
     */
     int16_t setOOK(bool enableOOK);
 
+    /*!
+      \brief Selects the type of threshold in the OOK data slicer.
+
+      \param type Threshold type: SX127X_OOK_THRESH_PEAK(default), SX127X_OOK_THRESH_FIXED, SX127X_OOK_THRESH_AVERAGE
+
+      \returns \ref status_codes
+    */
+    int16_t setOokThresholdType(uint8_t type);
+
+    /*!
+      \brief Period of decrement of the RSSI threshold in the OOK demodulator.
+
+      \param value Use defines SX127X_OOK_PEAK_THRESH_DEC_X_X_CHIP
+
+      \returns \ref status_codes
+    */
+    int16_t setOokPeakThresholdDecrement(uint8_t value);
+
+    /*!
+      \brief Fixed threshold for the Data Slicer in OOK mode or floor threshold for the Data Slicer in OOK when Peak mode is used.
+
+      \param value The actual value used by teh data slicer is (128 - value/2).
+
+      \returns \ref status_codes
+    */
+    int16_t setOokFixedOrFloorThreshold(uint8_t value);
+
      /*!
       \brief Query modem for the packet length of received payload.
 
@@ -972,10 +999,14 @@ class SX127x: public PhysicalLayer {
     */
     int16_t invertIQ(bool invertIQ);
 
-#ifndef RADIOLIB_GODMODE
+#if !defined(RADIOLIB_GODMODE) && !defined(RADIOLIB_LOW_LEVEL)
   protected:
 #endif
     Module* _mod;
+
+#if !defined(RADIOLIB_GODMODE)
+  protected:
+#endif
 
     float _freq = 0;
     float _bw = 0;
@@ -994,7 +1025,7 @@ class SX127x: public PhysicalLayer {
     int16_t directMode();
     int16_t setPacketMode(uint8_t mode, uint8_t len);
 
-#ifndef RADIOLIB_GODMODE
+#if !defined(RADIOLIB_GODMODE)
   private:
 #endif
     float _dataRate = 0;

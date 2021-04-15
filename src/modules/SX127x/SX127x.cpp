@@ -836,6 +836,30 @@ int16_t SX127x::disableAddressFiltering() {
   return(_mod->SPIsetRegValue(SX127X_REG_BROADCAST_ADRS, 0x00));
 }
 
+int16_t SX127x::setOokThresholdType(uint8_t type) {
+  // check active modem
+  if(getActiveModem() != SX127X_FSK_OOK) {
+    return(ERR_WRONG_MODEM);
+  }
+  return(_mod->SPIsetRegValue(SX127X_REG_OOK_PEAK, type, 4, 3, 5));
+}
+
+int16_t SX127x::setOokFixedOrFloorThreshold(uint8_t value) {
+  // check active modem
+  if(getActiveModem() != SX127X_FSK_OOK) {
+    return(ERR_WRONG_MODEM);
+  }
+  return(_mod->SPIsetRegValue(SX127X_REG_OOK_FIX, value, 7, 0, 5));
+}
+
+int16_t SX127x::setOokPeakThresholdDecrement(uint8_t value) {
+  // check active modem
+  if(getActiveModem() != SX127X_FSK_OOK) {
+    return(ERR_WRONG_MODEM);
+  }
+  return(_mod->SPIsetRegValue(SX127X_REG_OOK_AVG, value, 7, 5, 5));
+}
+
 int16_t SX127x::setOOK(bool enableOOK) {
   // check active modem
   if(getActiveModem() != SX127X_FSK_OOK) {
@@ -1154,7 +1178,12 @@ bool SX127x::findChip(uint8_t ver) {
 }
 
 int16_t SX127x::setMode(uint8_t mode) {
-  return(_mod->SPIsetRegValue(SX127X_REG_OP_MODE, mode, 2, 0, 5));
+  uint8_t checkMask = 0xFF;
+  if((getActiveModem() == SX127X_FSK_OOK) && (mode == SX127X_RX)) {
+    // disable checking of RX bit in FSK RX mode, as it sometimes seem to fail (#276)
+    checkMask = 0xFE;
+  }
+  return(_mod->SPIsetRegValue(SX127X_REG_OP_MODE, mode, 2, 0, 5, checkMask));
 }
 
 int16_t SX127x::getActiveModem() {

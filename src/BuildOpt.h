@@ -409,6 +409,13 @@
 //#define RADIOLIB_GODMODE
 
 /*
+ * Uncomment to enable low-level hardware access
+ * This will make some hardware methods like SPI get/set accessible from the user sketch - think of it as "god mode lite"
+ * Warning: RadioLib won't stop you from writing invalid stuff into your device, so it's quite easy to brick your module with this.
+ */
+//#define RADIOLIB_LOW_LEVEL
+
+/*
  * Uncomment to enable pre-defined modules when using RadioShield.
  */
 //#define RADIOLIB_RADIOSHIELD
@@ -440,7 +447,7 @@
 
 // version definitions
 #define RADIOLIB_VERSION_MAJOR  (0x04)
-#define RADIOLIB_VERSION_MINOR  (0x02)
+#define RADIOLIB_VERSION_MINOR  (0x03)
 #define RADIOLIB_VERSION_PATCH  (0x00)
 #define RADIOLIB_VERSION_EXTRA  (0x00)
 
