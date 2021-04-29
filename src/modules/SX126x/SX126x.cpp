@@ -1209,6 +1209,14 @@ uint8_t SX126x::random() {
   return(randByte);
 }
 
+int16_t SX126x::invertIQ(bool invertIQ) {
+  if(getPacketType() != SX126X_PACKET_TYPE_LORA) {
+    return(ERR_WRONG_MODEM);
+  }
+
+  return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? SX126X_LORA_IQ_INVERTED : SX126X_LORA_IQ_STANDARD));
+}
+
 int16_t SX126x::setTCXO(float voltage, uint32_t delay) {
   // set mode to standby
   standby();

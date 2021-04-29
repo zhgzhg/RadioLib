@@ -887,6 +887,15 @@ class SX126x: public PhysicalLayer {
   */
    uint8_t random();
 
+   /*!
+      \brief Enables/disables Invert the LoRa I and Q signals.
+
+      \param invertIQ Enable (true) or disable (false) LoRa I and Q signals.
+
+      \returns \ref status_codes
+   */
+   int16_t invertIQ(bool invertIQ);
+
 #ifndef RADIOLIB_GODMODE
   protected:
 #endif
