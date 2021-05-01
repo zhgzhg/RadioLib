@@ -797,6 +797,17 @@ class SX127x: public PhysicalLayer {
     virtual float getRSSI(bool skipReceive) = 0;
 
     /*!
+      \brief Enables/disables CRC check of received packets.
+
+      \param enable Enable (true) or disable (false) CRC.
+
+      \param mode Set CRC mode to SX127X_CRC_WHITENING_TYPE_CCITT for CCITT, polynomial X16 + X12 + X5 + 1 (false) or SX127X_CRC_WHITENING_TYPE_IBM for IBM, polynomial X16 + X15 + X2 + 1 (true). Only valid in FSK mode.
+
+      \returns \ref status_codes
+    */
+    virtual int16_t setCRC(bool enable, bool mode = false) = 0;
+
+    /*!
       \brief Get data rate of the latest transmitted packet.
 
       \returns Last packet data rate in bps (bits per second).
