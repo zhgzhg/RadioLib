@@ -126,6 +126,7 @@
 
     // RadioLib has ESP8266 driver, this must be disabled to use ESP8266 as platform
     #define RADIOLIB_EXCLUDE_ESP8266
+    #define RADIOLIB_EXCLUDE_HTTP
 
   #elif defined(ESP32)
     // ESP32 boards
@@ -448,7 +449,7 @@
 // version definitions
 #define RADIOLIB_VERSION_MAJOR  (0x04)
 #define RADIOLIB_VERSION_MINOR  (0x04)
-#define RADIOLIB_VERSION_PATCH  (0x00)
+#define RADIOLIB_VERSION_PATCH  (0x01)
 #define RADIOLIB_VERSION_EXTRA  (0x00)
 
 #define RADIOLIB_VERSION ((RADIOLIB_VERSION_MAJOR << 24) | (RADIOLIB_VERSION_MINOR << 16) | (RADIOLIB_VERSION_PATCH << 8) | (RADIOLIB_VERSION_EXTRA))

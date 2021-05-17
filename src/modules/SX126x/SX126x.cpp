@@ -564,10 +564,14 @@ int16_t SX126x::startReceiveCommon() {
   // clear interrupt flags
   state = clearIrqStatus();
 
-  // set implicit mode and expected len if applicable
-  if(_headerType == SX126X_LORA_HEADER_IMPLICIT && getPacketType() == SX126X_PACKET_TYPE_LORA) {
+  // restore original packet length
+  uint8_t modem = getPacketType();
+  if(modem == SX126X_PACKET_TYPE_LORA) {
     state = setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType);
-    RADIOLIB_ASSERT(state);
+  } else if(modem == SX126X_PACKET_TYPE_GFSK) {
+    state = setPacketParamsFSK(_preambleLengthFSK, _crcTypeFSK, _syncWordLength, _addrComp, _whitening, _packetType);
+  } else {
+    return(ERR_UNKNOWN);
   }
 
   return(state);
@@ -732,7 +736,7 @@ int16_t SX126x::setFrequencyDeviation(float freqDev) {
   if(getPacketType() != SX126X_PACKET_TYPE_GFSK) {
     return(ERR_WRONG_MODEM);
   }
-  
+
   // set frequency deviation to lowest available setting (required for digimodes)
   float newFreqDev = freqDev;
   if(freqDev < 0.0) {
