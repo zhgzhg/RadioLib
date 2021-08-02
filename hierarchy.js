@@ -28,6 +28,7 @@ var hierarchy =
       ] ],
       [ "SX126x", "class_s_x126x.html", [
         [ "SX1262", "class_s_x1262.html", [
+          [ "LLCC68", "class_l_l_c_c68.html", null ],
           [ "SX1261", "class_s_x1261.html", null ]
         ] ],
         [ "SX1268", "class_s_x1268.html", null ]

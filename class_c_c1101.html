@@ -226,12 +226,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a45ab4e3f4f9db367185333d36ba21ed2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a45ab4e3f4f9db367185333d36ba21ed2">setRfSwitchPins</a> (RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn)</td></tr>
 <tr class="memdesc:a45ab4e3f4f9db367185333d36ba21ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state. When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!  <a href="class_c_c1101.html#a45ab4e3f4f9db367185333d36ba21ed2">More...</a><br /></td></tr>
 <tr class="separator:a45ab4e3f4f9db367185333d36ba21ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeea507b71f1a3dfab5be4c3a1606b8fd"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#aeea507b71f1a3dfab5be4c3a1606b8fd">random</a> ()</td></tr>
-<tr class="memdesc:aeea507b71f1a3dfab5be4c3a1606b8fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get one truly random byte from RSSI noise.  <a href="class_c_c1101.html#aeea507b71f1a3dfab5be4c3a1606b8fd">More...</a><br /></td></tr>
-<tr class="separator:aeea507b71f1a3dfab5be4c3a1606b8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ecf49d530ea7c29dd755f56db17d833"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a7ecf49d530ea7c29dd755f56db17d833">randomByte</a> ()</td></tr>
+<tr class="memdesc:a7ecf49d530ea7c29dd755f56db17d833"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get one truly random byte from RSSI noise.  <a href="class_c_c1101.html#a7ecf49d530ea7c29dd755f56db17d833">More...</a><br /></td></tr>
+<tr class="separator:a7ecf49d530ea7c29dd755f56db17d833"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a4c6e622dffd2788d8ac52d708b0705"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a2a4c6e622dffd2788d8ac52d708b0705">getChipVersion</a> ()</td></tr>
 <tr class="memdesc:a2a4c6e622dffd2788d8ac52d708b0705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read version SPI register. Should return CC1101_VERSION_LEGACY (0x04) or CC1101_VERSION_CURRENT (0x14) if <a class="el" href="class_c_c1101.html" title="Control class for CC1101 module.">CC1101</a> is connected and working.  <a href="class_c_c1101.html#a2a4c6e622dffd2788d8ac52d708b0705">More...</a><br /></td></tr>
 <tr class="separator:a2a4c6e622dffd2788d8ac52d708b0705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5161fa10b19d857840579601ef565363"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a5161fa10b19d857840579601ef565363">setDirectAction</a> (void(*func)(void))</td></tr>
+<tr class="memdesc:a5161fa10b19d857840579601ef565363"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set interrupt service routine function to call when data bit is receveid in direct mode.  <a href="class_c_c1101.html#a5161fa10b19d857840579601ef565363">More...</a><br /></td></tr>
+<tr class="separator:a5161fa10b19d857840579601ef565363"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a5cebec89fc0fa0f5ccbce28c6ce7d2dc">readBit</a> (RADIOLIB_PIN_TYPE pin)</td></tr>
+<tr class="memdesc:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to read and process data bit in direct reception mode.  <a href="class_c_c1101.html#a5cebec89fc0fa0f5ccbce28c6ce7d2dc">More...</a><br /></td></tr>
+<tr class="separator:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab139a34e03a6fd5a781cd54da21d308f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#ab139a34e03a6fd5a781cd54da21d308f">transmit</a> (__FlashStringHelper *fstr, uint8_t addr=0)</td></tr>
 <tr class="memdesc:ab139a34e03a6fd5a781cd54da21d308f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arduino Flash String transmit method.  <a href="class_c_c1101.html#ab139a34e03a6fd5a781cd54da21d308f">More...</a><br /></td></tr>
 <tr class="separator:ab139a34e03a6fd5a781cd54da21d308f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -302,6 +308,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a88a10657bd2215a11a2331f937414b55 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a88a10657bd2215a11a2331f937414b55">startDirect</a> ()</td></tr>
 <tr class="memdesc:a88a10657bd2215a11a2331f937414b55 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure module parameters for direct modes. Must be called prior to "ham" modes like RTTY or AX.25. Only available in FSK mode.  <a href="class_physical_layer.html#a88a10657bd2215a11a2331f937414b55">More...</a><br /></td></tr>
 <tr class="separator:a88a10657bd2215a11a2331f937414b55 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e378fe136a498ea485a9c10f5e15aab inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a8e378fe136a498ea485a9c10f5e15aab">setDirectSyncWord</a> (uint32_t syncWord, uint8_t len)</td></tr>
+<tr class="memdesc:a8e378fe136a498ea485a9c10f5e15aab inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sync word to be used to determine start of packet in direct reception mode.  <a href="class_physical_layer.html#a8e378fe136a498ea485a9c10f5e15aab">More...</a><br /></td></tr>
+<tr class="separator:a8e378fe136a498ea485a9c10f5e15aab inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab57182d32646861ef0d865e2740d6b26 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ab57182d32646861ef0d865e2740d6b26">available</a> ()</td></tr>
+<tr class="memdesc:ab57182d32646861ef0d865e2740d6b26 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of direct mode bytes currently available in buffer.  <a href="class_physical_layer.html#ab57182d32646861ef0d865e2740d6b26">More...</a><br /></td></tr>
+<tr class="separator:ab57182d32646861ef0d865e2740d6b26 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a929662904e9af2611e098dc13b91c977 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a929662904e9af2611e098dc13b91c977">read</a> ()</td></tr>
+<tr class="memdesc:a929662904e9af2611e098dc13b91c977 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data from direct mode buffer.  <a href="class_physical_layer.html#a929662904e9af2611e098dc13b91c977">More...</a><br /></td></tr>
+<tr class="separator:a929662904e9af2611e098dc13b91c977 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Control class for CC1101 module. </p>
@@ -628,8 +643,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="aeea507b71f1a3dfab5be4c3a1606b8fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeea507b71f1a3dfab5be4c3a1606b8fd">&#9670;&nbsp;</a></span>random()</h2>
+<a id="a7ecf49d530ea7c29dd755f56db17d833"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ecf49d530ea7c29dd755f56db17d833">&#9670;&nbsp;</a></span>randomByte()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -638,7 +653,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t CC1101::random </td>
+          <td class="memname">uint8_t CC1101::randomByte </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -654,7 +669,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Get one truly random byte from RSSI noise. </p>
 <dl class="section return"><dt>Returns</dt><dd>TRNG byte. </dd></dl>
 
-<p>Implements <a class="el" href="class_physical_layer.html#a5bf5bac5b015aa9312025255ca503d4f">PhysicalLayer</a>.</p>
+<p>Implements <a class="el" href="class_physical_layer.html#a34543b885aa57ade08a4c659991e523e">PhysicalLayer</a>.</p>
+
+</div>
+</div>
+<a id="a5cebec89fc0fa0f5ccbce28c6ce7d2dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cebec89fc0fa0f5ccbce28c6ce7d2dc">&#9670;&nbsp;</a></span>readBit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CC1101::readBit </td>
+          <td>(</td>
+          <td class="paramtype">RADIOLIB_PIN_TYPE&#160;</td>
+          <td class="paramname"><em>pin</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Function to read and process data bit in direct reception mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>Pin on which to read. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#a9b720e7776ad7ea805932578907b0058">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -968,6 +1019,42 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 <p>Implements <a class="el" href="class_physical_layer.html#ab643a814dce48f71a13bf6ea23f44cbd">PhysicalLayer</a>.</p>
+
+</div>
+</div>
+<a id="a5161fa10b19d857840579601ef565363"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5161fa10b19d857840579601ef565363">&#9670;&nbsp;</a></span>setDirectAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CC1101::setDirectAction </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(void)&#160;</td>
+          <td class="paramname"><em>func</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set interrupt service routine function to call when data bit is receveid in direct mode. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">func</td><td>Pointer to interrupt service routine. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#ab76fe7d3e0f453a807b205161c980086">PhysicalLayer</a>.</p>
 
 </div>
 </div>
