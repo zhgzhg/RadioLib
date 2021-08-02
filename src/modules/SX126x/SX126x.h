@@ -885,7 +885,21 @@ class SX126x: public PhysicalLayer {
 
     \returns TRNG byte.
   */
-   uint8_t random();
+   uint8_t randomByte();
+
+   /*!
+     \brief Dummy method, to ensure PhysicalLayer compatibility.
+
+     \param func Ignored.
+   */
+   void setDirectAction(void (*func)(void));
+
+   /*!
+     \brief Dummy method, to ensure PhysicalLayer compatibility.
+
+     \param pin Ignored.
+   */
+   void readBit(RADIOLIB_PIN_TYPE pin);
 
    /*!
       \brief Enables/disables Invert the LoRa I and Q signals.

@@ -846,9 +846,10 @@ void CC1101::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {
   _mod->setRfSwitchPins(rxEn, txEn);
 }
 
-uint8_t CC1101::random() {
+uint8_t CC1101::randomByte() {
   // set mode to Rx
   SPIsendCommand(CC1101_CMD_RX);
+  RADIOLIB_DEBUG_PRINTLN("random");
 
   // wait a bit for the RSSI reading to stabilise
   Module::delay(10);
@@ -865,9 +866,16 @@ uint8_t CC1101::random() {
   return(randByte);
 }
 
-
 int16_t CC1101::getChipVersion() {
   return(SPIgetRegValue(CC1101_REG_VERSION));
+}
+
+void CC1101::setDirectAction(void (*func)(void)) {
+  setGdo0Action(func);
+}
+
+void CC1101::readBit(RADIOLIB_PIN_TYPE pin) {
+  updateDirectBuffer((uint8_t)digitalRead(pin));
 }
 
 int16_t CC1101::config() {
@@ -897,6 +905,7 @@ int16_t CC1101::directMode() {
 
   // set continuous mode
   state |= SPIsetRegValue(CC1101_REG_PKTCTRL0, CC1101_PKT_FORMAT_SYNCHRONOUS, 5, 4);
+  state |= SPIsetRegValue(CC1101_REG_PKTCTRL0, CC1101_LENGTH_CONFIG_INFINITE, 1, 0);
   return(state);
 }
 

@@ -800,7 +800,7 @@ void RF69::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {
   _mod->setRfSwitchPins(rxEn, txEn);
 }
 
-uint8_t RF69::random() {
+uint8_t RF69::randomByte() {
   // set mode to Rx
   setMode(RF69_RX);
 
@@ -817,6 +817,14 @@ uint8_t RF69::random() {
   setMode(RF69_STANDBY);
 
   return(randByte);
+}
+
+void RF69::setDirectAction(void (*func)(void)) {
+  setDio1Action(func);
+}
+
+void RF69::readBit(RADIOLIB_PIN_TYPE pin) {
+  updateDirectBuffer((uint8_t)digitalRead(pin));
 }
 
 int16_t RF69::getChipVersion() {

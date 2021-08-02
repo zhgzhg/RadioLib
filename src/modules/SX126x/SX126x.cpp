@@ -1192,7 +1192,7 @@ int16_t SX126x::autoLDRO() {
   return(ERR_NONE);
 }
 
-uint8_t SX126x::random() {
+uint8_t SX126x::randomByte() {
   // set mode to Rx
   setRx(SX126X_RX_TIMEOUT_INF);
 
@@ -1219,6 +1219,18 @@ int16_t SX126x::invertIQ(bool invertIQ) {
   }
 
   return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? SX126X_LORA_IQ_INVERTED : SX126X_LORA_IQ_STANDARD));
+}
+
+void SX126x::setDirectAction(void (*func)(void)) {
+  // SX126x is unable to perform direct mode reception
+  // this method is implemented only for PhysicalLayer compatibility
+  (void)func;
+}
+
+void SX126x::readBit(RADIOLIB_PIN_TYPE pin) {
+  // SX126x is unable to perform direct mode reception
+  // this method is implemented only for PhysicalLayer compatibility
+  (void)pin;
 }
 
 int16_t SX126x::setTCXO(float voltage, uint32_t delay) {

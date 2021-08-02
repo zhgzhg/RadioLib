@@ -505,10 +505,22 @@ int16_t nRF24::setEncoding(uint8_t encoding) {
   return(ERR_NONE);
 }
 
-uint8_t nRF24::random() {
+uint8_t nRF24::randomByte() {
   // nRF24 is unable to measure RSSI, hence no TRNG
   // this method is implemented only for PhysicalLayer compatibility
   return(0);
+}
+
+void nRF24::setDirectAction(void (*func)(void)) {
+  // nRF24 is unable to perform direct mode actions
+  // this method is implemented only for PhysicalLayer compatibility
+  (void)func;
+}
+
+void nRF24::readBit(RADIOLIB_PIN_TYPE pin) {
+  // nRF24 is unable to perform direct mode actions
+  // this method is implemented only for PhysicalLayer compatibility
+  (void)pin;
 }
 
 void nRF24::clearIRQ() {

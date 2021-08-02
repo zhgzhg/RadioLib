@@ -860,7 +860,7 @@ class RF69: public PhysicalLayer {
 
      \returns TRNG byte.
    */
-    uint8_t random();
+    uint8_t randomByte();
 
     /*!
      \brief Read version SPI register. Should return RF69_CHIP_VERSION (0x24) if SX127x is connected and working.
@@ -868,6 +868,20 @@ class RF69: public PhysicalLayer {
      \returns Version register contents or \ref status_codes
    */
     int16_t getChipVersion();
+
+    /*!
+      \brief Set interrupt service routine function to call when data bit is receveid in direct mode.
+
+      \param func Pointer to interrupt service routine.
+    */
+    void setDirectAction(void (*func)(void));
+
+    /*!
+      \brief Function to read and process data bit in direct reception mode.
+
+      \param pin Pin on which to read.
+    */
+    void readBit(RADIOLIB_PIN_TYPE pin);
 
 #if !defined(RADIOLIB_GODMODE) && !defined(RADIOLIB_LOW_LEVEL)
   protected:

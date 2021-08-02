@@ -1028,7 +1028,7 @@ class SX127x: public PhysicalLayer {
 
      \returns TRNG byte.
    */
-    uint8_t random();
+    uint8_t randomByte();
 
     /*!
      \brief Read version SPI register. Should return SX1278_CHIP_VERSION (0x12) or SX1272_CHIP_VERSION (0x22) if SX127x is connected and working.
@@ -1045,6 +1045,20 @@ class SX127x: public PhysicalLayer {
       \returns \ref status_codes
     */
     int16_t invertIQ(bool invertIQ);
+
+    /*!
+      \brief Set interrupt service routine function to call when data bit is receveid in direct mode.
+
+      \param func Pointer to interrupt service routine.
+    */
+    void setDirectAction(void (*func)(void));
+
+    /*!
+      \brief Function to read and process data bit in direct reception mode.
+
+      \param pin Pin on which to read.
+    */
+    void readBit(RADIOLIB_PIN_TYPE pin);
 
 #if !defined(RADIOLIB_GODMODE) && !defined(RADIOLIB_LOW_LEVEL)
   protected:

@@ -1058,7 +1058,7 @@ void SX127x::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {
   _mod->setRfSwitchPins(rxEn, txEn);
 }
 
-uint8_t SX127x::random() {
+uint8_t SX127x::randomByte() {
   // check active modem
   uint8_t rssiValueReg = SX127X_REG_RSSI_WIDEBAND;
   if(getActiveModem() == SX127X_FSK_OOK) {
@@ -1294,6 +1294,14 @@ int16_t SX127x::invertIQ(bool invertIQ) {
   }
 
   return(state);
+}
+
+void SX127x::setDirectAction(void (*func)(void)) {
+  setDio1Action(func);
+}
+
+void SX127x::readBit(RADIOLIB_PIN_TYPE pin) {
+  updateDirectBuffer((uint8_t)digitalRead(pin));
 }
 
 #endif
