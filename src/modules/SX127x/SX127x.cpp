@@ -92,7 +92,7 @@ int16_t SX127x::beginFSK(uint8_t chipVersion, float br, float freqDev, float rxB
   state = SX127x::setAFCBandwidth(rxBw);
   RADIOLIB_ASSERT(state);
 
-  //sets AFC&AGC trigger to RSSI and preamble detect
+  // sets AFC&AGC trigger to RSSI and preamble detect
   state = SX127x::setAFCAGCTrigger(SX127X_RX_TRIGGER_BOTH);
   RADIOLIB_ASSERT(state);
 
@@ -247,27 +247,8 @@ int16_t SX127x::receive(uint8_t* data, size_t len) {
 }
 
 int16_t SX127x::scanChannel() {
-  // check active modem
-  if(getActiveModem() != SX127X_LORA) {
-    return(ERR_WRONG_MODEM);
-  }
-
-  // set mode to standby
-  int16_t state = setMode(SX127X_STANDBY);
-  RADIOLIB_ASSERT(state);
-
-  // set DIO pin mapping
-  state = _mod->SPIsetRegValue(SX127X_REG_DIO_MAPPING_1, SX127X_DIO0_CAD_DONE | SX127X_DIO1_CAD_DETECTED, 7, 4);
-  RADIOLIB_ASSERT(state);
-
-  // clear interrupt flags
-  clearIRQFlags();
-
-  // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
-
-  // set mode to CAD
-  state = setMode(SX127X_CAD);
+  // start CAD
+  int16_t state = startChannelScan();
   RADIOLIB_ASSERT(state);
 
   // wait for channel activity detected or timeout
@@ -323,6 +304,9 @@ int16_t SX127x::transmitDirect(uint32_t frf) {
   int16_t state = directMode();
   RADIOLIB_ASSERT(state);
 
+  // apply fixes to errata
+  RADIOLIB_ERRATA_SX127X(false);
+
   // start transmitting
   return(setMode(SX127X_TX));
 }
@@ -340,6 +324,9 @@ int16_t SX127x::receiveDirect() {
   int16_t state = directMode();
   RADIOLIB_ASSERT(state);
 
+  // apply fixes to errata
+  RADIOLIB_ERRATA_SX127X(true);
+
   // start receiving
   return(setMode(SX127X_RX));
 }
@@ -351,6 +338,10 @@ int16_t SX127x::directMode() {
 
   // set DIO mapping
   state = _mod->SPIsetRegValue(SX127X_REG_DIO_MAPPING_1, SX127X_DIO1_CONT_DCLK | SX127X_DIO2_CONT_DATA, 5, 2);
+  RADIOLIB_ASSERT(state);
+
+  // enable receiver startup without preamble or RSSI
+  state = SX127x::setAFCAGCTrigger(SX127X_RX_TRIGGER_NONE);
   RADIOLIB_ASSERT(state);
 
   // set continuous mode
@@ -380,6 +371,9 @@ int16_t SX127x::startReceive(uint8_t len, uint8_t mode) {
     if(_sf == 6) {
       state |= _mod->SPIsetRegValue(SX127X_REG_PAYLOAD_LENGTH, len);
     }
+
+    // apply fixes to errata
+    RADIOLIB_ERRATA_SX127X(true);
 
     // clear interrupt flags
     clearIRQFlags();
@@ -445,6 +439,9 @@ int16_t SX127x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
 
     // set DIO mapping
     _mod->SPIsetRegValue(SX127X_REG_DIO_MAPPING_1, SX127X_DIO0_TX_DONE, 7, 6);
+
+    // apply fixes to errata
+    RADIOLIB_ERRATA_SX127X(false);
 
     // clear interrupt flags
     clearIRQFlags();
@@ -548,6 +545,31 @@ int16_t SX127x::readData(uint8_t* data, size_t len) {
   clearIRQFlags();
 
   return(ERR_NONE);
+}
+
+int16_t SX127x::startChannelScan() {
+  // check active modem
+  if(getActiveModem() != SX127X_LORA) {
+    return(ERR_WRONG_MODEM);
+  }
+
+  // set mode to standby
+  int16_t state = setMode(SX127X_STANDBY);
+  RADIOLIB_ASSERT(state);
+
+  // set DIO pin mapping
+  state = _mod->SPIsetRegValue(SX127X_REG_DIO_MAPPING_1, SX127X_DIO0_CAD_DONE | SX127X_DIO1_CAD_DETECTED, 7, 4);
+  RADIOLIB_ASSERT(state);
+
+  // clear interrupt flags
+  clearIRQFlags();
+
+  // set RF switch (if present)
+  _mod->setRfSwitchState(HIGH, LOW);
+
+  // set mode to CAD
+  state = setMode(SX127X_CAD);
+  return(state);
 }
 
 int16_t SX127x::setSyncWord(uint8_t syncWord) {

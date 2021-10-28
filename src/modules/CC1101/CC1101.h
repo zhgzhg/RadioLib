@@ -458,6 +458,7 @@
 // CC1101_REG_VERSION
 #define CC1101_VERSION_CURRENT                        0x14
 #define CC1101_VERSION_LEGACY                         0x04
+#define CC1101_VERSION_CLONE                          0x17
 
 // CC1101_REG_MARCSTATE
 #define CC1101_MARC_STATE_SLEEP                       0x00        //  4     0     main radio control state: sleep
@@ -949,7 +950,7 @@ class CC1101: public PhysicalLayer {
     int16_t config();
     int16_t directMode();
     static void getExpMant(float target, uint16_t mantOffset, uint8_t divExp, uint8_t expMax, uint8_t& exp, uint8_t& mant);
-    int16_t setPacketMode(uint8_t mode, uint8_t len);
+    int16_t setPacketMode(uint8_t mode, uint16_t len);
 };
 
 #endif

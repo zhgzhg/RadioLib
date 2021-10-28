@@ -10,11 +10,6 @@ int16_t SX1272::begin(float freq, float bw, uint8_t sf, uint8_t cr, uint8_t sync
   int16_t state = SX127x::begin(SX1272_CHIP_VERSION, syncWord, preambleLength);
   RADIOLIB_ASSERT(state);
 
-  // mitigation of receiver spurious response
-  // see SX1272/73 Errata, section 2.2 for details
-  state = _mod->SPIsetRegValue(0x31, 0b10000000, 7, 7);
-  RADIOLIB_ASSERT(state);
-
   // configure publicly accessible settings
   state = setBandwidth(bw);
   RADIOLIB_ASSERT(state);
@@ -213,32 +208,40 @@ int16_t SX1272::setCodingRate(uint8_t cr) {
   return(state);
 }
 
-int16_t SX1272::setOutputPower(int8_t power) {
+int16_t SX1272::setOutputPower(int8_t power, bool useRfo) {
   // check allowed power range
-  if(!(((power >= -1) && (power <= 17)) || (power == 20))) {
-    return(ERR_INVALID_OUTPUT_POWER);
+  if(useRfo) {
+    RADIOLIB_CHECK_RANGE(power, -1, 14, ERR_INVALID_OUTPUT_POWER);
+  } else {
+    RADIOLIB_CHECK_RANGE(power, 2, 20, ERR_INVALID_OUTPUT_POWER);
   }
 
   // set mode to standby
   int16_t state = SX127x::standby();
 
-  // set output power
-  if(power < 2) {
-    // power is less than 2 dBm, enable PA0 on RFIO
+  if(useRfo) {
+    // RFO output
     state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_RFO, 7, 7);
     state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, (power + 1), 3, 0);
     state |= _mod->SPIsetRegValue(SX1272_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
-  } else if(power <= 17) {
-    // power is 2 - 17 dBm, enable PA1 + PA2 on PA_BOOST
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, (power - 2), 3, 0);
-    state |= _mod->SPIsetRegValue(SX1272_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
-  } else if(power == 20) {
-    // power is 20 dBm, enable PA1 + PA2 on PA_BOOST and enable high power control
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, (power - 5), 3, 0);
-    state |= _mod->SPIsetRegValue(SX1272_REG_PA_DAC, SX127X_PA_BOOST_ON, 2, 0);
+
+  } else {
+    if(power <= 17) {
+      // power is 2 - 17 dBm, enable PA1 + PA2 on PA_BOOST
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, (power - 2), 3, 0);
+      state |= _mod->SPIsetRegValue(SX1272_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
+
+    } else {
+      // power is 18 - 20 dBm, enable PA1 + PA2 on PA_BOOST and enable high power control
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, (power - 5), 3, 0);
+      state |= _mod->SPIsetRegValue(SX1272_REG_PA_DAC, SX127X_PA_BOOST_ON, 2, 0);
+
+    }
+
   }
+
   return(state);
 }
 
@@ -497,6 +500,14 @@ int16_t SX1272::configFSK() {
   // set fast PLL hop
   state = _mod->SPIsetRegValue(SX1272_REG_PLL_HOP, SX127X_FAST_HOP_ON, 7, 7);
   return(state);
+}
+
+void SX1272::errataFix(bool rx) {
+  (void)rx;
+
+  // mitigation of receiver spurious response
+  // see SX1272/73 Errata, section 2.2 for details
+  _mod->SPIsetRegValue(0x31, 0b10000000, 7, 7);
 }
 
 #endif

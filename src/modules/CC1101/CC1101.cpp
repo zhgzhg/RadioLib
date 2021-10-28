@@ -17,7 +17,7 @@ int16_t CC1101::begin(float freq, float br, float freqDev, float rxBw, int8_t po
   bool flagFound = false;
   while((i < 10) && !flagFound) {
     int16_t version = getChipVersion();
-    if((version == CC1101_VERSION_CURRENT) || (version == CC1101_VERSION_LEGACY)) {
+    if((version == CC1101_VERSION_CURRENT) || (version == CC1101_VERSION_LEGACY) || (version == CC1101_VERSION_CLONE)) {
       flagFound = true;
     } else {
       #ifdef RADIOLIB_DEBUG
@@ -144,21 +144,9 @@ int16_t CC1101::receive(uint8_t* data, size_t len) {
   int16_t state = startReceive();
   RADIOLIB_ASSERT(state);
 
-  // wait for sync word or timeout
+  // wait for packet or timeout
   uint32_t start = Module::micros();
   while(!Module::digitalRead(_mod->getIrq())) {
-    Module::yield();
-
-    if(Module::micros() - start > timeout) {
-      standby();
-      SPIsendCommand(CC1101_CMD_FLUSH_TX);
-      return(ERR_RX_TIMEOUT);
-    }
-  }
-
-  // wait for packet end or timeout
-  start = Module::micros();
-  while(Module::digitalRead(_mod->getIrq())) {
     Module::yield();
 
     if(Module::micros() - start > timeout) {
@@ -935,7 +923,7 @@ void CC1101::getExpMant(float target, uint16_t mantOffset, uint8_t divExp, uint8
 	}
 }
 
-int16_t CC1101::setPacketMode(uint8_t mode, uint8_t len) {
+int16_t CC1101::setPacketMode(uint8_t mode, uint16_t len) {
   // check length
   if (len > CC1101_MAX_PACKET_LENGTH) {
     return(ERR_PACKET_TOO_LONG);

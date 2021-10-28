@@ -70,69 +70,6 @@ void SX1278::reset() {
 int16_t SX1278::setFrequency(float freq) {
   RADIOLIB_CHECK_RANGE(freq, 137.0, 525.0, ERR_INVALID_FREQUENCY);
 
-  // SX1276/77/78 Errata fixes
-  if(getActiveModem() == SX127X_LORA) {
-    // sensitivity optimization for 500kHz bandwidth
-    // see SX1276/77/78 Errata, section 2.1 for details
-    if(fabs(_bw - 500.0) <= 0.001) {
-      if((freq >= 862.0) && (freq <= 1020.0)) {
-        _mod->SPIwriteRegister(0x36, 0x02);
-        _mod->SPIwriteRegister(0x3a, 0x64);
-      } else if((freq >= 410.0) && (freq <= 525.0)) {
-        _mod->SPIwriteRegister(0x36, 0x02);
-        _mod->SPIwriteRegister(0x3a, 0x7F);
-      }
-    }
-
-    // mitigation of receiver spurious response
-    // see SX1276/77/78 Errata, section 2.3 for details
-    if(fabs(_bw - 7.8) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x48);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 7.8;
-    } else if(fabs(_bw - 10.4) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x44);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 10.4;
-    } else if(fabs(_bw - 15.6) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x44);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 15.6;
-    } else if(fabs(_bw - 20.8) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x44);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 20.8;
-    } else if(fabs(_bw - 31.25) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x44);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 31.25;
-    } else if(fabs(_bw - 41.7) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x44);
-      _mod->SPIsetRegValue(0x30, 0x00);
-      freq += 41.7;
-    } else if(fabs(_bw - 62.5) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x40);
-      _mod->SPIsetRegValue(0x30, 0x00);
-    } else if(fabs(_bw - 125.0) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x40);
-      _mod->SPIsetRegValue(0x30, 0x00);
-    } else if(fabs(_bw - 250.0) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b0000000, 7, 7);
-      _mod->SPIsetRegValue(0x2F, 0x40);
-      _mod->SPIsetRegValue(0x30, 0x00);
-    } else if(fabs(_bw - 500.0) <= 0.001) {
-      _mod->SPIsetRegValue(0x31, 0b1000000, 7, 7);
-    }
-  }
-
   // set frequency and if successful, save the new setting
   int16_t state = SX127x::setFrequencyRaw(freq);
   if(state == ERR_NONE) {
@@ -285,32 +222,51 @@ int16_t SX1278::setCodingRate(uint8_t cr) {
   return(state);
 }
 
-int16_t SX1278::setOutputPower(int8_t power) {
+int16_t SX1278::setOutputPower(int8_t power, bool useRfo) {
   // check allowed power range
-  if(!(((power >= -3) && (power <= 17)) || (power == 20))) {
-    return(ERR_INVALID_OUTPUT_POWER);
+  if(useRfo) {
+    // RFO output
+    RADIOLIB_CHECK_RANGE(power, -3, 15, ERR_INVALID_OUTPUT_POWER);
+  } else {
+    // PA_BOOST output, check high-power operation
+    if(power != 20) {
+      RADIOLIB_CHECK_RANGE(power, 2, 17, ERR_INVALID_OUTPUT_POWER);
+    }
   }
 
   // set mode to standby
   int16_t state = SX127x::standby();
 
-  // set output power
-  if(power < 2) {
-    // power is less than 2 dBm, enable PA on RFO
+  if(useRfo) {
+    uint8_t paCfg = 0;
+    if(power < 0) {
+      // low power mode RFO output
+      paCfg = SX1278_LOW_POWER | (power + 3);
+    } else {
+      // high power mode RFO output
+      paCfg = SX1278_MAX_POWER | power;
+    }
+
     state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_RFO, 7, 7);
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX1278_LOW_POWER | (power + 3), 6, 0);
+    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, paCfg, 6, 0);
     state |= _mod->SPIsetRegValue(SX1278_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
-  } else if(power <= 17) {
-    // power is 2 - 17 dBm, enable PA1 + PA2 on PA_BOOST
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX1278_MAX_POWER | (power - 2), 6, 0);
-    state |= _mod->SPIsetRegValue(SX1278_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
-  } else if(power == 20) {
-    // power is 20 dBm, enable PA1 + PA2 on PA_BOOST and enable high power mode
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
-    state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX1278_MAX_POWER | (power - 5), 6, 0);
-    state |= _mod->SPIsetRegValue(SX1278_REG_PA_DAC, SX127X_PA_BOOST_ON, 2, 0);
+
+  } else {
+    if(power != 20) {
+      // power is 2 - 17 dBm, enable PA1 + PA2 on PA_BOOST
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX1278_MAX_POWER | (power - 2), 6, 0);
+      state |= _mod->SPIsetRegValue(SX1278_REG_PA_DAC, SX127X_PA_BOOST_OFF, 2, 0);
+
+    } else {
+      // power is 20 dBm, enable PA1 + PA2 on PA_BOOST and enable high power control
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX127X_PA_SELECT_BOOST, 7, 7);
+      state |= _mod->SPIsetRegValue(SX127X_REG_PA_CONFIG, SX1278_MAX_POWER | 0x0F, 6, 0);
+      state |= _mod->SPIsetRegValue(SX1278_REG_PA_DAC, SX127X_PA_BOOST_ON, 2, 0);
+
+    }
   }
+
   return(state);
 }
 
@@ -575,6 +531,96 @@ int16_t SX1278::configFSK() {
   // set fast PLL hop
   state = _mod->SPIsetRegValue(SX1278_REG_PLL_HOP, SX127X_FAST_HOP_ON, 7, 7);
   return(state);
+}
+
+void SX1278::errataFix(bool rx) {
+  // only apply in LoRa mode
+  if(getActiveModem() != SX127X_LORA) {
+    return;
+  }
+
+  // sensitivity optimization for 500kHz bandwidth
+  // see SX1276/77/78 Errata, section 2.1 for details
+  if(fabs(_bw - 500.0) <= 0.001) {
+    if((_freq >= 862.0) && (_freq <= 1020.0)) {
+      _mod->SPIwriteRegister(0x36, 0x02);
+      _mod->SPIwriteRegister(0x3a, 0x64);
+    } else if((_freq >= 410.0) && (_freq <= 525.0)) {
+      _mod->SPIwriteRegister(0x36, 0x02);
+      _mod->SPIwriteRegister(0x3a, 0x7F);
+    }
+  }
+
+  // mitigation of receiver spurious response
+  // see SX1276/77/78 Errata, section 2.3 for details
+
+  // figure out what we need to set
+  uint8_t fixedRegs[3] = { 0x00, 0x00, 0x00 };
+  float rxFreq = _freq;
+  if(fabs(_bw - 7.8) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x48;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.00781;
+  } else if(fabs(_bw - 10.4) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x44;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.01042;
+  } else if(fabs(_bw - 15.6) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x44;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.01562;
+  } else if(fabs(_bw - 20.8) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x44;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.02083;
+  } else if(fabs(_bw - 31.25) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x44;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.03125;
+  } else if(fabs(_bw - 41.7) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x44;
+    fixedRegs[2] = 0x00;
+    rxFreq += 0.04167;
+  } else if(fabs(_bw - 62.5) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x40;
+    fixedRegs[2] = 0x00;
+  } else if(fabs(_bw - 125.0) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x40;
+    fixedRegs[2] = 0x00;
+  } else if(fabs(_bw - 250.0) <= 0.001) {
+    fixedRegs[0] = 0b0000000;
+    fixedRegs[1] = 0x40;
+    fixedRegs[2] = 0x00;
+  } else if(fabs(_bw - 500.0) <= 0.001) {
+    fixedRegs[0] = 0b1000000;
+    fixedRegs[1] = _mod->SPIreadRegister(0x2F);
+    fixedRegs[2] = _mod->SPIreadRegister(0x30);
+  } else {
+    return;
+  }
+
+  // first, go to standby
+  standby();
+
+  // shift the freqency up when receiving, or restore the original when transmitting
+  if(rx) {
+    SX127x::setFrequencyRaw(rxFreq);
+  } else {
+    SX127x::setFrequencyRaw(_freq);
+  }
+
+  // finally, apply errata fixes
+  _mod->SPIsetRegValue(0x31, fixedRegs[0], 7, 7);
+  _mod->SPIsetRegValue(0x2F, fixedRegs[1]);
+  _mod->SPIsetRegValue(0x30, fixedRegs[2]);
 }
 
 #endif
