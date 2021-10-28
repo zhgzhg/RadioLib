@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['hc05_369',['HC05',['../class_h_c05.html',1,'']]],
-  ['hellclient_370',['HellClient',['../class_hell_client.html',1,'']]],
-  ['httpclient_371',['HTTPClient',['../class_h_t_t_p_client.html',1,'']]]
+  ['fsk4client_373',['FSK4Client',['../class_f_s_k4_client.html',1,'']]]
 ];
