@@ -216,6 +216,8 @@ int16_t SX126x::transmit(uint8_t* data, size_t len, uint8_t addr) {
     return(ERR_UNKNOWN);
   }
 
+  timeout += this->_transmitAtTimestampUs;
+
   RADIOLIB_DEBUG_PRINT(F("Timeout in "));
   RADIOLIB_DEBUG_PRINT(timeout);
   RADIOLIB_DEBUG_PRINTLN(F(" us"));
@@ -247,6 +249,10 @@ int16_t SX126x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   state = standby();
 
   return(state);
+}
+
+void SX126x::holdTransmissionUntil(uint32_t timestampMicros) {
+  this->_transmitAtTimestampUs = timestampMicros;
 }
 
 int16_t SX126x::receive(uint8_t* data, size_t len) {
@@ -1309,6 +1315,15 @@ int16_t SX126x::setDio2AsRfSwitch(bool enable) {
 
 int16_t SX126x::setTx(uint32_t timeout) {
   uint8_t data[] = { (uint8_t)((timeout >> 16) & 0xFF), (uint8_t)((timeout >> 8) & 0xFF), (uint8_t)(timeout & 0xFF)} ;
+
+  if (this->_transmitAtTimestampUs != 0) {
+    uint32_t now = Module::micros();
+    if (now < this->_transmitAtTimestampUs && (this->_transmitAtTimestampUs - now) < 30'000'000U) {
+      Module::delayMicroseconds(this->_transmitAtTimestampUs - now);
+    }
+    this->_transmitAtTimestampUs = 0;
+  }
+
   return(SPIwriteCommand(SX126X_CMD_SET_TX, data, 3));
 }
 

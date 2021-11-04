@@ -421,6 +421,14 @@ class SX126x: public PhysicalLayer {
     int16_t transmit(uint8_t* data, size_t len, uint8_t addr = 0) override;
 
     /*!
+      \brief Delays an RF transmission until a specific timestamp in microsenconds has been reached.
+      The method has to be called before for every transmission.
+
+      \param timestampMicros The timestamp in microseconds on (after) which the transmission is allowed to happen. Must not be greater further than 30 seconds from now.
+    */
+    void holdTransmissionUntil(uint32_t timestampMicros);
+
+    /*!
       \brief Blocking binary receive method.
       Overloads for string-based transmissions are implemented in PhysicalLayer.
 
@@ -996,6 +1004,8 @@ class SX126x: public PhysicalLayer {
     uint32_t _tcxoDelay = 0;
 
     size_t _implicitLen = 0;
+
+     uint32_t _transmitAtTimestampUs = 0;
 
     int16_t config(uint8_t modem);
 };
