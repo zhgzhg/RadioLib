@@ -431,7 +431,7 @@
  *         verbose - full transcript of all SPI/UART communication
  */
 
-#define RADIOLIB_DEBUG
+//#define RADIOLIB_DEBUG
 //#define RADIOLIB_VERBOSE
 
 // set which Serial port should be used for debug output
