@@ -134,6 +134,10 @@ int16_t SX127x::beginFSK(uint8_t chipVersion, float br, float freqDev, float rxB
   return(state);
 }
 
+void SX127x::holdTransmissionUntil(uint32_t timestampMicros) {
+  this->_transmitAtTimestampUs = timestampMicros;
+}
+
 int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   // set mode to standby
   int16_t state = setMode(SX127X_STANDBY);
@@ -153,6 +157,7 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
     float n_pre = (float)((_mod->SPIgetRegValue(SX127X_REG_PREAMBLE_MSB) << 8) | _mod->SPIgetRegValue(SX127X_REG_PREAMBLE_LSB));
     float n_pay = 8.0 + max(ceil((8.0 * (float)len - 4.0 * (float)_sf + 28.0 + 16.0 * crc - 20.0 * ih)/(4.0 * (float)_sf - 8.0 * de)) * (float)_cr, 0.0);
     uint32_t timeout = ceil(symbolLength * (n_pre + n_pay + 4.25) * 1500.0);
+    timeout += this->_transmitAtTimestampUs;
 
     // start transmission
     state = startTransmit(data, len, addr);
@@ -171,6 +176,7 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   } else if(modem == SX127X_FSK_OOK) {
     // calculate timeout (5ms + 500 % of expected time-on-air)
     uint32_t timeout = 5000000 + (uint32_t)((((float)(len * 8)) / (_br * 1000.0)) * 5000000.0);
+    timeout += this->_transmitAtTimestampUs;
 
     // start transmission
     state = startTransmit(data, len, addr);
@@ -1262,6 +1268,15 @@ int16_t SX127x::setMode(uint8_t mode) {
     // disable checking of RX bit in FSK RX mode, as it sometimes seem to fail (#276)
     checkMask = 0xFE;
   }
+
+  if (mode == SX127X_TX && this->_transmitAtTimestampUs != 0) {
+    uint32_t now = Module::micros();
+    if (now < this->_transmitAtTimestampUs && (this->_transmitAtTimestampUs - now) < 30'000'000U) {
+      Module::delayMicroseconds(this->_transmitAtTimestampUs - now);
+    }
+    this->_transmitAtTimestampUs = 0;
+  }
+
   return(_mod->SPIsetRegValue(SX127X_REG_OP_MODE, mode, 2, 0, 5, checkMask));
 }
 
