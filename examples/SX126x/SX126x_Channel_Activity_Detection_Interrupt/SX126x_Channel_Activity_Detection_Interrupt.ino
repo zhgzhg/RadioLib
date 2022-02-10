@@ -29,13 +29,16 @@ SX1262 radio = new Module(10, 2, 3, 9);
 // https://github.com/jgromes/RadioShield
 //SX1262 radio = RadioShield.ModuleA;
 
+// or using CubeCell
+//SX1262 radio = new Module(RADIOLIB_ONBOARD_MODULE);
+
 void setup() {
   Serial.begin(9600);
 
   // initialize SX1262 with default settings
   Serial.print(F("[SX1262] Initializing ... "));
   int state = radio.begin();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -50,7 +53,7 @@ void setup() {
   // start scanning the channel
   Serial.print(F("[SX1262] Starting scan for LoRa preamble ... "));
   state = radio.startChannelScan();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -68,6 +71,9 @@ volatile bool enableInterrupt = true;
 // is received by the module
 // IMPORTANT: this function MUST be 'void' type
 //            and MUST NOT have any arguments!
+#if defined(ESP8266) || defined(ESP32)
+  ICACHE_RAM_ATTR
+#endif
 void setFlag(void) {
   // check if the interrupt is enabled
   if(!enableInterrupt) {
@@ -91,11 +97,11 @@ void loop() {
     // check CAD result
     int state = radio.getChannelScanResult();
 
-    if (state == LORA_DETECTED) {
+    if (state == RADIOLIB_LORA_DETECTED) {
       // LoRa packet was detected
       Serial.println(F("[SX1262] Packet detected!"));
 
-    } else if (state == CHANNEL_FREE) {
+    } else if (state == RADIOLIB_CHANNEL_FREE) {
       // channel is free
       Serial.println(F("[SX1262] Channel is free!"));
 
@@ -109,7 +115,7 @@ void loop() {
     // start scanning the channel again
     Serial.print(F("[SX1262] Starting scan for LoRa preamble ... "));
     state = radio.startChannelScan();
-    if (state == ERR_NONE) {
+    if (state == RADIOLIB_ERR_NONE) {
       Serial.println(F("success!"));
     } else {
       Serial.print(F("failed, code "));

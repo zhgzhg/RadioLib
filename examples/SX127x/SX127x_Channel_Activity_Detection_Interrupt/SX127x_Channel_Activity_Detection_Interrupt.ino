@@ -31,7 +31,7 @@ SX1278 radio = new Module(10, 2, 9, 3);
 //SX1278 radio = RadioShield.ModuleA;
 
 // save state between loops
-int scanState = ERR_NONE;
+int scanState = RADIOLIB_ERR_NONE;
 
 void setup() {
   Serial.begin(9600);
@@ -39,7 +39,7 @@ void setup() {
   // initialize SX1278 with default settings
   Serial.print(F("[SX1278] Initializing ... "));
   int state = radio.begin();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -58,7 +58,7 @@ void setup() {
   // start scanning the channel
   Serial.print(F("[SX1278] Starting scan for LoRa preamble ... "));
   state = radio.startChannelScan();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -79,6 +79,9 @@ volatile bool enableInterrupt = true;
 // is detected within timeout period
 // IMPORTANT: this function MUST be 'void' type
 //            and MUST NOT have any arguments!
+#if defined(ESP8266) || defined(ESP32)
+  ICACHE_RAM_ATTR
+#endif
 void setFlagTimeout(void) {
   // check if the interrupt is enabled
   if(!enableInterrupt) {
@@ -115,22 +118,22 @@ void loop() {
 
     // LoRa preamble was detected
     Serial.print(F("[SX1278] Preamble detected!"));
-  
+
   }
-  
+
   // check if we need to restart channel activity detection
   if(detectedFlag || timeoutFlag) {
     // start scanning the channel
     Serial.print(F("[SX1278] Starting scan for LoRa preamble ... "));
-  
+
     // start scanning current channel
     int state = radio.startChannelScan();
-    if (state == ERR_NONE) {
+    if (state == RADIOLIB_ERR_NONE) {
       Serial.println(F("success!"));
     } else {
       Serial.print(F("failed, code "));
       Serial.println(state);
     }
-  
+
   }
 }

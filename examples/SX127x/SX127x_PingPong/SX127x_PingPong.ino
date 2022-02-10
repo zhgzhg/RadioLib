@@ -27,7 +27,7 @@ SX1278 radio = new Module(10, 2, 9, 3);
 //SX1278 radio = RadioShield.ModuleA;
 
 // save transmission states between loops
-int transmissionState = ERR_NONE;
+int transmissionState = RADIOLIB_ERR_NONE;
 
 // flag to indicate transmission or reception state
 bool transmitFlag = false;
@@ -48,7 +48,7 @@ void setFlag(void) {
     return;
   }
 
-  // we sent aor received  packet, set the flag
+  // we sent or received  packet, set the flag
   operationDone = true;
 }
 
@@ -58,7 +58,7 @@ void setup() {
   // initialize SX1278 with default settings
   Serial.print(F("[SX1278] Initializing ... "));
   int state = radio.begin();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -79,7 +79,7 @@ void setup() {
     // start listening for LoRa packets on this node
     Serial.print(F("[SX1278] Starting to listen ... "));
     state = radio.startReceive();
-    if (state == ERR_NONE) {
+    if (state == RADIOLIB_ERR_NONE) {
       Serial.println(F("success!"));
     } else {
       Serial.print(F("failed, code "));
@@ -102,44 +102,44 @@ void loop() {
     if(transmitFlag) {
       // the previous operation was transmission, listen for response
       // print the result
-      if (transmissionState == ERR_NONE) {
+      if (transmissionState == RADIOLIB_ERR_NONE) {
         // packet was successfully sent
         Serial.println(F("transmission finished!"));
-  
+
       } else {
         Serial.print(F("failed, code "));
         Serial.println(transmissionState);
-  
+
       }
 
       // listen for response
       radio.startReceive();
       transmitFlag = false;
-      
+
     } else {
       // the previous operation was reception
       // print data and send another packet
       String str;
       int state = radio.readData(str);
 
-      if (state == ERR_NONE) {
+      if (state == RADIOLIB_ERR_NONE) {
         // packet was successfully received
         Serial.println(F("[SX1278] Received packet!"));
-      
+
         // print data of the packet
         Serial.print(F("[SX1278] Data:\t\t"));
         Serial.println(str);
-  
+
         // print RSSI (Received Signal Strength Indicator)
         Serial.print(F("[SX1278] RSSI:\t\t"));
         Serial.print(radio.getRSSI());
         Serial.println(F(" dBm"));
-  
+
         // print SNR (Signal-to-Noise Ratio)
         Serial.print(F("[SX1278] SNR:\t\t"));
         Serial.print(radio.getSNR());
         Serial.println(F(" dB"));
-  
+
       }
 
       // wait a second before transmitting again
@@ -154,6 +154,6 @@ void loop() {
     // we're ready to process more packets,
     // enable interrupt service routine
     enableInterrupt = true;
-    
+
   }
 }

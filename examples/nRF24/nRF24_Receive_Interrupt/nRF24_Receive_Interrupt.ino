@@ -36,7 +36,7 @@ void setup() {
   // initialize nRF24 with default settings
   Serial.print(F("[nRF24] Initializing ... "));
   int state = radio.begin();
-  if(state == ERR_NONE) {
+  if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -51,7 +51,7 @@ void setup() {
   Serial.print(F("[nRF24] Setting address for receive pipe 0 ... "));
   byte addr[] = {0x01, 0x23, 0x45, 0x67, 0x89};
   state = radio.setReceivePipe(0, addr);
-  if(state == ERR_NONE) {
+  if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -66,7 +66,7 @@ void setup() {
   // start listening
   Serial.print(F("[nRF24] Starting to listen ... "));
   state = radio.startReceive();
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -94,6 +94,9 @@ volatile bool enableInterrupt = true;
 // is received by the module
 // IMPORTANT: this function MUST be 'void' type
 //            and MUST NOT have any arguments!
+#if defined(ESP8266) || defined(ESP32)
+  ICACHE_RAM_ATTR
+#endif
 void setFlag(void) {
   // check if the interrupt is enabled
   if(!enableInterrupt) {
@@ -124,7 +127,7 @@ void loop() {
       int state = radio.readData(byteArr, 8);
     */
 
-    if (state == ERR_NONE) {
+    if (state == RADIOLIB_ERR_NONE) {
       // packet was successfully received
       Serial.println(F("[nRF24] Received packet!"));
 

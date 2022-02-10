@@ -30,7 +30,7 @@ nRF24 radio = new Module(10, 2, 3);
 //nRF24 radio = RadioShield.ModuleA;
 
 // save transmission state between loops
-int transmissionState = ERR_NONE;
+int transmissionState = RADIOLIB_ERR_NONE;
 
 void setup() {
   Serial.begin(9600);
@@ -38,7 +38,7 @@ void setup() {
   // initialize nRF24 with default settings
   Serial.print(F("[nRF24] Initializing ... "));
   int state = radio.begin();
-  if(state == ERR_NONE) {
+  if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -53,7 +53,7 @@ void setup() {
   byte addr[] = {0x01, 0x23, 0x45, 0x67, 0x89};
   Serial.print(F("[nRF24] Setting transmit pipe ... "));
   state = radio.setTransmitPipe(addr);
-  if(state == ERR_NONE) {
+  if(state == RADIOLIB_ERR_NONE) {
     Serial.println(F("success!"));
   } else {
     Serial.print(F("failed, code "));
@@ -90,6 +90,9 @@ volatile bool enableInterrupt = true;
 // is transmitted by the module
 // IMPORTANT: this function MUST be 'void' type
 //            and MUST NOT have any arguments!
+#if defined(ESP8266) || defined(ESP32)
+  ICACHE_RAM_ATTR
+#endif
 void setFlag(void) {
   // check if the interrupt is enabled
   if(!enableInterrupt) {
@@ -110,7 +113,7 @@ void loop() {
     // reset flag
     transmittedFlag = false;
 
-    if (transmissionState == ERR_NONE) {
+    if (transmissionState == RADIOLIB_ERR_NONE) {
       // packet was successfully sent
       Serial.println(F("transmission finished!"));
 
