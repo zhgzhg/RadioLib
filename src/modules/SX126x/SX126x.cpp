@@ -1236,11 +1236,11 @@ uint8_t SX126x::randomByte() {
 }
 
 int16_t SX126x::invertIQ(bool invertIQ) {
-  if(getPacketType() != SX126X_PACKET_TYPE_LORA) {
-    return(ERR_WRONG_MODEM);
+  if(getPacketType() != RADIOLIB_SX126X_PACKET_TYPE_LORA) {
+    return(RADIOLIB_ERR_WRONG_MODEM);
   }
 
-  return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? SX126X_LORA_IQ_INVERTED : SX126X_LORA_IQ_STANDARD));
+  return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? RADIOLIB_SX126X_LORA_IQ_INVERTED : RADIOLIB_SX126X_LORA_IQ_STANDARD));
 }
 
 void SX126x::setDirectAction(void (*func)(void)) {
@@ -1317,9 +1317,9 @@ int16_t SX126x::setTx(uint32_t timeout) {
   uint8_t data[] = { (uint8_t)((timeout >> 16) & 0xFF), (uint8_t)((timeout >> 8) & 0xFF), (uint8_t)(timeout & 0xFF)} ;
 
   if (this->_transmitAtTimestampUs != 0) {
-    uint32_t now = Module::micros();
+    uint32_t now = _mod->micros();
     if (now < this->_transmitAtTimestampUs && (this->_transmitAtTimestampUs - now) < 30'000'000U) {
-      Module::delayMicroseconds(this->_transmitAtTimestampUs - now);
+      _mod->delayMicroseconds(this->_transmitAtTimestampUs - now);
     }
     this->_transmitAtTimestampUs = 0;
   }

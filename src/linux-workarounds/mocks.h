@@ -9,6 +9,7 @@
   #include <iostream>
   #include <iomanip>
   #include <limits>
+  #include <climits>
   #include <locale>
 
   #define String std::string
@@ -225,38 +226,58 @@
 
   #endif
 
-  #ifndef RADIOLIB_PLATFORM
-    #define RADIOLIB_CUSTOM_PLATFORM
+  #ifndef RADIOLIB_MY_SUPER_CUSTOM
+    #define RADIOLIB_MY_SUPER_CUSTOM
 
-    #define RADIOLIB_PIN_TYPE                           uint32_t
-    #define RADIOLIB_PIN_MODE                           uint32_t
-    #define RADIOLIB_PIN_STATUS                         uint32_t
+    #define RADIOLIB_PLATFORM                           "xPI, Linux"
+
+
+    #define RADIOLIB_PIN_TYPE                           int
+    #define RADIOLIB_PIN_MODE                           int
+    #define RADIOLIB_PIN_STATUS                         int
+
     #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
     #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
-    #define RADIOLIB_NC                                 (0xFFFFFFFF)
+
+    #define RADIOLIB_NC                                 (INT_MIN)
+
     #define RADIOLIB_DEFAULT_SPI                        SPI
-    #define RADIOLIB_PROGMEM                            PROGMEM
-    #define RADIOLIB_PROGMEM_READ_BYTE(addr)            pgm_read_byte(addr)
+    #define RADIOLIB_DEFAULT_SPI_SETTINGS               SPISettings(2000000, MSBFIRST, SPI_MODE0)
 
+    #define RADIOLIB_NONVOLATILE                        PROGMEM
+    #define RADIOLIB_NONVOLATILE_READ_BYTE(addr)        pgm_read_byte(addr)
+    #define RADIOLIB_TYPE_ALIAS(type, alias)            using alias = type;
 
-    #define RADIOLIB_SOFTWARE_SERIAL_UNSUPPORTED
-    #define RADIOLIB_HARDWARE_SERIAL_PORT               Serial
+    #define RADIOLIB_CB_ARGS_PIN_MODE                   (void, pinMode, int pin, int mode)
+    #define RADIOLIB_CB_ARGS_DIGITAL_WRITE              (void, digitalWrite, int pin, int value)
+    #define RADIOLIB_CB_ARGS_DIGITAL_READ               (int, digitalRead, int pin)
+    #define RADIOLIB_CB_ARGS_TONE                       (void, tone, int _pin, int frequency, unsigned int duration)
+    #define RADIOLIB_CB_ARGS_NO_TONE                    (void, noTone, int _pin)
+    #define RADIOLIB_CB_ARGS_ATTACH_INTERRUPT           (void, attachInterrupt, uint8_t interruptNum, void (*userFunc)(void), int mode)
+    #define RADIOLIB_CB_ARGS_DETACH_INTERRUPT           (void, detachInterrupt, uint8_t interruptNum)
+    #define RADIOLIB_CB_ARGS_YIELD                      (void, yield, void)
+    #define RADIOLIB_CB_ARGS_DELAY                      (void, delay, unsigned int ms)
+    #define RADIOLIB_CB_ARGS_DELAY_MICROSECONDS         (void, delayMicroseconds, unsigned int us)
+    #define RADIOLIB_CB_ARGS_MILLIS                     (unsigned int, millis, void)
+    #define RADIOLIB_CB_ARGS_MICROS                     (unsigned int, micros, void)
+    #define RADIOLIB_CB_ARGS_SPI_BEGIN                  (void, SPIbegin, void)
+    #define RADIOLIB_CB_ARGS_SPI_BEGIN_TRANSACTION      (void, SPIbeginTransaction, void)
+    #define RADIOLIB_CB_ARGS_SPI_TRANSFER               (uint8_t, SPItransfer, uint8_t b)
+    #define RADIOLIB_CB_ARGS_SPI_END_TRANSACTION        (void, SPIendTransaction, void)
+    #define RADIOLIB_CB_ARGS_SPI_END                    (void, SPIend, void)
+
 
     #define RADIOLIB_TONE_UNSUPPORTED
     #define RADIOLIB_EXCLUDE_CC1101
-    #define RADIOLIB_EXCLUDE_ESP8266
-    #define RADIOLIB_EXCLUDE_HC05
-    #define RADIOLIB_EXCLUDE_JDY08
     #define RADIOLIB_EXCLUDE_NRF24
     #define RADIOLIB_EXCLUDE_SI443X
     #define RADIOLIB_EXCLUDE_RFM2X
     #define RADIOLIB_EXCLUDE_XBEE
     #define RADIOLIB_EXCLUDE_AFSK
+    #define RADIOLIB_EXCLUDE_APRS
     #define RADIOLIB_EXCLUDE_AX25
     #define RADIOLIB_EXCLUDE_HELLSCHREIBER
-    #define RADIOLIB_EXCLUDE_HTTP
     #define RADIOLIB_EXCLUDE_MORSE
-    #define RADIOLIB_EXCLUDE_MQTT
     #define RADIOLIB_EXCLUDE_RTTY
     #define RADIOLIB_EXCLUDE_SSTV
   #endif

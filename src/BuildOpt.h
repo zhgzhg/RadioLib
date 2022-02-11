@@ -39,7 +39,8 @@
 // uncomment to enable custom platform definition
 //#define RADIOLIB_CUSTOM_ARDUINO
 
-#if defined(RADIOLIB_CUSTOM_ARDUINO)
+#if defined(RADIOLIB_MY_SUPER_CUSTOM)
+#elif defined(RADIOLIB_CUSTOM_ARDUINO)
   // name for your platform
   #define RADIOLIB_PLATFORM                           "Custom"
 
