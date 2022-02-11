@@ -109,9 +109,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6807e4254c4b55fa8d393b2bf8f2db3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a6807e4254c4b55fa8d393b2bf8f2db3e">CC1101</a> (<a class="el" href="class_module.html">Module</a> *module)</td></tr>
 <tr class="memdesc:a6807e4254c4b55fa8d393b2bf8f2db3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="class_c_c1101.html#a6807e4254c4b55fa8d393b2bf8f2db3e">More...</a><br /></td></tr>
 <tr class="separator:a6807e4254c4b55fa8d393b2bf8f2db3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adcf6b5c4e1a066d6b9be326a9ee04284"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#adcf6b5c4e1a066d6b9be326a9ee04284">begin</a> (float freq=434.0, float br=48.0, float freqDev=48.0, float rxBw=135.0, int8_t power=10, uint8_t preambleLength=16)</td></tr>
-<tr class="memdesc:adcf6b5c4e1a066d6b9be326a9ee04284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization method.  <a href="class_c_c1101.html#adcf6b5c4e1a066d6b9be326a9ee04284">More...</a><br /></td></tr>
-<tr class="separator:adcf6b5c4e1a066d6b9be326a9ee04284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad47b3b7bd67159638ff9afcfe002fc66"><td class="memItemLeft" align="right" valign="top"><a id="ad47b3b7bd67159638ff9afcfe002fc66"></a>
+<a class="el" href="class_module.html">Module</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getMod</b> ()</td></tr>
+<tr class="separator:ad47b3b7bd67159638ff9afcfe002fc66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b40fd5505fec6bad5986f67a5062593"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a3b40fd5505fec6bad5986f67a5062593">begin</a> (float freq=434.0, float br=4.8, float freqDev=5.0, float rxBw=135.0, int8_t power=10, uint8_t preambleLength=16)</td></tr>
+<tr class="memdesc:a3b40fd5505fec6bad5986f67a5062593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization method.  <a href="class_c_c1101.html#a3b40fd5505fec6bad5986f67a5062593">More...</a><br /></td></tr>
+<tr class="separator:a3b40fd5505fec6bad5986f67a5062593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cb99a9200b21829b50e3fc3878573f4"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a7cb99a9200b21829b50e3fc3878573f4">transmit</a> (uint8_t *data, size_t len, uint8_t addr=0) override</td></tr>
 <tr class="memdesc:a7cb99a9200b21829b50e3fc3878573f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Blocking binary transmit method. Overloads for string-based transmissions are implemented in <a class="el" href="class_physical_layer.html" title="Provides common interface for protocols that run on LoRa/FSK modules, such as RTTY or LoRaWAN....">PhysicalLayer</a>.  <a href="class_c_c1101.html#a7cb99a9200b21829b50e3fc3878573f4">More...</a><br /></td></tr>
 <tr class="separator:a7cb99a9200b21829b50e3fc3878573f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -196,12 +199,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a122281f6a915b77ee9dafc9926e731a0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a122281f6a915b77ee9dafc9926e731a0">getPacketLength</a> (bool update=true) override</td></tr>
 <tr class="memdesc:a122281f6a915b77ee9dafc9926e731a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query modem for the packet length of received payload.  <a href="class_c_c1101.html#a122281f6a915b77ee9dafc9926e731a0">More...</a><br /></td></tr>
 <tr class="separator:a122281f6a915b77ee9dafc9926e731a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9335f1d5ccab7aab2357449002203810"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a9335f1d5ccab7aab2357449002203810">fixedPacketLengthMode</a> (uint8_t len=CC1101_MAX_PACKET_LENGTH)</td></tr>
-<tr class="memdesc:a9335f1d5ccab7aab2357449002203810"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in fixed packet length mode.  <a href="class_c_c1101.html#a9335f1d5ccab7aab2357449002203810">More...</a><br /></td></tr>
-<tr class="separator:a9335f1d5ccab7aab2357449002203810"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a881122ec3457c5f95760859f8e0297c7"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a881122ec3457c5f95760859f8e0297c7">variablePacketLengthMode</a> (uint8_t maxLen=CC1101_MAX_PACKET_LENGTH)</td></tr>
-<tr class="memdesc:a881122ec3457c5f95760859f8e0297c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in variable packet length mode.  <a href="class_c_c1101.html#a881122ec3457c5f95760859f8e0297c7">More...</a><br /></td></tr>
-<tr class="separator:a881122ec3457c5f95760859f8e0297c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad25ad96cddf62273bffd601384d22275"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#ad25ad96cddf62273bffd601384d22275">fixedPacketLengthMode</a> (uint8_t len=RADIOLIB_CC1101_MAX_PACKET_LENGTH)</td></tr>
+<tr class="memdesc:ad25ad96cddf62273bffd601384d22275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in fixed packet length mode.  <a href="class_c_c1101.html#ad25ad96cddf62273bffd601384d22275">More...</a><br /></td></tr>
+<tr class="separator:ad25ad96cddf62273bffd601384d22275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50b9e73d2d82a4cd03841f465825b73f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a50b9e73d2d82a4cd03841f465825b73f">variablePacketLengthMode</a> (uint8_t maxLen=RADIOLIB_CC1101_MAX_PACKET_LENGTH)</td></tr>
+<tr class="memdesc:a50b9e73d2d82a4cd03841f465825b73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in variable packet length mode.  <a href="class_c_c1101.html#a50b9e73d2d82a4cd03841f465825b73f">More...</a><br /></td></tr>
+<tr class="separator:a50b9e73d2d82a4cd03841f465825b73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fe55d0217bf5218865198ef8d6fdab4"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a6fe55d0217bf5218865198ef8d6fdab4">enableSyncWordFiltering</a> (uint8_t maxErrBits=0, bool requireCarrierSense=false)</td></tr>
 <tr class="memdesc:a6fe55d0217bf5218865198ef8d6fdab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable sync word filtering and generation.  <a href="class_c_c1101.html#a6fe55d0217bf5218865198ef8d6fdab4">More...</a><br /></td></tr>
 <tr class="separator:a6fe55d0217bf5218865198ef8d6fdab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,7 +224,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:adf96e77f25b7e256891601bef04f35a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets Gaussian filter bandwidth-time product that will be used for data shaping. Allowed value is RADIOLIB_SHAPING_0_5. Set to RADIOLIB_SHAPING_NONE to disable data shaping.  <a href="class_c_c1101.html#adf96e77f25b7e256891601bef04f35a6">More...</a><br /></td></tr>
 <tr class="separator:adf96e77f25b7e256891601bef04f35a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4b98eb6af33d006306bb7514ed216ea"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea">setEncoding</a> (uint8_t encoding) override</td></tr>
-<tr class="memdesc:ab4b98eb6af33d006306bb7514ed216ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets transmission encoding. Allowed values are RADIOLIB_ENCODING_NRZ and RADIOLIB_ENCODING_WHITENING.  <a href="class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea">More...</a><br /></td></tr>
+<tr class="memdesc:ab4b98eb6af33d006306bb7514ed216ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets transmission encoding. Allowed values are RADIOLIB_ENCODING_NRZ, RADIOLIB_ENCODING_MANCHESTER, and RADIOLIB_ENCODING_WHITENING. Note that encoding on <a class="el" href="class_c_c1101.html" title="Control class for CC1101 module.">CC1101</a> is applied to the entire stream including preamble, sync word, and CRC.  <a href="class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea">More...</a><br /></td></tr>
 <tr class="separator:ab4b98eb6af33d006306bb7514ed216ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45ab4e3f4f9db367185333d36ba21ed2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a45ab4e3f4f9db367185333d36ba21ed2">setRfSwitchPins</a> (RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn)</td></tr>
 <tr class="memdesc:a45ab4e3f4f9db367185333d36ba21ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state. When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!  <a href="class_c_c1101.html#a45ab4e3f4f9db367185333d36ba21ed2">More...</a><br /></td></tr>
@@ -340,7 +343,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Default constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mod</td><td>Instance of <a class="el" href="class_module.html" title="Implements all common low-level SPI/UART methods to control the wireless module. Every module class c...">Module</a> that will be used to communicate with the radio. </td></tr>
+    <tr><td class="paramname">mod</td><td>Instance of <a class="el" href="class_module.html" title="Implements all common low-level methods to control the wireless module. Every module class contains o...">Module</a> that will be used to communicate with the radio. </td></tr>
   </table>
   </dd>
 </dl>
@@ -348,8 +351,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="adcf6b5c4e1a066d6b9be326a9ee04284"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adcf6b5c4e1a066d6b9be326a9ee04284">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="a3b40fd5505fec6bad5986f67a5062593"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b40fd5505fec6bad5986f67a5062593">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -364,13 +367,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>br</em> = <code>48.0</code>, </td>
+          <td class="paramname"><em>br</em> = <code>4.8</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>freqDev</em> = <code>48.0</code>, </td>
+          <td class="paramname"><em>freqDev</em> = <code>5.0</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -402,8 +405,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">freq</td><td>Carrier frequency in MHz. Defaults to 434.0 MHz.</td></tr>
-    <tr><td class="paramname">br</td><td>Bit rate to be used in kbps. Defaults to 48.0 kbps.</td></tr>
-    <tr><td class="paramname">freqDev</td><td>Frequency deviation from carrier frequency in kHz Defaults to 48.0 kHz.</td></tr>
+    <tr><td class="paramname">br</td><td>Bit rate to be used in kbps. Defaults to 4.8 kbps.</td></tr>
+    <tr><td class="paramname">freqDev</td><td>Frequency deviation from carrier frequency in kHz Defaults to 5.0 kHz.</td></tr>
     <tr><td class="paramname">rxBw</td><td>Receiver bandwidth in kHz. Defaults to 135.0 kHz.</td></tr>
     <tr><td class="paramname">power</td><td>Output power in dBm. Defaults to 10 dBm.</td></tr>
     <tr><td class="paramname">preambleLength</td><td>Preamble Length in bits. Defaults to 16 bits.</td></tr>
@@ -499,8 +502,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a9335f1d5ccab7aab2357449002203810"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9335f1d5ccab7aab2357449002203810">&#9670;&nbsp;</a></span>fixedPacketLengthMode()</h2>
+<a id="ad25ad96cddf62273bffd601384d22275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad25ad96cddf62273bffd601384d22275">&#9670;&nbsp;</a></span>fixedPacketLengthMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -509,7 +512,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname">int16_t CC1101::fixedPacketLengthMode </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>len</em> = <code>CC1101_MAX_PACKET_LENGTH</code></td><td>)</td>
+          <td class="paramname"><em>len</em> = <code>RADIOLIB_CC1101_MAX_PACKET_LENGTH</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -725,7 +728,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>Address of Arduino String to save the received data.</td></tr>
-    <tr><td class="paramname">len</td><td>Expected number of characters in the message.</td></tr>
+    <tr><td class="paramname">len</td><td>Expected number of characters in the message. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned.</td></tr>
   </table>
   </dd>
 </dl>
@@ -771,7 +774,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to array to save the received binary data.</td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes that will be received. Must be known in advance for binary transmissions.</td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned.</td></tr>
   </table>
   </dd>
 </dl>
@@ -797,7 +800,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to array to save the received binary data.</td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes that will be received. Must be known in advance for binary transmissions.</td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1082,7 +1085,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Sets transmission encoding. Allowed values are RADIOLIB_ENCODING_NRZ and RADIOLIB_ENCODING_WHITENING. </p>
+<p>Sets transmission encoding. Allowed values are RADIOLIB_ENCODING_NRZ, RADIOLIB_ENCODING_MANCHESTER, and RADIOLIB_ENCODING_WHITENING. Note that encoding on <a class="el" href="class_c_c1101.html" title="Control class for CC1101 module.">CC1101</a> is applied to the entire stream including preamble, sync word, and CRC. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">encoding</td><td>Encoding to be used.</td></tr>
@@ -1914,8 +1917,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a881122ec3457c5f95760859f8e0297c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a881122ec3457c5f95760859f8e0297c7">&#9670;&nbsp;</a></span>variablePacketLengthMode()</h2>
+<a id="a50b9e73d2d82a4cd03841f465825b73f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b9e73d2d82a4cd03841f465825b73f">&#9670;&nbsp;</a></span>variablePacketLengthMode()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1924,7 +1927,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname">int16_t CC1101::variablePacketLengthMode </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>maxLen</em> = <code>CC1101_MAX_PACKET_LENGTH</code></td><td>)</td>
+          <td class="paramname"><em>maxLen</em> = <code>RADIOLIB_CC1101_MAX_PACKET_LENGTH</code></td><td>)</td>
           <td></td>
         </tr>
       </table>

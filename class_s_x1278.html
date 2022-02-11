@@ -116,12 +116,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00ebd3e60a66056940b241b13da0c68e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a00ebd3e60a66056940b241b13da0c68e">SX1278</a> (<a class="el" href="class_module.html">Module</a> *mod)</td></tr>
 <tr class="memdesc:a00ebd3e60a66056940b241b13da0c68e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Called from Arduino sketch when creating new LoRa instance.  <a href="class_s_x1278.html#a00ebd3e60a66056940b241b13da0c68e">More...</a><br /></td></tr>
 <tr class="separator:a00ebd3e60a66056940b241b13da0c68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7d9dc775820f7b260b578908cea3dbe"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#af7d9dc775820f7b260b578908cea3dbe">begin</a> (float freq=434.0, float bw=125.0, uint8_t sf=9, uint8_t cr=7, uint8_t syncWord=SX127X_SYNC_WORD, int8_t power=10, uint16_t preambleLength=8, uint8_t gain=0)</td></tr>
-<tr class="memdesc:af7d9dc775820f7b260b578908cea3dbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">LoRa modem initialization method. Must be called at least once from Arduino sketch to initialize the module.  <a href="class_s_x1278.html#af7d9dc775820f7b260b578908cea3dbe">More...</a><br /></td></tr>
-<tr class="separator:af7d9dc775820f7b260b578908cea3dbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33dc718c83c233a1f93d6bdf2ec31783"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a33dc718c83c233a1f93d6bdf2ec31783">beginFSK</a> (float freq=434.0, float br=48.0, float freqDev=50.0, float rxBw=125.0, int8_t power=10, uint16_t preambleLength=16, bool enableOOK=false)</td></tr>
-<tr class="memdesc:a33dc718c83c233a1f93d6bdf2ec31783"><td class="mdescLeft">&#160;</td><td class="mdescRight">FSK modem initialization method. Must be called at least once from Arduino sketch to initialize the module.  <a href="class_s_x1278.html#a33dc718c83c233a1f93d6bdf2ec31783">More...</a><br /></td></tr>
-<tr class="separator:a33dc718c83c233a1f93d6bdf2ec31783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a867a336ae900f4a221d42b4c807122cf"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a867a336ae900f4a221d42b4c807122cf">begin</a> (float freq=434.0, float bw=125.0, uint8_t sf=9, uint8_t cr=7, uint8_t syncWord=RADIOLIB_SX127X_SYNC_WORD, int8_t power=10, uint16_t preambleLength=8, uint8_t gain=0)</td></tr>
+<tr class="memdesc:a867a336ae900f4a221d42b4c807122cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">LoRa modem initialization method. Must be called at least once from Arduino sketch to initialize the module.  <a href="class_s_x1278.html#a867a336ae900f4a221d42b4c807122cf">More...</a><br /></td></tr>
+<tr class="separator:a867a336ae900f4a221d42b4c807122cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86464af008b71d12948690b780280e7d"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a86464af008b71d12948690b780280e7d">beginFSK</a> (float freq=434.0, float br=4.8, float freqDev=5.0, float rxBw=125.0, int8_t power=10, uint16_t preambleLength=16, bool enableOOK=false)</td></tr>
+<tr class="memdesc:a86464af008b71d12948690b780280e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">FSK modem initialization method. Must be called at least once from Arduino sketch to initialize the module.  <a href="class_s_x1278.html#a86464af008b71d12948690b780280e7d">More...</a><br /></td></tr>
+<tr class="separator:a86464af008b71d12948690b780280e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d60902ac59b653a9eb83e82a932f7ad"><td class="memItemLeft" align="right" valign="top"><a id="a6d60902ac59b653a9eb83e82a932f7ad"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a6d60902ac59b653a9eb83e82a932f7ad">reset</a> () override</td></tr>
 <tr class="memdesc:a6d60902ac59b653a9eb83e82a932f7ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset method. Will reset the chip to the default state using RST pin. <br /></td></tr>
@@ -163,7 +163,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:ae02adcde8c2978c0d1b157729dd5df1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Re-enables automatic LDRO configuration. Only available in LoRa mode. After calling this method, LDRO will be enabled automatically when symbol length exceeds 16 ms.  <a href="class_s_x1278.html#ae02adcde8c2978c0d1b157729dd5df1e">More...</a><br /></td></tr>
 <tr class="separator:ae02adcde8c2978c0d1b157729dd5df1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47f5ac7dd6587b86c5f2c2b16336612e"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a47f5ac7dd6587b86c5f2c2b16336612e">implicitHeader</a> (size_t len)</td></tr>
-<tr class="memdesc:a47f5ac7dd6587b86c5f2c2b16336612e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set implicit header mode for future reception/transmission.  <a href="class_s_x1278.html#a47f5ac7dd6587b86c5f2c2b16336612e">More...</a><br /></td></tr>
+<tr class="memdesc:a47f5ac7dd6587b86c5f2c2b16336612e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set implicit header mode for future reception/transmission. Required for spreading factor 6.  <a href="class_s_x1278.html#a47f5ac7dd6587b86c5f2c2b16336612e">More...</a><br /></td></tr>
 <tr class="separator:a47f5ac7dd6587b86c5f2c2b16336612e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c7717f09820a8e9a93621b0a00713f1"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1278.html#a7c7717f09820a8e9a93621b0a00713f1">explicitHeader</a> ()</td></tr>
 <tr class="memdesc:a7c7717f09820a8e9a93621b0a00713f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set explicit header mode for future reception/transmission.  <a href="class_s_x1278.html#a7c7717f09820a8e9a93621b0a00713f1">More...</a><br /></td></tr>
@@ -172,6 +172,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ac74c5914ca429a3892c66b9d98e3ea6c inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#ac74c5914ca429a3892c66b9d98e3ea6c">SX127x</a> (<a class="el" href="class_module.html">Module</a> *mod)</td></tr>
 <tr class="memdesc:ac74c5914ca429a3892c66b9d98e3ea6c inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Called internally when creating new LoRa instance.  <a href="class_s_x127x.html#ac74c5914ca429a3892c66b9d98e3ea6c">More...</a><br /></td></tr>
 <tr class="separator:ac74c5914ca429a3892c66b9d98e3ea6c inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c27736905cf848a67d6cbc92df823b8 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top"><a id="a4c27736905cf848a67d6cbc92df823b8"></a>
+<a class="el" href="class_module.html">Module</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>getMod</b> ()</td></tr>
+<tr class="separator:a4c27736905cf848a67d6cbc92df823b8 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5da8218f69e3bf52df389a0480f8b430 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a5da8218f69e3bf52df389a0480f8b430">begin</a> (uint8_t chipVersion, uint8_t syncWord, uint16_t preambleLength)</td></tr>
 <tr class="memdesc:a5da8218f69e3bf52df389a0480f8b430 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization method. Will be called with appropriate parameters when calling initialization method from derived class.  <a href="class_s_x127x.html#a5da8218f69e3bf52df389a0480f8b430">More...</a><br /></td></tr>
 <tr class="separator:a5da8218f69e3bf52df389a0480f8b430 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,9 +222,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#adc2f1379573b7a7b5ee8125ea3752083">startTransmit</a> (uint8_t *data, size_t len, uint8_t addr=0) override</td></tr>
 <tr class="memdesc:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven binary transmit method. Will start transmitting arbitrary binary data up to 255 bytes long using LoRa or up to 63 bytes using FSK modem.  <a href="class_s_x127x.html#adc2f1379573b7a7b5ee8125ea3752083">More...</a><br /></td></tr>
 <tr class="separator:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8456d0f9abbce4d743f256f3e1e6c6 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#afe8456d0f9abbce4d743f256f3e1e6c6">startReceive</a> (uint8_t len=0, uint8_t mode=SX127X_RXCONTINUOUS)</td></tr>
-<tr class="memdesc:afe8456d0f9abbce4d743f256f3e1e6c6 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. DIO0 will be activated when full valid packet is received.  <a href="class_s_x127x.html#afe8456d0f9abbce4d743f256f3e1e6c6">More...</a><br /></td></tr>
-<tr class="separator:afe8456d0f9abbce4d743f256f3e1e6c6 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#adffb96b7f80dc43909bb4cebde68fe9d">startReceive</a> (uint8_t len=0, uint8_t mode=RADIOLIB_SX127X_RXCONTINUOUS)</td></tr>
+<tr class="memdesc:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. DIO0 will be activated when full valid packet is received.  <a href="class_s_x127x.html#adffb96b7f80dc43909bb4cebde68fe9d">More...</a><br /></td></tr>
+<tr class="separator:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfc840e8d6fe5e222f0143be17876745 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#abfc840e8d6fe5e222f0143be17876745">readData</a> (uint8_t *data, size_t len) override</td></tr>
 <tr class="memdesc:abfc840e8d6fe5e222f0143be17876745 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data that was received after calling startReceive method. This method reads len characters.  <a href="class_s_x127x.html#abfc840e8d6fe5e222f0143be17876745">More...</a><br /></td></tr>
 <tr class="separator:abfc840e8d6fe5e222f0143be17876745 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -244,7 +247,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a5094ba2d9268340b7aba99afe5da0544 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets current AFC error.  <a href="class_s_x127x.html#a5094ba2d9268340b7aba99afe5da0544">More...</a><br /></td></tr>
 <tr class="separator:a5094ba2d9268340b7aba99afe5da0544 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc5069b39dc31b637ee561d5745e1deb inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#abc5069b39dc31b637ee561d5745e1deb">getSNR</a> ()</td></tr>
-<tr class="memdesc:abc5069b39dc31b637ee561d5745e1deb inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets signal-to-noise ratio of the latest received packet.  <a href="class_s_x127x.html#abc5069b39dc31b637ee561d5745e1deb">More...</a><br /></td></tr>
+<tr class="memdesc:abc5069b39dc31b637ee561d5745e1deb inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets signal-to-noise ratio of the latest received packet. Only available in LoRa mode.  <a href="class_s_x127x.html#abc5069b39dc31b637ee561d5745e1deb">More...</a><br /></td></tr>
 <tr class="separator:abc5069b39dc31b637ee561d5745e1deb inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc25b685de0859b799488bf7729350b6 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#adc25b685de0859b799488bf7729350b6">getDataRate</a> () const</td></tr>
 <tr class="memdesc:adc25b685de0859b799488bf7729350b6 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get data rate of the latest transmitted packet.  <a href="class_s_x127x.html#adc25b685de0859b799488bf7729350b6">More...</a><br /></td></tr>
@@ -291,15 +294,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a17ff4e4e0afaebed727648e1400be538 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a17ff4e4e0afaebed727648e1400be538">setOokFixedOrFloorThreshold</a> (uint8_t value)</td></tr>
 <tr class="memdesc:a17ff4e4e0afaebed727648e1400be538 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixed threshold for the Data Slicer in OOK mode or floor threshold for the Data Slicer in OOK when Peak mode is used.  <a href="class_s_x127x.html#a17ff4e4e0afaebed727648e1400be538">More...</a><br /></td></tr>
 <tr class="separator:a17ff4e4e0afaebed727648e1400be538 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48ca43e6aad02815fa1507f0f0831c54 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a48ca43e6aad02815fa1507f0f0831c54">setOokPeakThresholdStep</a> (uint8_t value)</td></tr>
+<tr class="memdesc:a48ca43e6aad02815fa1507f0f0831c54 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of each decrement of the RSSI threshold in the OOK demodulator.  <a href="class_s_x127x.html#a48ca43e6aad02815fa1507f0f0831c54">More...</a><br /></td></tr>
+<tr class="separator:a48ca43e6aad02815fa1507f0f0831c54 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1921e1d9fc1d888d2e73bb732e7db7aa inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a1921e1d9fc1d888d2e73bb732e7db7aa">enableBitSync</a> ()</td></tr>
+<tr class="memdesc:a1921e1d9fc1d888d2e73bb732e7db7aa inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable Bit synchronizer.  <a href="class_s_x127x.html#a1921e1d9fc1d888d2e73bb732e7db7aa">More...</a><br /></td></tr>
+<tr class="separator:a1921e1d9fc1d888d2e73bb732e7db7aa inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8025b05b8f4f2f2abb4cd803b06e2ebd inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a8025b05b8f4f2f2abb4cd803b06e2ebd">disableBitSync</a> ()</td></tr>
+<tr class="memdesc:a8025b05b8f4f2f2abb4cd803b06e2ebd inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable Bit synchronizer (not allowed in Packet mode).  <a href="class_s_x127x.html#a8025b05b8f4f2f2abb4cd803b06e2ebd">More...</a><br /></td></tr>
+<tr class="separator:a8025b05b8f4f2f2abb4cd803b06e2ebd inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a462fa74275e67c296328a01f361892d5 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a462fa74275e67c296328a01f361892d5">getPacketLength</a> (bool update=true) override</td></tr>
 <tr class="memdesc:a462fa74275e67c296328a01f361892d5 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query modem for the packet length of received payload.  <a href="class_s_x127x.html#a462fa74275e67c296328a01f361892d5">More...</a><br /></td></tr>
 <tr class="separator:a462fa74275e67c296328a01f361892d5 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf8ce9f09d0f46a76a5e251786b6de7f inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#aaf8ce9f09d0f46a76a5e251786b6de7f">fixedPacketLengthMode</a> (uint8_t len=SX127X_MAX_PACKET_LENGTH_FSK)</td></tr>
-<tr class="memdesc:aaf8ce9f09d0f46a76a5e251786b6de7f inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in fixed packet length mode. Available in FSK mode only.  <a href="class_s_x127x.html#aaf8ce9f09d0f46a76a5e251786b6de7f">More...</a><br /></td></tr>
-<tr class="separator:aaf8ce9f09d0f46a76a5e251786b6de7f inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f753c0857e7b8b4b9f7f6e91c77f0fd inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a9f753c0857e7b8b4b9f7f6e91c77f0fd">variablePacketLengthMode</a> (uint8_t maxLen=SX127X_MAX_PACKET_LENGTH_FSK)</td></tr>
-<tr class="memdesc:a9f753c0857e7b8b4b9f7f6e91c77f0fd inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in variable packet length mode. Available in FSK mode only.  <a href="class_s_x127x.html#a9f753c0857e7b8b4b9f7f6e91c77f0fd">More...</a><br /></td></tr>
-<tr class="separator:a9f753c0857e7b8b4b9f7f6e91c77f0fd inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb42d9cd518e9f6408a40753c0be359 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a6fb42d9cd518e9f6408a40753c0be359">fixedPacketLengthMode</a> (uint8_t len=RADIOLIB_SX127X_MAX_PACKET_LENGTH_FSK)</td></tr>
+<tr class="memdesc:a6fb42d9cd518e9f6408a40753c0be359 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in fixed packet length mode. Available in FSK mode only.  <a href="class_s_x127x.html#a6fb42d9cd518e9f6408a40753c0be359">More...</a><br /></td></tr>
+<tr class="separator:a6fb42d9cd518e9f6408a40753c0be359 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d39296b40e7282ef44d8f376065e92c inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a1d39296b40e7282ef44d8f376065e92c">variablePacketLengthMode</a> (uint8_t maxLen=RADIOLIB_SX127X_MAX_PACKET_LENGTH_FSK)</td></tr>
+<tr class="memdesc:a1d39296b40e7282ef44d8f376065e92c inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set modem in variable packet length mode. Available in FSK mode only.  <a href="class_s_x127x.html#a1d39296b40e7282ef44d8f376065e92c">More...</a><br /></td></tr>
+<tr class="separator:a1d39296b40e7282ef44d8f376065e92c inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3955f85f456edae772a51025a19029b inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#ad3955f85f456edae772a51025a19029b">setRSSIConfig</a> (uint8_t smoothingSamples, int8_t offset=0)</td></tr>
 <tr class="memdesc:ad3955f85f456edae772a51025a19029b inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets RSSI measurement configuration in FSK mode.  <a href="class_s_x127x.html#ad3955f85f456edae772a51025a19029b">More...</a><br /></td></tr>
 <tr class="separator:ad3955f85f456edae772a51025a19029b inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -333,6 +345,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a071442611a32154e8b3db7981f242a53 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a071442611a32154e8b3db7981f242a53">readBit</a> (RADIOLIB_PIN_TYPE pin)</td></tr>
 <tr class="memdesc:a071442611a32154e8b3db7981f242a53 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to read and process data bit in direct reception mode.  <a href="class_s_x127x.html#a071442611a32154e8b3db7981f242a53">More...</a><br /></td></tr>
 <tr class="separator:a071442611a32154e8b3db7981f242a53 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f04a7e883057908df18f06c7f74c7e1 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a7f04a7e883057908df18f06c7f74c7e1">setFHSSHoppingPeriod</a> (uint8_t freqHoppingPeriod)</td></tr>
+<tr class="memdesc:a7f04a7e883057908df18f06c7f74c7e1 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the hopping period and enables FHSS.  <a href="class_s_x127x.html#a7f04a7e883057908df18f06c7f74c7e1">More...</a><br /></td></tr>
+<tr class="separator:a7f04a7e883057908df18f06c7f74c7e1 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7600b8b0aac4d8a5e962d631145b617 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#ad7600b8b0aac4d8a5e962d631145b617">getFHSSHoppingPeriod</a> (void)</td></tr>
+<tr class="memdesc:ad7600b8b0aac4d8a5e962d631145b617 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets FHSS hopping period.  <a href="class_s_x127x.html#ad7600b8b0aac4d8a5e962d631145b617">More...</a><br /></td></tr>
+<tr class="separator:ad7600b8b0aac4d8a5e962d631145b617 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56340d1bdc69b3efc64636be39445a9c inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a56340d1bdc69b3efc64636be39445a9c">getFHSSChannel</a> (void)</td></tr>
+<tr class="memdesc:a56340d1bdc69b3efc64636be39445a9c inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the FHSS channel in use.  <a href="class_s_x127x.html#a56340d1bdc69b3efc64636be39445a9c">More...</a><br /></td></tr>
+<tr class="separator:a56340d1bdc69b3efc64636be39445a9c inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41089d9e5b45217d3e31ac22b5326b66 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top"><a id="a41089d9e5b45217d3e31ac22b5326b66"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a41089d9e5b45217d3e31ac22b5326b66">clearFHSSInt</a> (void)</td></tr>
+<tr class="memdesc:a41089d9e5b45217d3e31ac22b5326b66 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the FHSS interrupt. <br /></td></tr>
+<tr class="separator:a41089d9e5b45217d3e31ac22b5326b66 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#ab139a34e03a6fd5a781cd54da21d308f">transmit</a> (__FlashStringHelper *fstr, uint8_t addr=0)</td></tr>
 <tr class="memdesc:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arduino Flash String transmit method.  <a href="class_s_x127x.html#ab139a34e03a6fd5a781cd54da21d308f">More...</a><br /></td></tr>
 <tr class="separator:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -435,7 +460,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Default constructor. Called from Arduino sketch when creating new LoRa instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">mod</td><td>Instance of <a class="el" href="class_module.html" title="Implements all common low-level SPI/UART methods to control the wireless module. Every module class c...">Module</a> that will be used to communicate with the LoRa chip. </td></tr>
+    <tr><td class="paramname">mod</td><td>Instance of <a class="el" href="class_module.html" title="Implements all common low-level methods to control the wireless module. Every module class contains o...">Module</a> that will be used to communicate with the LoRa chip. </td></tr>
   </table>
   </dd>
 </dl>
@@ -463,8 +488,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="af7d9dc775820f7b260b578908cea3dbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7d9dc775820f7b260b578908cea3dbe">&#9670;&nbsp;</a></span>begin()</h2>
+<a id="a867a336ae900f4a221d42b4c807122cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a867a336ae900f4a221d42b4c807122cf">&#9670;&nbsp;</a></span>begin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -497,7 +522,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>syncWord</em> = <code>SX127X_SYNC_WORD</code>, </td>
+          <td class="paramname"><em>syncWord</em> = <code>RADIOLIB_SX127X_SYNC_WORD</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -543,8 +568,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a33dc718c83c233a1f93d6bdf2ec31783"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33dc718c83c233a1f93d6bdf2ec31783">&#9670;&nbsp;</a></span>beginFSK()</h2>
+<a id="a86464af008b71d12948690b780280e7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86464af008b71d12948690b780280e7d">&#9670;&nbsp;</a></span>beginFSK()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -559,13 +584,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>br</em> = <code>48.0</code>, </td>
+          <td class="paramname"><em>br</em> = <code>4.8</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>freqDev</em> = <code>50.0</code>, </td>
+          <td class="paramname"><em>freqDev</em> = <code>5.0</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -632,12 +657,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>Set explicit header mode for future reception/transmission. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">len</td><td>Payload length in bytes.</td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 </div>
@@ -712,7 +731,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
       </table>
 </div><div class="memdoc">
 
-<p>Set implicit header mode for future reception/transmission. </p>
+<p>Set implicit header mode for future reception/transmission. Required for spreading factor 6. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">len</td><td>Payload length in bytes.</td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 </div>

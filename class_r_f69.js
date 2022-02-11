@@ -1,16 +1,19 @@
 var class_r_f69 =
 [
     [ "RF69", "class_r_f69.html#afbc84d4f91502bcbe12ddda2fde51448", null ],
-    [ "begin", "class_r_f69.html#a4d0dea965aba1017a660c9478ec57560", null ],
+    [ "begin", "class_r_f69.html#a35944b24d27a1ac98c1034cfcdb816cd", null ],
     [ "clearDio0Action", "class_r_f69.html#a9721d2a3ed9fa8dd878575d71d5a4942", null ],
     [ "clearDio1Action", "class_r_f69.html#ade1f9a7a603d712c480ed5e9a8d1bf51", null ],
     [ "disableAddressFiltering", "class_r_f69.html#a5996fc1751e7542baafa0d6c0a6c78ee", null ],
     [ "disableAES", "class_r_f69.html#a15fafb6c24a8b5721623be447628bbaa", null ],
+    [ "disableContinuousModeBitSync", "class_r_f69.html#a97d3570f4f898dde47e3daf8043e7bad", null ],
     [ "disableSyncWordFiltering", "class_r_f69.html#a400bb57d2353b57c29cf41a6d9497c80", null ],
     [ "enableAES", "class_r_f69.html#a1fd4609f419d8b0213ee39b05dd40b69", null ],
+    [ "enableContinuousModeBitSync", "class_r_f69.html#a7e2201b5bc389a68765400b70439f3f0", null ],
     [ "enableSyncWordFiltering", "class_r_f69.html#a643a711bcb4b7771a7ab1f457e61a417", null ],
-    [ "fixedPacketLengthMode", "class_r_f69.html#a4c9dcbd7e44bc5e46d9f10ae276a0c5f", null ],
+    [ "fixedPacketLengthMode", "class_r_f69.html#a0de2a07f264839cda945faebf7319e0e", null ],
     [ "getChipVersion", "class_r_f69.html#a0c30202b2d52eb32f43066bc0f938638", null ],
+    [ "getMod", "class_r_f69.html#afd3a98c6ff75e1036c9ba6d5423851df", null ],
     [ "getPacketLength", "class_r_f69.html#a86a080086c0228d23e2cb77d2b1915c1", null ],
     [ "getRSSI", "class_r_f69.html#ac4fc3f2b178ef08caec3a9f548f44cd7", null ],
     [ "getTemperature", "class_r_f69.html#a0526ce6ea3722fd258f96d9677a60853", null ],
@@ -40,6 +43,8 @@ var class_r_f69 =
     [ "setLnaTestBoost", "class_r_f69.html#aa14dbfd82cd75b9759d4d78bdb05c194", null ],
     [ "setNodeAddress", "class_r_f69.html#ab9c217d5ece259950780a05c6e41f75c", null ],
     [ "setOOK", "class_r_f69.html#a9c2f94a1c3c8a4f3fd2c5785217bee0a", null ],
+    [ "setOokFixedThreshold", "class_r_f69.html#a2f5852cf0757e38b56b6208760d9a459", null ],
+    [ "setOokPeakThresholdDecrement", "class_r_f69.html#a434420f2def6c383608223105469fda1", null ],
     [ "setOokThresholdType", "class_r_f69.html#a219a046c10ddcc0a787ad19346ecad6a", null ],
     [ "setOutputPower", "class_r_f69.html#a998ddd21fc152d835c6f1b8d31b02fcc", null ],
     [ "setPreambleLength", "class_r_f69.html#a7c84b3f881cad6e05b0f4f68c24496d9", null ],
@@ -60,5 +65,5 @@ var class_r_f69 =
     [ "transmit", "class_r_f69.html#a09ba80f60ee7974011a4b4f6c18c6847", null ],
     [ "transmit", "class_r_f69.html#af81565ee82ef9a7de9c5663c745f4ef7", null ],
     [ "transmitDirect", "class_r_f69.html#a222682569338abb49d6952430b6eebdd", null ],
-    [ "variablePacketLengthMode", "class_r_f69.html#af62ebde1ea34a394b9781a21ae348c39", null ]
+    [ "variablePacketLengthMode", "class_r_f69.html#af434c67aabe02258ee6696a59973617b", null ]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['uart_20configuration_358',['UART Configuration',['../group__uart__config.html',1,'']]],
-  ['unsubscribe_359',['unsubscribe',['../class_m_q_t_t_client.html#a782158f20b289746b7b6884fd922a22c',1,'MQTTClient']]]
+  ['width_308',['width',['../struct_s_s_t_v_mode__t.html#ad8d4e7efb12eb0e0cfa850aeb7353e40',1,'SSTVMode_t']]]
 ];

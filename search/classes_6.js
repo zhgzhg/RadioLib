@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['jdy08_379',['JDY08',['../class_j_d_y08.html',1,'']]]
+  ['module_321',['Module',['../class_module.html',1,'']]],
+  ['morseclient_322',['MorseClient',['../class_morse_client.html',1,'']]]
 ];

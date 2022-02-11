@@ -84,6 +84,7 @@ $(document).ready(function(){initNavTree('class_a_x25_client.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="class_a_x25_client-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">AX25Client Class Reference</div>  </div>
@@ -115,6 +116,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a341db993853c6817a8f6c7087ead0ba6"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_a_x25_client.html#a341db993853c6817a8f6c7087ead0ba6">sendFrame</a> (<a class="el" href="class_a_x25_frame.html">AX25Frame</a> *frame)</td></tr>
 <tr class="memdesc:a341db993853c6817a8f6c7087ead0ba6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmit arbitrary AX.25 frame.  <a href="class_a_x25_client.html#a341db993853c6817a8f6c7087ead0ba6">More...</a><br /></td></tr>
 <tr class="separator:a341db993853c6817a8f6c7087ead0ba6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ac7d2ea7e69067b7b4c6492e198505289"><td class="memItemLeft" align="right" valign="top"><a id="ac7d2ea7e69067b7b4c6492e198505289"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>APRSClient</b></td></tr>
+<tr class="separator:ac7d2ea7e69067b7b4c6492e198505289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Client for AX25 communication. </p>
@@ -225,7 +232,7 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">srcCallsign</td><td>Callsign of the source station.</td></tr>
     <tr><td class="paramname">srcSSID</td><td>4-bit SSID of the source station (in case there are more stations with the same callsign). Defaults to 0.</td></tr>
-    <tr><td class="paramname">preambleLen</td><td>Number of "preamble" bytes (AX25_FLAG) sent ahead of the actual AX.25 frame. Does not include the first AX25_FLAG byte, which is considered part of the frame. Defaults to 8.</td></tr>
+    <tr><td class="paramname">preambleLen</td><td>Number of "preamble" bytes (RADIOLIB_AX25_FLAG) sent ahead of the actual AX.25 frame. Does not include the first RADIOLIB_AX25_FLAG byte, which is considered part of the frame. Defaults to 8.</td></tr>
   </table>
   </dd>
 </dl>
