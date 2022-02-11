@@ -9,7 +9,6 @@
   #include <iostream>
   #include <iomanip>
   #include <limits>
-  #include <climits>
   #include <locale>
 
   #define String std::string
@@ -239,7 +238,7 @@
     #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
     #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
 
-    #define RADIOLIB_NC                                 (INT_MIN)
+    #define RADIOLIB_NC                                 (std::numeric_limits<int>::min())
 
     #define RADIOLIB_DEFAULT_SPI                        SPI
     #define RADIOLIB_DEFAULT_SPI_SETTINGS               SPISettings(2000000, MSBFIRST, SPI_MODE0)
