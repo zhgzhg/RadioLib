@@ -24,6 +24,7 @@
     int wiringPiSetup() { return 0; }
     int wiringPiSPISetup(int channel, int speed) { return 0; }
     int wiringPiSPISetupMode(int channel, int speed, int mode) { return -1; }
+    int wiringPiSPISetupModePort(int channel, int speed, int mode, int port) { return -1; }
     int wiringPiSPIDataRW(int channel, unsigned char *data, int len) { return -1; }
     unsigned int millis() { return 0; }
     unsigned int micros() { return 0; }
