@@ -17,7 +17,7 @@
   int wiringPiSetup();
   int wiringPiSPISetup(int channel, int speed);
   int wiringPiSPISetupMode(int channel, int speed, int mode);
-  int wiringPiSPISetupMode(int channel, int speed, int mode, int port);
+  int wiringPiSPISetupModePort(int channel, int speed, int mode, int port);
   int wiringPiSPIDataRW(int channel, unsigned char *data, int len);
   unsigned int millis();
   unsigned int micros();
