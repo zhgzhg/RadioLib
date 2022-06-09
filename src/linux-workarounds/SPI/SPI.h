@@ -10,6 +10,8 @@
 #include <cstdio>
 #include <cstring>
 
+extern "C" int wiringPiSPISetupModePort(int channel, int speed, int mode, int port) __attribute__((weak));
+
 #ifndef NOWIRINGIPI
   #include <wiringPi.h>
   #include <wiringPiSPI.h>
@@ -17,7 +19,6 @@
   int wiringPiSetup();
   int wiringPiSPISetup(int channel, int speed);
   int wiringPiSPISetupMode(int channel, int speed, int mode);
-  int wiringPiSPISetupModePort(int channel, int speed, int mode, int port);
   int wiringPiSPIDataRW(int channel, unsigned char *data, int len);
   unsigned int millis();
   unsigned int micros();
@@ -123,7 +124,11 @@ public:
       if (SPIClass::spiDeviceFp != -1) {
         close(SPIClass::spiDeviceFp);
       }
-      SPIClass::spiDeviceFp = wiringPiSPISetupModePort(settings.channel, settings.speed, settings.mode, settings.port);
+      if (wiringPiSPISetupModePort) { // this function is missing from the standard wiringPi library
+        SPIClass::spiDeviceFp = wiringPiSPISetupModePort(settings.channel, settings.speed, settings.mode, settings.port);
+      } else { // fall back to the standard lib setup function instead, while obiously the port parameter will be ignored
+        SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.speed, settings.mode);
+      }
       if (SPIClass::spiDeviceFp == -1) {
         initialized = 0;
       }
