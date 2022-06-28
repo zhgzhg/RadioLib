@@ -182,6 +182,8 @@ startReceiveDutyCycleAuto	KEYWORD2
 setRegulatorLDO	KEYWORD2
 setRegulatorDCDC	KEYWORD2
 getCurrentLimit	KEYWORD2
+getIrqStatus	KEYWORD2
+
 # nRF24
 setIrqAction	KEYWORD2
 setAddressWidth	KEYWORD2
@@ -221,6 +223,7 @@ getRangingResult	KEYWORD2
 
 # Hellschreiber
 printGlyph	KEYWORD2
+setInversion	KEYWORD2
 
 # AFSK
 tone	KEYWORD2

@@ -223,7 +223,11 @@ int16_t RF69::directMode() {
   RADIOLIB_ASSERT(state);
 
   // set continuous mode
-  return(_mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE_WITH_SYNC, 6, 5));
+  if(_bitSync) {
+    return(_mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE_WITH_SYNC, 6, 5));
+  } else {
+    return(_mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE, 6, 5));
+  }
 }
 
 int16_t RF69::packetMode() {
@@ -386,9 +390,13 @@ int16_t RF69::setOOK(bool enableOOK) {
   } else {
     state = _mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_FSK, 4, 3, 5);
   }
+
   if(state == RADIOLIB_ERR_NONE) {
     _ook = enableOOK;
   }
+
+  // call setRxBandwidth again, since register values differ based on OOK mode being enabled
+  state |= setRxBandwidth(_rxBw);
 
   return(state);
 }
@@ -457,93 +465,26 @@ int16_t RF69::setRxBandwidth(float rxBw) {
     return(RADIOLIB_ERR_INVALID_BIT_RATE_BW_RATIO);
   }
 
-  // check allowed bandwidth values
-  uint8_t bwMant, bwExp;
-  if(rxBw == 2.6) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 7;
-  } else if(rxBw == 3.1) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 7;
-  } else if(rxBw == 3.9) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 7;
-  } else if(rxBw == 5.2) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 6;
-  } else if(rxBw == 6.3) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 6;
-  } else if(rxBw == 7.8) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 6;
-  } else if(rxBw == 10.4) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 5;
-  } else if(rxBw == 12.5) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 5;
-  } else if(rxBw == 15.6) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 5;
-  } else if(rxBw == 20.8) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 4;
-  } else if(rxBw == 25.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 4;
-  } else if(rxBw == 31.3) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 4;
-  } else if(rxBw == 41.7) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 3;
-  } else if(rxBw == 50.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 3;
-  } else if(rxBw == 62.5) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 3;
-  } else if(rxBw == 83.3) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 2;
-  } else if(rxBw == 100.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 2;
-  } else if(rxBw == 125.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 2;
-  } else if(rxBw == 166.7) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 1;
-  } else if(rxBw == 200.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 1;
-  } else if(rxBw == 250.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 1;
-  } else if(rxBw == 333.3) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_24;
-    bwExp = 0;
-  } else if(rxBw == 400.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_20;
-    bwExp = 0;
-  } else if(rxBw == 500.0) {
-    bwMant = RADIOLIB_RF69_RX_BW_MANT_16;
-    bwExp = 0;
-  } else {
-    return(RADIOLIB_ERR_INVALID_RX_BANDWIDTH);
-  }
-
   // set mode to standby
-  setMode(RADIOLIB_RF69_STANDBY);
+  int16_t state = setMode(RADIOLIB_RF69_STANDBY);
+  RADIOLIB_ASSERT(state);
 
-  // set Rx bandwidth
-  int16_t state = _mod->SPIsetRegValue(RADIOLIB_RF69_REG_RX_BW, RADIOLIB_RF69_DCC_FREQ | bwMant | bwExp, 7, 0);
-  if(state == RADIOLIB_ERR_NONE) {
-    RF69::_rxBw = rxBw;
+  // calculate exponent and mantissa values for receiver bandwidth
+  for(int8_t e = 7; e >= 0; e--) {
+    for(int8_t m = 2; m >= 0; m--) {
+      float point = (RADIOLIB_RF69_CRYSTAL_FREQ * 1000000.0)/(((4 * m) + 16) * ((uint32_t)1 << (e + (_ook ? 3 : 2))));
+      if(fabs(rxBw - (point / 1000.0)) <= 0.1) {
+        // set Rx bandwidth
+        state = _mod->SPIsetRegValue(RADIOLIB_RF69_REG_RX_BW, (m << 3) | e, 4, 0);
+        if(state == RADIOLIB_ERR_NONE) {
+          RF69::_rxBw = rxBw;
+        }
+        return(state);
+      }
+    }
   }
-  return(state);
+
+  return(RADIOLIB_ERR_INVALID_RX_BANDWIDTH);
 }
 
 int16_t RF69::setFrequencyDeviation(float freqDev) {
@@ -733,11 +674,21 @@ int16_t RF69::disableSyncWordFiltering() {
 }
 
 int16_t RF69::enableContinuousModeBitSync() {
-  return(_mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE_WITH_SYNC, 6, 5));
+  int16_t state = _mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE_WITH_SYNC, 6, 5);
+  if(state == RADIOLIB_ERR_NONE) {
+    _bitSync = true;
+  }
+
+  return(state);
 }
 
 int16_t RF69::disableContinuousModeBitSync() {
-  return(_mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE, 6, 5));
+  int16_t state = _mod->SPIsetRegValue(RADIOLIB_RF69_REG_DATA_MODUL, RADIOLIB_RF69_CONTINUOUS_MODE, 6, 5);
+  if(state == RADIOLIB_ERR_NONE) {
+    _bitSync = false;
+  }
+
+  return(state);
 }
 
 int16_t RF69::setCrcFiltering(bool crcOn) {

@@ -744,6 +744,7 @@ class RF69: public PhysicalLayer {
 
     /*!
       \brief Enables/disables OOK modulation instead of FSK.
+       Note: This function calls setRxBandwidth again, since register values differ based on OOK mode being enabled/disabled
 
       \param enableOOK Enable (true) or disable (false) OOK.
 
@@ -941,6 +942,8 @@ class RF69: public PhysicalLayer {
     bool _promiscuous = false;
 
     uint8_t _syncWordLength = 2;
+
+    bool _bitSync = true;
 
     int16_t config();
     int16_t directMode();
