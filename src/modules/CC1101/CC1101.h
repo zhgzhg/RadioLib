@@ -791,9 +791,11 @@ class CC1101: public PhysicalLayer {
     /*!
       \brief Gets RSSI (Recorded Signal Strength Indicator) of the last received packet.
 
-      \returns Last packet RSSI in dBm.
+      or in asynchronous direct mode the current RSSI level
+
+      \returns RSSI in dBm.
     */
-    float getRSSI() const;
+    float getRSSI();
 
     /*!
       \brief Gets LQI (Link Quality Indicator) of the last received packet.
@@ -932,6 +934,17 @@ class CC1101: public PhysicalLayer {
     */
     void readBit(RADIOLIB_PIN_TYPE pin);
 
+    /*!
+      \brief Configure DIO pin mapping to get a given signal on a DIO pin (if available).
+
+      \param pin Pin number onto which a signal is to be placed.
+
+      \param value The value that indicates which function to place on that pin. See chip datasheet for details.
+
+      \returns \ref status_codes
+    */
+    int16_t setDIOMapping(RADIOLIB_PIN_TYPE pin, uint8_t value);
+
   #if !defined(RADIOLIB_GODMODE) && !defined(RADIOLIB_LOW_LEVEL)
     protected:
   #endif
@@ -963,6 +976,7 @@ class CC1101: public PhysicalLayer {
 
     bool _promiscuous = false;
     bool _crcOn = true;
+    bool _directMode = true;
 
     uint8_t _syncWordLength = 2;
     int8_t _power = 0;
