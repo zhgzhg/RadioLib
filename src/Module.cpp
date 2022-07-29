@@ -446,7 +446,7 @@ uint16_t Module::flipBits16(uint16_t i) {
 }
 
 void Module::hexdump(uint8_t* data, size_t len) {
-  for(int i = 0; i < len; i+=16) {
+  for(size_t i = 0; i < len; i+=16) {
     char str[80];
     sprintf(str, "%07x  ", i);
     for(int j = 0; j < 16; j++) {
