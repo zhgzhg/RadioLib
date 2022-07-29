@@ -3,7 +3,6 @@ var class_physical_layer =
     [ "PhysicalLayer", "class_physical_layer.html#a5e02457f1d519cf81b1590a182321c62", null ],
     [ "available", "class_physical_layer.html#ab57182d32646861ef0d865e2740d6b26", null ],
     [ "getFreqStep", "class_physical_layer.html#a977e5236693960bb1c79090a201e9e1c", null ],
-    [ "getMod", "class_physical_layer.html#adf31222815bef1a7cb65859890c5c30a", null ],
     [ "getPacketLength", "class_physical_layer.html#a0bd6046e068ef63e3f2b6bead48e02a7", null ],
     [ "random", "class_physical_layer.html#acd9171bd71aa80fb86113b612c42de53", null ],
     [ "random", "class_physical_layer.html#a76113e10481743094a1cd0280692b0a9", null ],
@@ -16,6 +15,7 @@ var class_physical_layer =
     [ "receive", "class_physical_layer.html#a2ad4c6a8ac267f8ac590260414ffcda3", null ],
     [ "receiveDirect", "class_physical_layer.html#a46b22145b33e97cf6065ed826799b6b4", null ],
     [ "setDataShaping", "class_physical_layer.html#ab643a814dce48f71a13bf6ea23f44cbd", null ],
+    [ "setDIOMapping", "class_physical_layer.html#a47c1d94d2ad2fd7eb5d11480b44cc368", null ],
     [ "setDirectAction", "class_physical_layer.html#ab76fe7d3e0f453a807b205161c980086", null ],
     [ "setDirectSyncWord", "class_physical_layer.html#a8e378fe136a498ea485a9c10f5e15aab", null ],
     [ "setEncoding", "class_physical_layer.html#a7d3419227d201d6912b77784636d437d", null ],
@@ -29,5 +29,12 @@ var class_physical_layer =
     [ "transmit", "class_physical_layer.html#a492b2d057dd803c3884fa1adc8e22534", null ],
     [ "transmit", "class_physical_layer.html#aeb62c5a521aafc1e0525c58e9364482b", null ],
     [ "transmit", "class_physical_layer.html#af81565ee82ef9a7de9c5663c745f4ef7", null ],
-    [ "transmitDirect", "class_physical_layer.html#a4b04eb6155b06d8ef400131c647d54e7", null ]
+    [ "transmitDirect", "class_physical_layer.html#a4b04eb6155b06d8ef400131c647d54e7", null ],
+    [ "AFSKClient", "class_physical_layer.html#acb94e5999123b5a1c63dd279b2a5a251", null ],
+    [ "AX25Client", "class_physical_layer.html#a0012621c1414f4c7573e961b57884a5b", null ],
+    [ "FSK4Client", "class_physical_layer.html#ac0313fe86041eb37d290019203e095d3", null ],
+    [ "HellClient", "class_physical_layer.html#afeb005bab389f137def61f1acc3714d3", null ],
+    [ "MorseClient", "class_physical_layer.html#ae5c5757c553100373984a416b6c3690a", null ],
+    [ "RTTYClient", "class_physical_layer.html#a018393f703a257e39cd263cccf4ffad5", null ],
+    [ "SSTVClient", "class_physical_layer.html#ae8dd4f2f60ef4fd1fa1868a7a630ab20", null ]
 ];

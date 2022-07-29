@@ -13,7 +13,7 @@ var class_c_c1101 =
     [ "getMod", "class_c_c1101.html#ad47b3b7bd67159638ff9afcfe002fc66", null ],
     [ "getPacketLength", "class_c_c1101.html#a122281f6a915b77ee9dafc9926e731a0", null ],
     [ "getPromiscuousMode", "class_c_c1101.html#aeea78919ec14d940cda0f213e4fdced6", null ],
-    [ "getRSSI", "class_c_c1101.html#a48fd0452d6f7d7d51ea7d23b2dbe1551", null ],
+    [ "getRSSI", "class_c_c1101.html#a490b2aa48bd7e5728fa82882411910dc", null ],
     [ "packetMode", "class_c_c1101.html#a38f6978c757b0dd73e3ef98164a735a2", null ],
     [ "randomByte", "class_c_c1101.html#a7ecf49d530ea7c29dd755f56db17d833", null ],
     [ "readBit", "class_c_c1101.html#a5cebec89fc0fa0f5ccbce28c6ce7d2dc", null ],
@@ -24,9 +24,11 @@ var class_c_c1101 =
     [ "receive", "class_c_c1101.html#aedc1067d0334bb69ed5316146014097d", null ],
     [ "receive", "class_c_c1101.html#a2ad4c6a8ac267f8ac590260414ffcda3", null ],
     [ "receiveDirect", "class_c_c1101.html#ab053c185330519d58f364790108d29ac", null ],
+    [ "receiveDirectAsync", "class_c_c1101.html#a9ec1ff1312d2caaae7e3e0389268fca2", null ],
     [ "setBitRate", "class_c_c1101.html#aa53427cabcda0778f287ed1d850bbe37", null ],
     [ "setCrcFiltering", "class_c_c1101.html#aafac40359c4a1bb01aae12da6b03be26", null ],
     [ "setDataShaping", "class_c_c1101.html#adf96e77f25b7e256891601bef04f35a6", null ],
+    [ "setDIOMapping", "class_c_c1101.html#a1acad996e9452c504cf0f89806c46c8a", null ],
     [ "setDirectAction", "class_c_c1101.html#a5161fa10b19d857840579601ef565363", null ],
     [ "setEncoding", "class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea", null ],
     [ "setFrequency", "class_c_c1101.html#a9592c023556c38c2b8066a23da96ae5e", null ],
@@ -54,5 +56,6 @@ var class_c_c1101 =
     [ "transmit", "class_c_c1101.html#a7cb99a9200b21829b50e3fc3878573f4", null ],
     [ "transmit", "class_c_c1101.html#af81565ee82ef9a7de9c5663c745f4ef7", null ],
     [ "transmitDirect", "class_c_c1101.html#a240eef8fa7d838d76f3c11086dc50e46", null ],
+    [ "transmitDirectAsync", "class_c_c1101.html#aef7c152858537a40e71cf133962cb893", null ],
     [ "variablePacketLengthMode", "class_c_c1101.html#a50b9e73d2d82a4cd03841f465825b73f", null ]
 ];

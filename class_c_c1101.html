@@ -130,6 +130,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab053c185330519d58f364790108d29ac"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#ab053c185330519d58f364790108d29ac">receiveDirect</a> () override</td></tr>
 <tr class="memdesc:ab053c185330519d58f364790108d29ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts direct mode reception.  <a href="class_c_c1101.html#ab053c185330519d58f364790108d29ac">More...</a><br /></td></tr>
 <tr class="separator:ab053c185330519d58f364790108d29ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef7c152858537a40e71cf133962cb893"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#aef7c152858537a40e71cf133962cb893">transmitDirectAsync</a> (uint32_t frf=0)</td></tr>
+<tr class="memdesc:aef7c152858537a40e71cf133962cb893"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts asynchronous direct mode transmission.  <a href="class_c_c1101.html#aef7c152858537a40e71cf133962cb893">More...</a><br /></td></tr>
+<tr class="separator:aef7c152858537a40e71cf133962cb893"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ec1ff1312d2caaae7e3e0389268fca2"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a9ec1ff1312d2caaae7e3e0389268fca2">receiveDirectAsync</a> ()</td></tr>
+<tr class="memdesc:a9ec1ff1312d2caaae7e3e0389268fca2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Starts asynchronous direct mode reception.  <a href="class_c_c1101.html#a9ec1ff1312d2caaae7e3e0389268fca2">More...</a><br /></td></tr>
+<tr class="separator:a9ec1ff1312d2caaae7e3e0389268fca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38f6978c757b0dd73e3ef98164a735a2"><td class="memItemLeft" align="right" valign="top"><a id="a38f6978c757b0dd73e3ef98164a735a2"></a>
 int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a38f6978c757b0dd73e3ef98164a735a2">packetMode</a> ()</td></tr>
 <tr class="memdesc:a38f6978c757b0dd73e3ef98164a735a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops direct mode. It is required to call this method to switch from direct transmissions to packet-based transmissions. <br /></td></tr>
@@ -190,9 +196,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:afa64d1ad4789d3146b38d14437234756"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#afa64d1ad4789d3146b38d14437234756">setOOK</a> (bool enableOOK)</td></tr>
 <tr class="memdesc:afa64d1ad4789d3146b38d14437234756"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables/disables OOK modulation instead of FSK.  <a href="class_c_c1101.html#afa64d1ad4789d3146b38d14437234756">More...</a><br /></td></tr>
 <tr class="separator:afa64d1ad4789d3146b38d14437234756"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48fd0452d6f7d7d51ea7d23b2dbe1551"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a48fd0452d6f7d7d51ea7d23b2dbe1551">getRSSI</a> () const</td></tr>
-<tr class="memdesc:a48fd0452d6f7d7d51ea7d23b2dbe1551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets RSSI (Recorded Signal Strength Indicator) of the last received packet.  <a href="class_c_c1101.html#a48fd0452d6f7d7d51ea7d23b2dbe1551">More...</a><br /></td></tr>
-<tr class="separator:a48fd0452d6f7d7d51ea7d23b2dbe1551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a490b2aa48bd7e5728fa82882411910dc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a490b2aa48bd7e5728fa82882411910dc">getRSSI</a> ()</td></tr>
+<tr class="memdesc:a490b2aa48bd7e5728fa82882411910dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets RSSI (Recorded Signal Strength Indicator) of the last received packet.  <a href="class_c_c1101.html#a490b2aa48bd7e5728fa82882411910dc">More...</a><br /></td></tr>
+<tr class="separator:a490b2aa48bd7e5728fa82882411910dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59ca9e8956e308159949638bf327e5fb"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a59ca9e8956e308159949638bf327e5fb">getLQI</a> () const</td></tr>
 <tr class="memdesc:a59ca9e8956e308159949638bf327e5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets LQI (Link Quality Indicator) of the last received packet.  <a href="class_c_c1101.html#a59ca9e8956e308159949638bf327e5fb">More...</a><br /></td></tr>
 <tr class="separator:a59ca9e8956e308159949638bf327e5fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -241,6 +247,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a5cebec89fc0fa0f5ccbce28c6ce7d2dc">readBit</a> (RADIOLIB_PIN_TYPE pin)</td></tr>
 <tr class="memdesc:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to read and process data bit in direct reception mode.  <a href="class_c_c1101.html#a5cebec89fc0fa0f5ccbce28c6ce7d2dc">More...</a><br /></td></tr>
 <tr class="separator:a5cebec89fc0fa0f5ccbce28c6ce7d2dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1acad996e9452c504cf0f89806c46c8a"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#a1acad996e9452c504cf0f89806c46c8a">setDIOMapping</a> (RADIOLIB_PIN_TYPE pin, uint8_t value)</td></tr>
+<tr class="memdesc:a1acad996e9452c504cf0f89806c46c8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure DIO pin mapping to get a given signal on a DIO pin (if available).  <a href="class_c_c1101.html#a1acad996e9452c504cf0f89806c46c8a">More...</a><br /></td></tr>
+<tr class="separator:a1acad996e9452c504cf0f89806c46c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab139a34e03a6fd5a781cd54da21d308f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_c1101.html#ab139a34e03a6fd5a781cd54da21d308f">transmit</a> (__FlashStringHelper *fstr, uint8_t addr=0)</td></tr>
 <tr class="memdesc:ab139a34e03a6fd5a781cd54da21d308f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arduino Flash String transmit method.  <a href="class_c_c1101.html#ab139a34e03a6fd5a781cd54da21d308f">More...</a><br /></td></tr>
 <tr class="separator:ab139a34e03a6fd5a781cd54da21d308f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -626,8 +635,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
-<a id="a48fd0452d6f7d7d51ea7d23b2dbe1551"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48fd0452d6f7d7d51ea7d23b2dbe1551">&#9670;&nbsp;</a></span>getRSSI()</h2>
+<a id="a490b2aa48bd7e5728fa82882411910dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a490b2aa48bd7e5728fa82882411910dc">&#9670;&nbsp;</a></span>getRSSI()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -636,13 +645,14 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname">float CC1101::getRSSI </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Gets RSSI (Recorded Signal Strength Indicator) of the last received packet. </p>
-<dl class="section return"><dt>Returns</dt><dd>Last packet RSSI in dBm. </dd></dl>
+<p>or in asynchronous direct mode the current RSSI level</p>
+<dl class="section return"><dt>Returns</dt><dd>RSSI in dBm. </dd></dl>
 
 </div>
 </div>
@@ -934,6 +944,26 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 </div>
 </div>
+<a id="a9ec1ff1312d2caaae7e3e0389268fca2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ec1ff1312d2caaae7e3e0389268fca2">&#9670;&nbsp;</a></span>receiveDirectAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t CC1101::receiveDirectAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts asynchronous direct mode reception. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+</div>
+</div>
 <a id="aa53427cabcda0778f287ed1d850bbe37"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa53427cabcda0778f287ed1d850bbe37">&#9670;&nbsp;</a></span>setBitRate()</h2>
 
@@ -980,7 +1010,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <p>Enable CRC filtering and generation. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crcOn</td><td>Set or unset promiscuous mode.</td></tr>
+    <tr><td class="paramname">crcOn</td><td>Set or unset CRC generation and filtering.</td></tr>
   </table>
   </dd>
 </dl>
@@ -1022,6 +1052,54 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 <p>Implements <a class="el" href="class_physical_layer.html#ab643a814dce48f71a13bf6ea23f44cbd">PhysicalLayer</a>.</p>
+
+</div>
+</div>
+<a id="a1acad996e9452c504cf0f89806c46c8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1acad996e9452c504cf0f89806c46c8a">&#9670;&nbsp;</a></span>setDIOMapping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t CC1101::setDIOMapping </td>
+          <td>(</td>
+          <td class="paramtype">RADIOLIB_PIN_TYPE&#160;</td>
+          <td class="paramname"><em>pin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure DIO pin mapping to get a given signal on a DIO pin (if available). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pin</td><td>Pin number onto which a signal is to be placed.</td></tr>
+    <tr><td class="paramname">value</td><td>The value that indicates which function to place on that pin. See chip datasheet for details.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#a47c1d94d2ad2fd7eb5d11480b44cc368">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -1914,6 +1992,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 <p>Implements <a class="el" href="class_physical_layer.html#a4b04eb6155b06d8ef400131c647d54e7">PhysicalLayer</a>.</p>
+
+</div>
+</div>
+<a id="aef7c152858537a40e71cf133962cb893"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef7c152858537a40e71cf133962cb893">&#9670;&nbsp;</a></span>transmitDirectAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t CC1101::transmitDirectAsync </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>frf</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Starts asynchronous direct mode transmission. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frf</td><td>Raw RF frequency value. Defaults to 0, required for quick frequency shifts in RTTY.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 </div>
 </div>
