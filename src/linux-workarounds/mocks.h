@@ -19,7 +19,15 @@
 
   void attachInterrupt(uint8_t interruptNum, void (*userFunc)(void), int mode);
   void detachInterrupt(uint8_t interruptNum);
-
+  /*
+   * pulseIn:
+   *  Reads a pulse (either HIGH or LOW) on a pin.
+   *  Return the length of the pulse in microseconds.
+   *  Gives up and returns 0 if no pulse starts.
+   *  Works on pulses from 100 microseconds to 3000 microseconds in length (need more tests)
+   *********************************************************************************
+   */
+  unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout_unused = 0);
 
   #ifndef DUMMY_ARDUINO_FUNCS
     #define DUMMY_ARDUINO_FUNCS
@@ -259,6 +267,7 @@
     #define RADIOLIB_CB_ARGS_DELAY_MICROSECONDS         (void, delayMicroseconds, unsigned int us)
     #define RADIOLIB_CB_ARGS_MILLIS                     (unsigned int, millis, void)
     #define RADIOLIB_CB_ARGS_MICROS                     (unsigned int, micros, void)
+    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, uint8_t pin, uint8_t state, unsigned long timeout)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN                  (void, SPIbegin, void)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN_TRANSACTION      (void, SPIbeginTransaction, void)
     #define RADIOLIB_CB_ARGS_SPI_TRANSFER               (uint8_t, SPItransfer, uint8_t b)
@@ -271,7 +280,6 @@
     #define RADIOLIB_EXCLUDE_NRF24
     #define RADIOLIB_EXCLUDE_SI443X
     #define RADIOLIB_EXCLUDE_RFM2X
-    #define RADIOLIB_EXCLUDE_XBEE
     #define RADIOLIB_EXCLUDE_AFSK
     #define RADIOLIB_EXCLUDE_APRS
     #define RADIOLIB_EXCLUDE_AX25

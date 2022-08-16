@@ -11,6 +11,33 @@
     printf("not implemented %s\n", __func__);
   }
 
+  unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout_unused) {
+
+    const unsigned int maxLoops = 1000000;
+    unsigned int numloops = 0;
+
+    while (digitalRead(pin) == state)
+    {
+      if (numloops++ == maxLoops)
+        return 0 ;
+    }
+
+    while (digitalRead(pin) != state)
+    {
+      if (numloops++ == maxLoops)
+        return 0 ;
+    }
+
+    int timerStart = micros();
+    while (digitalRead(pin) == state)
+    {
+      if (numloops++ == maxLoops)
+        return 0 ;
+    }
+
+    return micros() - timerStart ;
+  }
+
   _BIN BIN;
   MockDebugSerial Serial, Serial1;
 
