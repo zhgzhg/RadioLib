@@ -34,6 +34,7 @@ Module::Module(RADIOLIB_PIN_TYPE cs, RADIOLIB_PIN_TYPE irq, RADIOLIB_PIN_TYPE rs
   setCb_delayMicroseconds(::delayMicroseconds);
   setCb_millis(::millis);
   setCb_micros(::micros);
+  setCb_pulseIn(::pulseIn);
   setCb_SPIbegin(&Module::SPIbegin);
   setCb_SPIbeginTransaction(&Module::beginTransaction);
   setCb_SPItransfer(&Module::transfer);
@@ -68,6 +69,7 @@ Module::Module(RADIOLIB_PIN_TYPE cs, RADIOLIB_PIN_TYPE irq, RADIOLIB_PIN_TYPE rs
   setCb_delayMicroseconds(::delayMicroseconds);
   setCb_millis(::millis);
   setCb_micros(::micros);
+  setCb_pulseIn(::pulseIn);
   setCb_SPIbegin(&Module::SPIbegin);
   setCb_SPIbeginTransaction(&Module::beginTransaction);
   setCb_SPItransfer(&Module::transfer);
@@ -105,13 +107,16 @@ Module& Module::operator=(const Module& mod) {
 void Module::init() {
   this->pinMode(_cs, OUTPUT);
   this->digitalWrite(_cs, HIGH);
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(_initInterface) {
     (this->*cb_SPIbegin)();
   }
+#endif
 }
 
 void Module::term() {
   // stop hardware interfaces (if they were initialized by the library)
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(!_initInterface) {
     return;
   }
@@ -119,6 +124,7 @@ void Module::term() {
   if(_spi != nullptr) {
     this->SPIend();
   }
+#endif
 }
 
 int16_t Module::SPIgetRegValue(uint8_t reg, uint8_t msb, uint8_t lsb) {
@@ -266,6 +272,11 @@ RADIOLIB_PIN_STATUS Module::digitalRead(RADIOLIB_PIN_TYPE pin) {
   return(cb_digitalRead(pin));
 }
 
+#if defined(ESP32)
+// we need to cache the previous tone value for emulation on ESP32
+int32_t prev = -1;
+#endif
+
 void Module::tone(RADIOLIB_PIN_TYPE pin, uint16_t value, uint32_t duration) {
   #if !defined(RADIOLIB_TONE_UNSUPPORTED)
   if((pin == RADIOLIB_NC) || (cb_tone == nullptr)) {
@@ -279,8 +290,13 @@ void Module::tone(RADIOLIB_PIN_TYPE pin, uint16_t value, uint32_t duration) {
     #if defined(ESP32)
       // ESP32 tone() emulation
       (void)duration;
-      ledcAttachPin(pin, RADIOLIB_TONE_ESP32_CHANNEL);
-      ledcWriteTone(RADIOLIB_TONE_ESP32_CHANNEL, value);
+      if(prev == -1) {
+        ledcAttachPin(pin, RADIOLIB_TONE_ESP32_CHANNEL);
+      }
+      if(prev != value) {
+        ledcWriteTone(RADIOLIB_TONE_ESP32_CHANNEL, value);
+      }
+      prev = value;
     #elif defined(RADIOLIB_MBED_TONE_OVERRIDE)
       // better tone for mbed OS boards
       (void)duration;
@@ -314,6 +330,7 @@ void Module::noTone(RADIOLIB_PIN_TYPE pin) {
       // ESP32 tone() emulation
       ledcDetachPin(pin);
       ledcWrite(RADIOLIB_TONE_ESP32_CHANNEL, 0);
+      prev = -1;
     #elif defined(RADIOLIB_MBED_TONE_OVERRIDE)
       // better tone for mbed OS boards
       (void)pin;
@@ -373,58 +390,83 @@ uint32_t Module::micros() {
   return(cb_micros());
 }
 
+uint32_t Module::pulseIn(RADIOLIB_PIN_TYPE pin, RADIOLIB_PIN_STATUS state, uint32_t timeout) {
+  if(cb_pulseIn == nullptr) {
+    return(0);
+  }
+  return(cb_pulseIn(pin, state, timeout));
+}
+
 void Module::begin() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(cb_SPIbegin == nullptr) {
     return;
   }
   (this->*cb_SPIbegin)();
+#endif
 }
 
 void Module::beginTransaction() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(cb_SPIbeginTransaction == nullptr) {
     return;
   }
   (this->*cb_SPIbeginTransaction)();
+#endif
 }
 
 uint8_t Module::transfer(uint8_t b) {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(cb_SPItransfer == nullptr) {
     return(0xFF);
   }
   return((this->*cb_SPItransfer)(b));
+#endif
 }
 
 void Module::endTransaction() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(cb_SPIendTransaction == nullptr) {
     return;
   }
   (this->*cb_SPIendTransaction)();
+#endif
 }
 
 void Module::end() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   if(cb_SPIend == nullptr) {
     return;
   }
   (this->*cb_SPIend)();
+#endif
 }
 
 #if defined(RADIOLIB_BUILD_ARDUINO)
 void Module::SPIbegin() {
   _spi->begin();
 }
+#endif
 
 void Module::SPIbeginTransaction() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   _spi->beginTransaction(_spiSettings);
+#endif
 }
 
 uint8_t Module::SPItransfer(uint8_t b) {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   return(_spi->transfer(b));
+#endif
 }
 
 void Module::SPIendTransaction() {
+#if defined(RADIOLIB_BUILD_ARDUINO)
   _spi->endTransaction();
+#endif
 }
 
+#if defined(RADIOLIB_BUILD_ARDUINO)
 void Module::SPIend() {
   _spi->end();
 }

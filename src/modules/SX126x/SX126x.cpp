@@ -1247,6 +1247,7 @@ int16_t SX126x::invertIQ(bool invertIQ) {
   return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? RADIOLIB_SX126X_LORA_IQ_INVERTED : RADIOLIB_SX126X_LORA_IQ_STANDARD));
 }
 
+#if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
 void SX126x::setDirectAction(void (*func)(void)) {
   // SX126x is unable to perform direct mode reception
   // this method is implemented only for PhysicalLayer compatibility
@@ -1258,6 +1259,7 @@ void SX126x::readBit(RADIOLIB_PIN_TYPE pin) {
   // this method is implemented only for PhysicalLayer compatibility
   (void)pin;
 }
+#endif
 
 int16_t SX126x::setTCXO(float voltage, uint32_t delay) {
   // set mode to standby
