@@ -109,35 +109,27 @@ int16_t CC1101::transmit(uint8_t* data, size_t len, uint8_t addr) {
 
   // wait for transmission start or timeout
   uint32_t start = _mod->micros();
-  while(!_mod->digitalRead(_mod->getIrq())) {
+  while(!_mod->digitalRead(_mod->getGpio())) {
     _mod->yield();
 
     if(_mod->micros() - start > timeout) {
-      standby();
-      SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_TX);
+      finishTransmit();
       return(RADIOLIB_ERR_TX_TIMEOUT);
     }
   }
 
   // wait for transmission end or timeout
   start = _mod->micros();
-  while(_mod->digitalRead(_mod->getIrq())) {
+  while(_mod->digitalRead(_mod->getGpio())) {
     _mod->yield();
 
     if(_mod->micros() - start > timeout) {
-      standby();
-      SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_TX);
+      finishTransmit();
       return(RADIOLIB_ERR_TX_TIMEOUT);
     }
   }
 
-  // set mode to standby
-  standby();
-
-  // flush Tx FIFO
-  SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_TX);
-
-  return(state);
+  return(finishTransmit());
 }
 
 int16_t CC1101::receive(uint8_t* data, size_t len) {
@@ -240,7 +232,7 @@ void CC1101::clearGdo0Action() {
 }
 
 void CC1101::setGdo2Action(void (*func)(void), RADIOLIB_INTERRUPT_STATUS dir) {
-  if(_mod->getGpio() != RADIOLIB_NC) {
+  if(_mod->getGpio() == RADIOLIB_NC) {
     return;
   }
   _mod->pinMode(_mod->getGpio(), INPUT);
@@ -248,7 +240,7 @@ void CC1101::setGdo2Action(void (*func)(void), RADIOLIB_INTERRUPT_STATUS dir) {
 }
 
 void CC1101::clearGdo2Action() {
-  if(_mod->getGpio() != RADIOLIB_NC) {
+  if(_mod->getGpio() == RADIOLIB_NC) {
     return;
   }
   _mod->detachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getGpio()));
@@ -267,7 +259,7 @@ int16_t CC1101::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_TX);
 
   // set GDO0 mapping
-  int16_t state = SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG0, RADIOLIB_CC1101_GDOX_SYNC_WORD_SENT_OR_RECEIVED);
+  int16_t state = SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG2, RADIOLIB_CC1101_GDOX_SYNC_WORD_SENT_OR_RECEIVED, 5, 0);
   RADIOLIB_ASSERT(state);
 
   // data put on FIFO.
@@ -326,6 +318,16 @@ int16_t CC1101::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   }
 
   return (state);
+}
+
+int16_t CC1101::finishTransmit() {
+  // set mode to standby to disable transmitter/RF switch
+  int16_t state = standby();
+
+  // flush Tx FIFO
+  SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_TX);
+
+  return(state);
 }
 
 int16_t CC1101::startReceive() {
@@ -711,7 +713,7 @@ int16_t CC1101::setOOK(bool enableOOK) {
   return(setOutputPower(_power));
 }
 
-float CC1101::getRSSI() { 
+float CC1101::getRSSI() {
   float rssi;
 
   if (_directMode) {

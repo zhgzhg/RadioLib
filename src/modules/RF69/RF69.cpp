@@ -125,19 +125,12 @@ int16_t RF69::transmit(uint8_t* data, size_t len, uint8_t addr) {
     _mod->yield();
 
     if(_mod->micros() - start > timeout) {
-      standby();
-      clearIRQFlags();
+      finishTransmit();
       return(RADIOLIB_ERR_TX_TIMEOUT);
     }
   }
-
-  // set mode to standby
-  standby();
-
-  // clear interrupt flags
-  clearIRQFlags();
-
-  return(RADIOLIB_ERR_NONE);
+  
+  return(finishTransmit());
 }
 
 int16_t RF69::receive(uint8_t* data, size_t len) {
@@ -440,6 +433,14 @@ int16_t RF69::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   state = setMode(RADIOLIB_RF69_TX);
 
   return(state);
+}
+
+int16_t RF69::finishTransmit() {
+  // clear interrupt flags
+  clearIRQFlags();
+
+  // set mode to standby to disable transmitter/RF switch
+  return(standby());
 }
 
 int16_t RF69::readData(uint8_t* data, size_t len) {
@@ -870,6 +871,12 @@ int16_t RF69::setLnaTestBoost(bool value) {
 
 float RF69::getRSSI() {
   return(-1.0 * (_mod->SPIgetRegValue(RADIOLIB_RF69_REG_RSSI_VALUE)/2.0));
+}
+
+int16_t RF69::setRSSIThreshold(float dbm) {
+  RADIOLIB_CHECK_RANGE(dbm, -127.5, 0, RADIOLIB_ERR_INVALID_RSSI_THRESHOLD);
+
+  return _mod->SPIsetRegValue(RADIOLIB_RF69_REG_RSSI_THRESH, (uint8_t)(-2.0 * dbm), 7, 0);
 }
 
 void RF69::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {

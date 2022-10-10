@@ -536,6 +536,13 @@ class SX126x: public PhysicalLayer {
     int16_t startTransmit(uint8_t* data, size_t len, uint8_t addr = 0) override;
 
     /*!
+      \brief Clean up after transmission is done.
+
+      \returns \ref status_codes
+    */
+    int16_t finishTransmit() override;
+
+    /*!
       \brief Interrupt-driven receive method. DIO1 will be activated when full packet is received.
 
       \param timeout Raw timeout value, expressed as multiples of 15.625 us. Defaults to RADIOLIB_SX126X_RX_TIMEOUT_INF for infinite timeout (Rx continuous mode), set to RADIOLIB_SX126X_RX_TIMEOUT_NONE for no timeout (Rx single mode).
@@ -936,6 +943,13 @@ class SX126x: public PhysicalLayer {
   */
    uint8_t randomByte();
 
+   /*!
+    \brief Get the last recorded transaction error.
+
+    \returns \ref status_codes
+   */
+   int16_t getLastError();
+
    #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
    /*!
      \brief Dummy method, to ensure PhysicalLayer compatibility.
@@ -1008,10 +1022,10 @@ class SX126x: public PhysicalLayer {
     Module* _mod;
 
     // common low-level SPI interface
-    int16_t SPIwriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
-    int16_t SPIwriteCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
-    int16_t SPIreadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
-    int16_t SPIreadCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true);
+    int16_t SPIwriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
+    int16_t SPIwriteCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
+    int16_t SPIreadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
+    int16_t SPIreadCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
     int16_t SPItransfer(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* dataOut, uint8_t* dataIn, uint8_t numBytes, bool waitForBusy, uint32_t timeout = 5000);
 
 #if !defined(RADIOLIB_GODMODE)
@@ -1034,9 +1048,11 @@ class SX126x: public PhysicalLayer {
 
     size_t _implicitLen = 0;
 
-     uint32_t _transmitAtTimestampUs = 0;
+    uint32_t _transmitAtTimestampUs = 0;
+    int16_t _lastError = RADIOLIB_ERR_NONE;
 
     int16_t config(uint8_t modem);
+    int16_t checkCommandResult();
 };
 
 #endif

@@ -164,7 +164,7 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
     while(!_mod->digitalRead(_mod->getIrq())) {
       _mod->yield();
       if(_mod->micros() - start > timeout) {
-        clearIRQFlags();
+        finishTransmit();
         return(RADIOLIB_ERR_TX_TIMEOUT);
       }
     }
@@ -183,8 +183,7 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
     while(!_mod->digitalRead(_mod->getIrq())) {
       _mod->yield();
       if(_mod->micros() - start > timeout) {
-        clearIRQFlags();
-        standby();
+        finishTransmit();
         return(RADIOLIB_ERR_TX_TIMEOUT);
       }
     }
@@ -195,12 +194,8 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   // update data rate
   uint32_t elapsed = _mod->micros() - start;
   _dataRate = (len*8.0)/((float)elapsed/1000000.0);
-
-  // clear interrupt flags
-  clearIRQFlags();
-
-  // set mode to standby to disable transmitter
-  return(standby());
+  
+  return(finishTransmit());
 }
 
 int16_t SX127x::receive(uint8_t* data, size_t len) {
@@ -214,13 +209,32 @@ int16_t SX127x::receive(uint8_t* data, size_t len) {
     state = startReceive(len, RADIOLIB_SX127X_RXSINGLE);
     RADIOLIB_ASSERT(state);
 
-    // wait for packet reception or timeout (100 LoRa symbols)
+    // if no DIO1 is provided, use software timeout (100 LoRa symbols, same as hardware timeout)
+    uint32_t timeout = 0;
+    if(_mod->getGpio() == RADIOLIB_NC) {
+      float symbolLength = (float) (uint32_t(1) << _sf) / (float) _bw;
+      timeout = 100*symbolLength;
+    }
+
+    // wait for packet reception or timeout
+    uint32_t start = _mod->micros();
     while(!_mod->digitalRead(_mod->getIrq())) {
       _mod->yield();
-      if(_mod->digitalRead(_mod->getGpio())) {
-        clearIRQFlags();
-        return(RADIOLIB_ERR_RX_TIMEOUT);
+
+      if(_mod->getGpio() == RADIOLIB_NC) {
+        // no GPIO pin provided, use software timeout
+        if(_mod->micros() - start > timeout) {
+          clearIRQFlags();
+          return(RADIOLIB_ERR_RX_TIMEOUT);
+        }
+      } else {
+        // GPIO provided, use that
+        if(_mod->digitalRead(_mod->getGpio())) {
+          clearIRQFlags();
+          return(RADIOLIB_ERR_RX_TIMEOUT);
+        }
       }
+
     }
 
   } else if(modem == RADIOLIB_SX127X_FSK_OOK) {
@@ -592,6 +606,14 @@ int16_t SX127x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   RADIOLIB_ASSERT(state);
 
   return(RADIOLIB_ERR_NONE);
+}
+
+int16_t SX127x::finishTransmit() {
+  // clear interrupt flags
+  clearIRQFlags();
+
+  // set mode to standby to disable transmitter/RF switch
+  return(standby());
 }
 
 int16_t SX127x::readData(uint8_t* data, size_t len) {
@@ -1188,6 +1210,12 @@ int16_t SX127x::setCrcFiltering(bool crcOn) {
   } else {
     return(_mod->SPIsetRegValue(RADIOLIB_SX127X_REG_PACKET_CONFIG_1, RADIOLIB_SX127X_CRC_OFF, 4, 4));
   }
+}
+
+int16_t SX127x::setRSSIThreshold(float dbm) {
+  RADIOLIB_CHECK_RANGE(dbm, -127.5, 0, RADIOLIB_ERR_INVALID_RSSI_THRESHOLD);
+
+  return _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_RSSI_THRESH, (uint8_t)(-2.0 * dbm), 7, 0);
 }
 
 int16_t SX127x::setRSSIConfig(uint8_t smoothingSamples, int8_t offset) {

@@ -230,8 +230,7 @@ int16_t SX126x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   while(!_mod->digitalRead(_mod->getIrq())) {
     _mod->yield();
     if(_mod->micros() - start > timeout) {
-      clearIrqStatus();
-      standby();
+      finishTransmit();
       return(RADIOLIB_ERR_TX_TIMEOUT);
     }
   }
@@ -240,14 +239,7 @@ int16_t SX126x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   // update data rate
   _dataRate = (len*8.0)/((float)elapsed/1000000.0);
 
-  // clear interrupt flags
-  state = clearIrqStatus();
-  RADIOLIB_ASSERT(state);
-
-  // set mode to standby to disable transmitter
-  state = standby();
-
-  return(state);
+  return(finishTransmit());
 }
 
 void SX126x::holdTransmissionUntil(uint32_t timestampMicros) {
@@ -446,6 +438,14 @@ int16_t SX126x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   return(state);
 }
 
+int16_t SX126x::finishTransmit() {
+  // clear interrupt flags
+  clearIrqStatus();
+
+  // set mode to standby to disable transmitter/RF switch
+  return(standby());
+}
+
 int16_t SX126x::startReceive(uint32_t timeout) {
   int16_t state = startReceiveCommon(timeout);
   RADIOLIB_ASSERT(state);
@@ -558,6 +558,14 @@ int16_t SX126x::startReceiveCommon(uint32_t timeout) {
 int16_t SX126x::readData(uint8_t* data, size_t len) {
   // set mode to standby
   int16_t state = standby();
+
+  // this method may get called from receive() after Rx timeout
+  // if that's the case, the standby call will return "SPI command timeout error"
+  // check the IRQ to be sure this really originated from timeout event
+  if((state == RADIOLIB_ERR_SPI_CMD_TIMEOUT) && (getIrqStatus() & RADIOLIB_SX126X_IRQ_TIMEOUT)) {
+    // this is definitely Rx timeout
+    return(RADIOLIB_ERR_RX_TIMEOUT);
+  }
   RADIOLIB_ASSERT(state);
 
   // check integrity CRC
@@ -1247,6 +1255,10 @@ int16_t SX126x::invertIQ(bool invertIQ) {
   return setPacketParams(_preambleLength, _crcType, _implicitLen, _headerType, (invertIQ ? RADIOLIB_SX126X_LORA_IQ_INVERTED : RADIOLIB_SX126X_LORA_IQ_STANDARD));
 }
 
+int16_t SX126x::getLastError() {
+  return(_lastError);
+}
+
 #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
 void SX126x::setDirectAction(void (*func)(void)) {
   // SX126x is unable to perform direct mode reception
@@ -1353,8 +1365,14 @@ int16_t SX126x::writeRegister(uint16_t addr, uint8_t* data, uint8_t numBytes) {
 }
 
 int16_t SX126x::readRegister(uint16_t addr, uint8_t* data, uint8_t numBytes) {
+  // send the command
   uint8_t cmd[] = { RADIOLIB_SX126X_CMD_READ_REGISTER, (uint8_t)((addr >> 8) & 0xFF), (uint8_t)(addr & 0xFF) };
-  return(SX126x::SPItransfer(cmd, 3, false, NULL, data, numBytes, true));
+  int16_t state = SX126x::SPItransfer(cmd, 3, false, NULL, data, numBytes, true);
+  RADIOLIB_ASSERT(state);
+
+  // check the status
+  state = checkCommandResult();
+  return(state);
 }
 
 int16_t SX126x::writeBuffer(uint8_t* data, uint8_t numBytes, uint8_t offset) {
@@ -1563,7 +1581,7 @@ int16_t SX126x::fixImplicitTimeout() {
 
   // stop RTC counter
   uint8_t rtcStop = 0x00;
-  int16_t state = writeRegister(RADIOLIB_SX126X_REG_DIO3_OUT_VOLTAGE_CTRL, &rtcStop, 1);
+  int16_t state = writeRegister(RADIOLIB_SX126X_REG_RTC_CTRL, &rtcStop, 1);
   RADIOLIB_ASSERT(state);
 
   // read currently active event
@@ -1630,7 +1648,7 @@ int16_t SX126x::config(uint8_t modem) {
 
   // calibrate all blocks
   data[0] = RADIOLIB_SX126X_CALIBRATE_ALL;
-  state = SPIwriteCommand(RADIOLIB_SX126X_CMD_CALIBRATE, data, 1);
+  state = SPIwriteCommand(RADIOLIB_SX126X_CMD_CALIBRATE, data, 1, true, false);
   RADIOLIB_ASSERT(state);
 
   // wait for calibration completion
@@ -1642,20 +1660,89 @@ int16_t SX126x::config(uint8_t modem) {
   return(RADIOLIB_ERR_NONE);
 }
 
-int16_t SX126x::SPIwriteCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
-  return(SX126x::SPItransfer(cmd, cmdLen, true, data, NULL, numBytes, waitForBusy));
+int16_t SX126x::checkCommandResult() {
+  int16_t state = RADIOLIB_ERR_NONE;
+
+  #if defined(RADIOLIB_SPI_PARANOID)
+  // get the status
+  uint8_t spiStatus = 0;
+  uint8_t cmd = RADIOLIB_SX126X_CMD_GET_STATUS;
+  state = SX126x::SPItransfer(&cmd, 1, false, NULL, &spiStatus, 1, true);
+  RADIOLIB_ASSERT(state);
+
+  // translate to RadioLib status code
+  switch(spiStatus) {
+    case RADIOLIB_SX126X_STATUS_CMD_TIMEOUT:
+      _lastError = RADIOLIB_ERR_SPI_CMD_TIMEOUT;
+      break;
+    case RADIOLIB_SX126X_STATUS_CMD_INVALID:
+      _lastError = RADIOLIB_ERR_SPI_CMD_INVALID;
+      break;
+    case RADIOLIB_SX126X_STATUS_CMD_FAILED:
+      _lastError = RADIOLIB_ERR_SPI_CMD_FAILED;
+      break;
+    case RADIOLIB_SX126X_STATUS_SPI_FAILED:
+      _lastError = RADIOLIB_ERR_CHIP_NOT_FOUND;
+      break;
+    default:
+      _lastError = RADIOLIB_ERR_NONE;
+  }
+
+  #endif
+
+  return(state);
 }
 
-int16_t SX126x::SPIwriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
-  return(SX126x::SPItransfer(&cmd, 1, true, data, NULL, numBytes, waitForBusy));
+int16_t SX126x::SPIwriteCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy, bool verify) {
+  // send the command
+  int16_t state = SX126x::SPItransfer(cmd, cmdLen, true, data, NULL, numBytes, waitForBusy);
+  RADIOLIB_ASSERT(state);
+
+  // check the status
+  if(verify) {
+    state = checkCommandResult();
+  }
+
+  return(state);
 }
 
-int16_t SX126x::SPIreadCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
-  return(SX126x::SPItransfer(cmd, cmdLen, false, NULL, data, numBytes, waitForBusy));
+int16_t SX126x::SPIwriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy, bool verify) {
+  // send the command
+  int16_t state = SX126x::SPItransfer(&cmd, 1, true, data, NULL, numBytes, waitForBusy);
+  RADIOLIB_ASSERT(state);
+
+  // check the status
+  if(verify) {
+    state = checkCommandResult();
+  }
+
+  return(state);
 }
 
-int16_t SX126x::SPIreadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy) {
-  return(SX126x::SPItransfer(&cmd, 1, false, NULL, data, numBytes, waitForBusy));
+int16_t SX126x::SPIreadCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy, bool verify) {
+  // send the command
+  int16_t state = SX126x::SPItransfer(cmd, cmdLen, false, NULL, data, numBytes, waitForBusy);
+  RADIOLIB_ASSERT(state);
+
+  // check the status
+  if(verify) {
+    state = checkCommandResult();
+  }
+
+  return(state);
+}
+
+int16_t SX126x::SPIreadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy, bool verify) {
+  // send the command
+  int16_t state = SX126x::SPItransfer(&cmd, 1, false, NULL, data, numBytes, waitForBusy);
+  RADIOLIB_ASSERT(state);
+
+  // check the status
+  if(verify) {
+    state = checkCommandResult();
+  }
+
+  return(state);
 }
 
 int16_t SX126x::SPItransfer(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* dataOut, uint8_t* dataIn, uint8_t numBytes, bool waitForBusy, uint32_t timeout) {

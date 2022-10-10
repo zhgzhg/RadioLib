@@ -140,6 +140,13 @@ class PhysicalLayer {
     virtual int16_t startTransmit(uint8_t* data, size_t len, uint8_t addr = 0) = 0;
 
     /*!
+      \brief Clean up after transmission is done.
+
+      \returns \ref status_codes
+    */
+    virtual int16_t finishTransmit() = 0;
+
+    /*!
       \brief Reads data that was received after calling startReceive method.
 
       \param str Address of Arduino String to save the received data.
@@ -184,8 +191,25 @@ class PhysicalLayer {
     // configuration methods
 
     /*!
-      \brief Sets FSK frequency deviation from carrier frequency. Allowed values depend on bit rate setting and must be lower than 200 kHz.
-      Only available in FSK mode. Must be implemented in module class.
+      \brief Sets carrier frequency. Must be implemented in module class.
+
+      \param freq Carrier frequency to be set in MHz.
+
+      \returns \ref status_codes
+    */
+    virtual int16_t setFrequency(float freq) = 0;
+
+    /*!
+      \brief Sets FSK bit rate. Only available in FSK mode. Must be implemented in module class.
+
+      \param br Bit rate to be set (in kbps).
+
+      \returns \ref status_codes
+    */
+    virtual int16_t setBitRate(float br) = 0;
+
+    /*!
+      \brief Sets FSK frequency deviation from carrier frequency. Only available in FSK mode. Must be implemented in module class.
 
       \param freqDev Frequency deviation to be set (in kHz).
 
@@ -346,6 +370,7 @@ class PhysicalLayer {
     friend class SSTVClient;
     friend class AX25Client;
     friend class FSK4Client;
+    friend class PagerClient;
 };
 
 #endif

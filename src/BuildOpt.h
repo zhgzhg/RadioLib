@@ -551,7 +551,7 @@
     #define RADIOLIB_CB_ARGS_DELAY_MICROSECONDS         (void, delayMicroseconds, unsigned int us)
     #define RADIOLIB_CB_ARGS_MILLIS                     (unsigned long, millis, void)
     #define RADIOLIB_CB_ARGS_MICROS                     (unsigned long, micros, void)
-    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, PinStatus state, unsigned long timeout)
+    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, uint8_t state, unsigned long timeout)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN                  (void, SPIbegin, void)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN_TRANSACTION      (void, SPIbeginTransaction, void)
     #define RADIOLIB_CB_ARGS_SPI_TRANSFER               (uint8_t, SPItransfer, uint8_t b)
@@ -590,7 +590,7 @@
     #define RADIOLIB_CB_ARGS_DELAY_MICROSECONDS         (void, delayMicroseconds, unsigned int us)
     #define RADIOLIB_CB_ARGS_MILLIS                     (unsigned long, millis, void)
     #define RADIOLIB_CB_ARGS_MICROS                     (unsigned long, micros, void)
-    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, PinStatus state, unsigned long timeout)
+    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, uint8_t state, unsigned long timeout)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN                  (void, SPIbegin, void)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN_TRANSACTION      (void, SPIbeginTransaction, void)
     #define RADIOLIB_CB_ARGS_SPI_TRANSFER               (uint8_t, SPItransfer, uint8_t b)
@@ -699,7 +699,7 @@
     #define RADIOLIB_CB_ARGS_DELAY_MICROSECONDS         (void, delayMicroseconds, unsigned int us)
     #define RADIOLIB_CB_ARGS_MILLIS                     (unsigned long, millis, void)
     #define RADIOLIB_CB_ARGS_MICROS                     (unsigned long, micros, void)
-    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, PinStatus state, unsigned long timeout)
+    #define RADIOLIB_CB_ARGS_PULSE_IN                   (unsigned long, pulseIn, pin_size_t pin, uint8_t state, unsigned long timeout)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN                  (void, SPIbegin, void)
     #define RADIOLIB_CB_ARGS_SPI_BEGIN_TRANSACTION      (void, SPIbeginTransaction, void)
     #define RADIOLIB_CB_ARGS_SPI_TRANSFER               (uint8_t, SPItransfer, uint8_t b)
@@ -1055,8 +1055,8 @@
 
 // version definitions
 #define RADIOLIB_VERSION_MAJOR  (0x05)
-#define RADIOLIB_VERSION_MINOR  (0x03)
-#define RADIOLIB_VERSION_PATCH  (0x00)
+#define RADIOLIB_VERSION_MINOR  (0x04)
+#define RADIOLIB_VERSION_PATCH  (0x01)
 #define RADIOLIB_VERSION_EXTRA  (0x00)
 
 #define RADIOLIB_VERSION ((RADIOLIB_VERSION_MAJOR << 24) | (RADIOLIB_VERSION_MINOR << 16) | (RADIOLIB_VERSION_PATCH << 8) | (RADIOLIB_VERSION_EXTRA))
