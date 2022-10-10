@@ -237,6 +237,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#adc2f1379573b7a7b5ee8125ea3752083">startTransmit</a> (uint8_t *data, size_t len, uint8_t addr=0) override</td></tr>
 <tr class="memdesc:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven binary transmit method. Will start transmitting arbitrary binary data up to 255 bytes long using LoRa or up to 63 bytes using FSK modem.  <a href="class_s_x127x.html#adc2f1379573b7a7b5ee8125ea3752083">More...</a><br /></td></tr>
 <tr class="separator:adc2f1379573b7a7b5ee8125ea3752083 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fd9cec52b7fbd0c69cbd861dc17549f inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a7fd9cec52b7fbd0c69cbd861dc17549f">finishTransmit</a> () override</td></tr>
+<tr class="memdesc:a7fd9cec52b7fbd0c69cbd861dc17549f inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up after transmission is done.  <a href="class_s_x127x.html#a7fd9cec52b7fbd0c69cbd861dc17549f">More...</a><br /></td></tr>
+<tr class="separator:a7fd9cec52b7fbd0c69cbd861dc17549f inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#adffb96b7f80dc43909bb4cebde68fe9d">startReceive</a> (uint8_t len=0, uint8_t mode=RADIOLIB_SX127X_RXCONTINUOUS)</td></tr>
 <tr class="memdesc:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. DIO0 will be activated when full valid packet is received.  <a href="class_s_x127x.html#adffb96b7f80dc43909bb4cebde68fe9d">More...</a><br /></td></tr>
 <tr class="separator:adffb96b7f80dc43909bb4cebde68fe9d inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -385,6 +388,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a7b85344084b800966a46ace59dcb5277 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a7b85344084b800966a46ace59dcb5277">setDIOPreambleDetect</a> (bool usePreambleDetect)</td></tr>
 <tr class="memdesc:a7b85344084b800966a46ace59dcb5277 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure DIO mapping to use RSSI or Preamble Detect for pins that support it.  <a href="class_s_x127x.html#a7b85344084b800966a46ace59dcb5277">More...</a><br /></td></tr>
 <tr class="separator:a7b85344084b800966a46ace59dcb5277 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5094d0f471aaa428167816d1ac30bb76 inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#a5094d0f471aaa428167816d1ac30bb76">setRSSIThreshold</a> (float dbm)</td></tr>
+<tr class="memdesc:a5094d0f471aaa428167816d1ac30bb76 inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the RSSI value above which the RSSI interrupt is signaled.  <a href="class_s_x127x.html#a5094d0f471aaa428167816d1ac30bb76">More...</a><br /></td></tr>
+<tr class="separator:a5094d0f471aaa428167816d1ac30bb76 inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x127x.html#ab139a34e03a6fd5a781cd54da21d308f">transmit</a> (__FlashStringHelper *fstr, uint8_t addr=0)</td></tr>
 <tr class="memdesc:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arduino Flash String transmit method.  <a href="class_s_x127x.html#ab139a34e03a6fd5a781cd54da21d308f">More...</a><br /></td></tr>
 <tr class="separator:ab139a34e03a6fd5a781cd54da21d308f inherit pub_methods_class_s_x127x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -930,6 +936,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t SX1272::setFrequency </td>
@@ -939,6 +948,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets carrier frequency. Allowed values range from 860.0 MHz to 1020.0 MHz. </p>
@@ -949,6 +963,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#a4928642e647f2dd5b614b87b681cb0a6">PhysicalLayer</a>.</p>
 
 </div>
 </div>

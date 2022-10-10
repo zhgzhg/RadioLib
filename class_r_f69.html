@@ -188,6 +188,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a855dc194947b095b821ec1524ba6814c"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#a855dc194947b095b821ec1524ba6814c">startTransmit</a> (uint8_t *data, size_t len, uint8_t addr=0) override</td></tr>
 <tr class="memdesc:a855dc194947b095b821ec1524ba6814c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven binary transmit method. Overloads for string-based transmissions are implemented in <a class="el" href="class_physical_layer.html" title="Provides common interface for protocols that run on LoRa/FSK modules, such as RTTY or LoRaWAN....">PhysicalLayer</a>.  <a href="class_r_f69.html#a855dc194947b095b821ec1524ba6814c">More...</a><br /></td></tr>
 <tr class="separator:a855dc194947b095b821ec1524ba6814c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e449fa06c9e76cf69585bfbeed1c46b"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#a3e449fa06c9e76cf69585bfbeed1c46b">finishTransmit</a> () override</td></tr>
+<tr class="memdesc:a3e449fa06c9e76cf69585bfbeed1c46b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up after transmission is done.  <a href="class_r_f69.html#a3e449fa06c9e76cf69585bfbeed1c46b">More...</a><br /></td></tr>
+<tr class="separator:a3e449fa06c9e76cf69585bfbeed1c46b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afae38fa64242043de34096bf497725f1"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#afae38fa64242043de34096bf497725f1">startReceive</a> ()</td></tr>
 <tr class="memdesc:afae38fa64242043de34096bf497725f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. GDO0 will be activated when full packet is received.  <a href="class_r_f69.html#afae38fa64242043de34096bf497725f1">More...</a><br /></td></tr>
 <tr class="separator:afae38fa64242043de34096bf497725f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -281,6 +284,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ac4fc3f2b178ef08caec3a9f548f44cd7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#ac4fc3f2b178ef08caec3a9f548f44cd7">getRSSI</a> ()</td></tr>
 <tr class="memdesc:ac4fc3f2b178ef08caec3a9f548f44cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets RSSI (Recorded Signal Strength Indicator) of the last received packet.  <a href="class_r_f69.html#ac4fc3f2b178ef08caec3a9f548f44cd7">More...</a><br /></td></tr>
 <tr class="separator:ac4fc3f2b178ef08caec3a9f548f44cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcb723ae58d6519e5b95d017d2beb78a"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#afcb723ae58d6519e5b95d017d2beb78a">setRSSIThreshold</a> (float dbm)</td></tr>
+<tr class="memdesc:afcb723ae58d6519e5b95d017d2beb78a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the RSSI value above which the RSSI interrupt is signaled.  <a href="class_r_f69.html#afcb723ae58d6519e5b95d017d2beb78a">More...</a><br /></td></tr>
+<tr class="separator:afcb723ae58d6519e5b95d017d2beb78a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aada7c48828b950cdfd260594d502b03d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_r_f69.html#aada7c48828b950cdfd260594d502b03d">setRfSwitchPins</a> (RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn)</td></tr>
 <tr class="memdesc:aada7c48828b950cdfd260594d502b03d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state. When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!  <a href="class_r_f69.html#aada7c48828b950cdfd260594d502b03d">More...</a><br /></td></tr>
 <tr class="separator:aada7c48828b950cdfd260594d502b03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -709,6 +715,36 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True when a complete packet is received, false if more data is needed. </dd></dl>
+
+</div>
+</div>
+<a id="a3e449fa06c9e76cf69585bfbeed1c46b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e449fa06c9e76cf69585bfbeed1c46b">&#9670;&nbsp;</a></span>finishTransmit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t RF69::finishTransmit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clean up after transmission is done. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#aeba51a21ad3c6d56b61a55061de7fc92">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -1181,6 +1217,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t RF69::setBitRate </td>
@@ -1190,6 +1229,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets bit rate. Allowed values range from 1.2 to 300.0 kbps. </p>
@@ -1200,6 +1244,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#a56e9cf39bc8847492f7f3cd67ebf1c46">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -1524,6 +1570,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t RF69::setFrequency </td>
@@ -1533,6 +1582,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets carrier frequency. Allowed values are in bands 290.0 to 340.0 MHz, 431.0 to 510.0 MHz and 862.0 to 1020.0 MHz. </p>
@@ -1543,6 +1597,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implements <a class="el" href="class_physical_layer.html#a4928642e647f2dd5b614b87b681cb0a6">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -1871,6 +1927,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="afcb723ae58d6519e5b95d017d2beb78a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcb723ae58d6519e5b95d017d2beb78a">&#9670;&nbsp;</a></span>setRSSIThreshold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t RF69::setRSSIThreshold </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dbm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the RSSI value above which the RSSI interrupt is signaled. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dbm</td><td>A dBm value between -127.5 and 0 inclusive</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 </div>
 </div>

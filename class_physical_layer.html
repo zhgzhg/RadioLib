@@ -164,6 +164,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a41a1de0ebffe7b65de6fd8cceb9a5123"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a41a1de0ebffe7b65de6fd8cceb9a5123">startTransmit</a> (uint8_t *data, size_t len, uint8_t addr=0)=0</td></tr>
 <tr class="memdesc:a41a1de0ebffe7b65de6fd8cceb9a5123"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven binary transmit method.  <a href="class_physical_layer.html#a41a1de0ebffe7b65de6fd8cceb9a5123">More...</a><br /></td></tr>
 <tr class="separator:a41a1de0ebffe7b65de6fd8cceb9a5123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeba51a21ad3c6d56b61a55061de7fc92"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#aeba51a21ad3c6d56b61a55061de7fc92">finishTransmit</a> ()=0</td></tr>
+<tr class="memdesc:aeba51a21ad3c6d56b61a55061de7fc92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up after transmission is done.  <a href="class_physical_layer.html#aeba51a21ad3c6d56b61a55061de7fc92">More...</a><br /></td></tr>
+<tr class="separator:aeba51a21ad3c6d56b61a55061de7fc92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8eed0e888a7c8742e89d2b850977de2"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ae8eed0e888a7c8742e89d2b850977de2">readData</a> (String &amp;str, size_t len=0)</td></tr>
 <tr class="memdesc:ae8eed0e888a7c8742e89d2b850977de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data that was received after calling startReceive method.  <a href="class_physical_layer.html#ae8eed0e888a7c8742e89d2b850977de2">More...</a><br /></td></tr>
 <tr class="separator:ae8eed0e888a7c8742e89d2b850977de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -176,8 +179,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a46b22145b33e97cf6065ed826799b6b4"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a46b22145b33e97cf6065ed826799b6b4">receiveDirect</a> ()=0</td></tr>
 <tr class="memdesc:a46b22145b33e97cf6065ed826799b6b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables direct reception mode on pins DIO1 (clock) and DIO2 (data). Must be implemented in module class. While in direct mode, the module will not be able to transmit or receive packets. Can only be activated in FSK mode.  <a href="class_physical_layer.html#a46b22145b33e97cf6065ed826799b6b4">More...</a><br /></td></tr>
 <tr class="separator:a46b22145b33e97cf6065ed826799b6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4928642e647f2dd5b614b87b681cb0a6"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a4928642e647f2dd5b614b87b681cb0a6">setFrequency</a> (float freq)=0</td></tr>
+<tr class="memdesc:a4928642e647f2dd5b614b87b681cb0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets carrier frequency. Must be implemented in module class.  <a href="class_physical_layer.html#a4928642e647f2dd5b614b87b681cb0a6">More...</a><br /></td></tr>
+<tr class="separator:a4928642e647f2dd5b614b87b681cb0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56e9cf39bc8847492f7f3cd67ebf1c46"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a56e9cf39bc8847492f7f3cd67ebf1c46">setBitRate</a> (float br)=0</td></tr>
+<tr class="memdesc:a56e9cf39bc8847492f7f3cd67ebf1c46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets FSK bit rate. Only available in FSK mode. Must be implemented in module class.  <a href="class_physical_layer.html#a56e9cf39bc8847492f7f3cd67ebf1c46">More...</a><br /></td></tr>
+<tr class="separator:a56e9cf39bc8847492f7f3cd67ebf1c46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9060e8ab7a2da192b3bf53b3501553b"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ab9060e8ab7a2da192b3bf53b3501553b">setFrequencyDeviation</a> (float freqDev)=0</td></tr>
-<tr class="memdesc:ab9060e8ab7a2da192b3bf53b3501553b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets FSK frequency deviation from carrier frequency. Allowed values depend on bit rate setting and must be lower than 200 kHz. Only available in FSK mode. Must be implemented in module class.  <a href="class_physical_layer.html#ab9060e8ab7a2da192b3bf53b3501553b">More...</a><br /></td></tr>
+<tr class="memdesc:ab9060e8ab7a2da192b3bf53b3501553b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets FSK frequency deviation from carrier frequency. Only available in FSK mode. Must be implemented in module class.  <a href="class_physical_layer.html#ab9060e8ab7a2da192b3bf53b3501553b">More...</a><br /></td></tr>
 <tr class="separator:ab9060e8ab7a2da192b3bf53b3501553b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab643a814dce48f71a13bf6ea23f44cbd"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ab643a814dce48f71a13bf6ea23f44cbd">setDataShaping</a> (uint8_t sh)=0</td></tr>
 <tr class="memdesc:ab643a814dce48f71a13bf6ea23f44cbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets GFSK data shaping. Only available in FSK mode. Must be implemented in module class.  <a href="class_physical_layer.html#ab643a814dce48f71a13bf6ea23f44cbd">More...</a><br /></td></tr>
@@ -245,6 +254,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>AX25Client</b></td><
 <tr class="memitem:ac0313fe86041eb37d290019203e095d3"><td class="memItemLeft" align="right" valign="top"><a id="ac0313fe86041eb37d290019203e095d3"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>FSK4Client</b></td></tr>
 <tr class="separator:ac0313fe86041eb37d290019203e095d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41ff2710d9e3a626becfa7a093900052"><td class="memItemLeft" align="right" valign="top"><a id="a41ff2710d9e3a626becfa7a093900052"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>PagerClient</b></td></tr>
+<tr class="separator:a41ff2710d9e3a626becfa7a093900052"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides common interface for protocols that run on LoRa/FSK modules, such as RTTY or LoRaWAN. Also extracts some common module-independent methods. Using this interface class allows to use the protocols on various modules without much code duplicity. Because this class is used mainly as interface, all of its virtual members must be implemented in the module class. </p>
@@ -304,6 +316,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>FSK4Client</b></td><
 
 <p>Get the number of direct mode bytes currently available in buffer. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of available bytes. </dd></dl>
+
+</div>
+</div>
+<a id="aeba51a21ad3c6d56b61a55061de7fc92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeba51a21ad3c6d56b61a55061de7fc92">&#9670;&nbsp;</a></span>finishTransmit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int16_t PhysicalLayer::finishTransmit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clean up after transmission is done. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_s_x127x.html#a7fd9cec52b7fbd0c69cbd861dc17549f">SX127x</a>, <a class="el" href="class_r_f69.html#a3e449fa06c9e76cf69585bfbeed1c46b">RF69</a>, <a class="el" href="class_si443x.html#a6792f13441a1bbb3340d2ba3d9abbec3">Si443x</a>, <a class="el" href="class_c_c1101.html#af70ea860154cd6d2b2e2a6962e161c8f">CC1101</a>, <a class="el" href="class_s_x128x.html#a4587409a9b96a0c496cf12b3acac20c4">SX128x</a>, <a class="el" href="class_s_x126x.html#a8e22d67b64953c8b4da779d87d563f3e">SX126x</a>, and <a class="el" href="classn_r_f24.html#af0c21ff66c011dfdc1ad12bc7dd11c2f">nRF24</a>.</p>
 
 </div>
 </div>
@@ -717,6 +759,43 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>FSK4Client</b></td><
 
 </div>
 </div>
+<a id="a56e9cf39bc8847492f7f3cd67ebf1c46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56e9cf39bc8847492f7f3cd67ebf1c46">&#9670;&nbsp;</a></span>setBitRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int16_t PhysicalLayer::setBitRate </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>br</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets FSK bit rate. Only available in FSK mode. Must be implemented in module class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">br</td><td>Bit rate to be set (in kbps).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_s_x127x.html#a606d839b3a992c681ac9ad7ca6020022">SX127x</a>, <a class="el" href="class_r_f69.html#ad7f8132912a5dbf38c5cf676ac167d13">RF69</a>, <a class="el" href="class_si443x.html#ad43575e731dd7e66d5ad9e6dccd27170">Si443x</a>, <a class="el" href="class_c_c1101.html#aa53427cabcda0778f287ed1d850bbe37">CC1101</a>, <a class="el" href="class_s_x126x.html#a7deeef45d7f64a4018a3e56aaea4eb0e">SX126x</a>, <a class="el" href="class_s_x128x.html#a465ac114dbe6844069b5cb989f87c3ee">SX128x</a>, and <a class="el" href="classn_r_f24.html#a0873f58ae62e41cff99813e21cc8b02a">nRF24</a>.</p>
+
+</div>
+</div>
 <a id="ab643a814dce48f71a13bf6ea23f44cbd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab643a814dce48f71a13bf6ea23f44cbd">&#9670;&nbsp;</a></span>setDataShaping()</h2>
 
@@ -913,6 +992,43 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>FSK4Client</b></td><
 
 </div>
 </div>
+<a id="a4928642e647f2dd5b614b87b681cb0a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4928642e647f2dd5b614b87b681cb0a6">&#9670;&nbsp;</a></span>setFrequency()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int16_t PhysicalLayer::setFrequency </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>freq</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets carrier frequency. Must be implemented in module class. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq</td><td>Carrier frequency to be set in MHz.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_r_f69.html#ab467f0fc318e651d0cdfbc0399d4c34b">RF69</a>, <a class="el" href="class_c_c1101.html#a9592c023556c38c2b8066a23da96ae5e">CC1101</a>, <a class="el" href="class_s_x128x.html#a2043ef7bb806968b9d9dcb64561ca371">SX128x</a>, <a class="el" href="classn_r_f24.html#a408278336cdf25fd205ecffea86c26e8">nRF24</a>, <a class="el" href="class_s_x1278.html#a4b14d432ef1bd72982f4771cac5b62e4">SX1278</a>, <a class="el" href="class_s_x1272.html#af409f50e51042cf9357c0a8267f762f8">SX1272</a>, <a class="el" href="class_r_f_m95.html#a9dbe60f998ddc661282ebf454dba0f87">RFM95</a>, <a class="el" href="class_r_f_m96.html#ae2be63ae8365648098b84cc86475fb84">RFM96</a>, <a class="el" href="class_s_x1262.html#abb018b820eb71ca6b0cd92c62affa767">SX1262</a>, <a class="el" href="class_s_x1268.html#abf338b7036d692a4a8ca6bf305c0cb12">SX1268</a>, <a class="el" href="class_s_x1276.html#a657d75dced0af8c89c4e38535dd5b008">SX1276</a>, <a class="el" href="class_s_x1277.html#a42adde5eecccdca95214980848795e82">SX1277</a>, <a class="el" href="class_s_x1279.html#acf9b2087f5b661f06e9512bad36b3817">SX1279</a>, <a class="el" href="class_si4430.html#a025a31861d1511090168e416140d0343">Si4430</a>, and <a class="el" href="class_si4432.html#aa0cdb6cb53bb0176803d5115356a8e84">Si4432</a>.</p>
+
+</div>
+</div>
 <a id="ab9060e8ab7a2da192b3bf53b3501553b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab9060e8ab7a2da192b3bf53b3501553b">&#9670;&nbsp;</a></span>setFrequencyDeviation()</h2>
 
@@ -937,7 +1053,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>FSK4Client</b></td><
 </table>
 </div><div class="memdoc">
 
-<p>Sets FSK frequency deviation from carrier frequency. Allowed values depend on bit rate setting and must be lower than 200 kHz. Only available in FSK mode. Must be implemented in module class. </p>
+<p>Sets FSK frequency deviation from carrier frequency. Only available in FSK mode. Must be implemented in module class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">freqDev</td><td>Frequency deviation to be set (in kHz).</td></tr>
