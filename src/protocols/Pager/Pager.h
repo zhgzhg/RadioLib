@@ -86,7 +86,7 @@ class PagerClient {
 
       \returns \ref status_codes
     */
-    int16_t begin(float base, uint16_t speed);
+    int16_t begin(float base, uint16_t speed, uint16_t shift = RADIOLIB_PAGER_FREQ_SHIFT_HZ);
 
     /*!
       \brief Method to send a tone-only alert to a destination pager.
@@ -166,9 +166,11 @@ class PagerClient {
       \param len Expected number of characters in the message. When set to 0, the message length will be retreived automatically.
       When more bytes than received are requested, only the number of bytes requested will be returned.
 
+      \param addr Pointer to variable holding the address of the received pager message. Set to NULL to not retrieve address.
+
       \returns \ref status_codes
     */
-    int16_t readData(String& str, size_t len = 0);
+    int16_t readData(String& str, size_t len = 0, uint32_t* addr = NULL);
 
     /*!
       \brief Reads data that was received after calling startReceive method.
@@ -179,9 +181,11 @@ class PagerClient {
       When more bytes than received are requested, only the number of bytes requested will be returned.
       Upon completion, the number of bytes received will be written to this variable.
 
+      \param addr Pointer to variable holding the address of the received pager message. Set to NULL to not retrieve address.
+
       \returns \ref status_codes
     */
-    int16_t readData(uint8_t* data, size_t* len);
+    int16_t readData(uint8_t* data, size_t* len, uint32_t* addr = NULL);
 
 #if !defined(RADIOLIB_GODMODE)
   private:
@@ -192,6 +196,7 @@ class PagerClient {
     float _speed;
     uint32_t _baseRaw;
     uint16_t _shift;
+    uint16_t _shiftHz;
     uint16_t _bitDuration;
     uint32_t _readBatchPos;
     uint32_t _filterAddr;

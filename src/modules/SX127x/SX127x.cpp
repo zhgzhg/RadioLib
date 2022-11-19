@@ -60,6 +60,7 @@ int16_t SX127x::beginFSK(uint8_t chipVersion, float br, float freqDev, float rxB
   // set module properties
   _mod->init();
   _mod->pinMode(_mod->getIrq(), INPUT);
+  _mod->pinMode(_mod->getGpio(), INPUT);
 
   // try to find the SX127x chip
   if(!SX127x::findChip(chipVersion)) {
@@ -194,7 +195,7 @@ int16_t SX127x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   // update data rate
   uint32_t elapsed = _mod->micros() - start;
   _dataRate = (len*8.0)/((float)elapsed/1000000.0);
-  
+
   return(finishTransmit());
 }
 
@@ -271,13 +272,9 @@ int16_t SX127x::scanChannel() {
   while(!_mod->digitalRead(_mod->getIrq())) {
     _mod->yield();
     if(_mod->digitalRead(_mod->getGpio())) {
-      clearIRQFlags();
       return(RADIOLIB_PREAMBLE_DETECTED);
     }
   }
-
-  // clear interrupt flags
-  clearIRQFlags();
 
   return(RADIOLIB_CHANNEL_FREE);
 }
@@ -383,8 +380,7 @@ int16_t SX127x::startReceive(uint8_t len, uint8_t mode) {
     // set DIO pin mapping
     if(_mod->SPIgetRegValue(RADIOLIB_SX127X_REG_HOP_PERIOD) > RADIOLIB_SX127X_HOP_PERIOD_OFF) {
       state = _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, RADIOLIB_SX127X_DIO0_LORA_RX_DONE | RADIOLIB_SX127X_DIO1_LORA_FHSS_CHANGE_CHANNEL, 7, 4);
-    }
-    else {
+    } else {
       state = _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, RADIOLIB_SX127X_DIO0_LORA_RX_DONE | RADIOLIB_SX127X_DIO1_LORA_RX_TIMEOUT, 7, 4);
     }
 
@@ -427,19 +423,19 @@ int16_t SX127x::startReceive(uint8_t len, uint8_t mode) {
   return(setMode(mode));
 }
 
-void SX127x::setDio0Action(void (*func)(void)) {
-  _mod->attachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getIrq()), func, RISING);
+void SX127x::setDio0Action(void (*func)(void), RADIOLIB_INTERRUPT_STATUS dir) {
+  _mod->attachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getIrq()), func, dir);
 }
 
 void SX127x::clearDio0Action() {
   _mod->detachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getIrq()));
 }
 
-void SX127x::setDio1Action(void (*func)(void)) {
+void SX127x::setDio1Action(void (*func)(void), RADIOLIB_INTERRUPT_STATUS dir) {
   if(_mod->getGpio() == RADIOLIB_NC) {
     return;
   }
-  _mod->attachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getGpio()), func, RISING);
+  _mod->attachInterrupt(RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(_mod->getGpio()), func, dir);
 }
 
 void SX127x::clearDio1Action() {
@@ -631,20 +627,18 @@ int16_t SX127x::readData(uint8_t* data, size_t len) {
     length = len;
   }
 
+  // check payload CRC
+  int16_t state = RADIOLIB_ERR_NONE;
+  if(_mod->SPIgetRegValue(RADIOLIB_SX127X_REG_IRQ_FLAGS, 5, 5) == RADIOLIB_SX127X_CLEAR_IRQ_FLAG_PAYLOAD_CRC_ERROR) {
+    state = RADIOLIB_ERR_CRC_MISMATCH;
+  }
+
   if(modem == RADIOLIB_SX127X_LORA) {
     // check packet header integrity
-    if(_crcEnabled && (_mod->SPIgetRegValue(RADIOLIB_SX127X_REG_HOP_CHANNEL, 6, 6)) == 0) {
+    if(_crcEnabled && (state == RADIOLIB_ERR_NONE)  && (_mod->SPIgetRegValue(RADIOLIB_SX127X_REG_HOP_CHANNEL, 6, 6) == 0)) {
       // CRC is disabled according to packet header and enabled according to user
       // most likely damaged packet header
-      clearIRQFlags();
-      return(RADIOLIB_ERR_LORA_HEADER_DAMAGED);
-    }
-
-    // check payload CRC
-    if(_mod->SPIgetRegValue(RADIOLIB_SX127X_REG_IRQ_FLAGS, 5, 5) == RADIOLIB_SX127X_CLEAR_IRQ_FLAG_PAYLOAD_CRC_ERROR) {
-      // clear interrupt flags
-      clearIRQFlags();
-      return(RADIOLIB_ERR_CRC_MISMATCH);
+      state = RADIOLIB_ERR_LORA_HEADER_DAMAGED;
     }
 
   } else if(modem == RADIOLIB_SX127X_FSK_OOK) {
@@ -669,7 +663,7 @@ int16_t SX127x::readData(uint8_t* data, size_t len) {
   // clear interrupt flags
   clearIRQFlags();
 
-  return(RADIOLIB_ERR_NONE);
+  return(state);
 }
 
 int16_t SX127x::startChannelScan() {
@@ -682,12 +676,12 @@ int16_t SX127x::startChannelScan() {
   int16_t state = setMode(RADIOLIB_SX127X_STANDBY);
   RADIOLIB_ASSERT(state);
 
+  // clear interrupt flags
+  clearIRQFlags();
+
   // set DIO pin mapping
   state = _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, RADIOLIB_SX127X_DIO0_LORA_CAD_DONE | RADIOLIB_SX127X_DIO1_LORA_CAD_DETECTED, 7, 4);
   RADIOLIB_ASSERT(state);
-
-  // clear interrupt flags
-  clearIRQFlags();
 
   // set RF switch (if present)
   _mod->setRfSwitchState(HIGH, LOW);
@@ -1327,7 +1321,7 @@ int8_t SX127x::getTempRaw() {
   previousOpMode = _mod->SPIgetRegValue(RADIOLIB_SX127X_REG_OP_MODE);
 
   // check if we need to step out of LoRa mode first
-  if ((previousOpMode & RADIOLIB_SX127X_LORA) == RADIOLIB_SX127X_LORA) {
+  if((previousOpMode & RADIOLIB_SX127X_LORA) == RADIOLIB_SX127X_LORA) {
     _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_OP_MODE, (RADIOLIB_SX127X_LORA | RADIOLIB_SX127X_SLEEP));
   }
 
@@ -1353,14 +1347,14 @@ int8_t SX127x::getTempRaw() {
   ival = _mod->SPIgetRegValue(RADIOLIB_SX127X_REG_TEMP);
 
   // convert very raw value
-  if ((ival & 0x80) == 0x80) {
+  if((ival & 0x80) == 0x80) {
     temp = 255 - ival;
   } else {
     temp = -1 * ival;
   }
 
   // check if we need to step back into LoRa mode
-  if ((previousOpMode & RADIOLIB_SX127X_LORA) == RADIOLIB_SX127X_LORA) {
+  if((previousOpMode & RADIOLIB_SX127X_LORA) == RADIOLIB_SX127X_LORA) {
     _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_OP_MODE, (RADIOLIB_SX127X_LORA | RADIOLIB_SX127X_SLEEP));
   }
 
@@ -1412,7 +1406,7 @@ int16_t SX127x::configFSK() {
 
 int16_t SX127x::setPacketMode(uint8_t mode, uint8_t len) {
   // check packet length
-  if (len > RADIOLIB_SX127X_MAX_PACKET_LENGTH_FSK) {
+  if(len > RADIOLIB_SX127X_MAX_PACKET_LENGTH_FSK) {
     return(RADIOLIB_ERR_PACKET_TOO_LONG);
   }
 

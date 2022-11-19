@@ -319,11 +319,18 @@ class PhysicalLayer {
     int16_t available();
 
     /*!
+      \brief Forcefully drop synchronization.
+    */
+    void dropSync();
+
+    /*!
       \brief Get data from direct mode buffer.
+
+      \param drop Drop synchronization on read - next reading will require waiting for the sync word again. Defautls to true.
 
       \returns Byte from direct mode buffer.
     */
-    uint8_t read();
+    uint8_t read(bool drop = true);
     #endif
 
     /*!
@@ -336,6 +343,24 @@ class PhysicalLayer {
       \returns \ref status_codes
     */
     virtual int16_t setDIOMapping(RADIOLIB_PIN_TYPE pin, uint8_t value);
+
+    #if defined(RADIOLIB_INTERRUPT_TIMING)
+
+    /*!
+      \brief Set function to be called to set up the timing interrupt.
+      For details, see https://github.com/jgromes/RadioLib/wiki/Interrupt-Based-Timing
+
+      \param func Setup function to be called, with one argument (pulse length in microseconds).
+    */
+    void setInterruptSetup(void (*func)(uint32_t));
+
+    /*!
+      \brief Set timing interrupt flag.
+      For details, see https://github.com/jgromes/RadioLib/wiki/Interrupt-Based-Timing
+    */
+    void setTimerFlag();
+
+    #endif
 
 #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
   protected:
