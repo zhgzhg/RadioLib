@@ -150,7 +150,7 @@ int16_t SX126x::beginFSK(float br, float freqDev, float rxBw, uint16_t preambleL
   state = setCRC(2);
   RADIOLIB_ASSERT(state);
 
-  state = setDio2AsRfSwitch(false);
+  state = setDio2AsRfSwitch(true);
   RADIOLIB_ASSERT(state);
 
   return(state);
@@ -305,7 +305,7 @@ int16_t SX126x::receive(uint8_t* data, size_t len) {
 
 int16_t SX126x::transmitDirect(uint32_t frf) {
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, HIGH);
+  _mod->setRfSwitchState(_tx_mode);
 
   // user requested to start transmitting immediately (required for RTTY)
   int16_t state = RADIOLIB_ERR_NONE;
@@ -321,7 +321,7 @@ int16_t SX126x::transmitDirect(uint32_t frf) {
 
 int16_t SX126x::receiveDirect() {
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // SX126x is unable to output received data directly
   return(RADIOLIB_ERR_UNKNOWN);
@@ -343,7 +343,7 @@ int16_t SX126x::scanChannel(uint8_t symbolNum, uint8_t detPeak, uint8_t detMin) 
 
 int16_t SX126x::sleep(bool retainConfig) {
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, LOW);
+  _mod->setRfSwitchState(Module::MODE_IDLE);
 
   uint8_t sleepMode = RADIOLIB_SX126X_SLEEP_START_WARM | RADIOLIB_SX126X_SLEEP_RTC_OFF;
   if(!retainConfig) {
@@ -363,7 +363,7 @@ int16_t SX126x::standby() {
 
 int16_t SX126x::standby(uint8_t mode) {
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, LOW);
+  _mod->setRfSwitchState(Module::MODE_IDLE);
 
   uint8_t data[] = {mode};
   return(SPIwriteCommand(RADIOLIB_SX126X_CMD_SET_STANDBY, data, 1));
@@ -424,7 +424,7 @@ int16_t SX126x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   RADIOLIB_ASSERT(state);
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, HIGH);
+  _mod->setRfSwitchState(_tx_mode);
 
   // start transmission
   state = setTx(RADIOLIB_SX126X_TX_TIMEOUT_NONE);
@@ -451,7 +451,7 @@ int16_t SX126x::startReceive(uint32_t timeout) {
   RADIOLIB_ASSERT(state);
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // set mode to receive
   state = setRx(timeout);
@@ -606,7 +606,7 @@ int16_t SX126x::startChannelScan(uint8_t symbolNum, uint8_t detPeak, uint8_t det
   RADIOLIB_ASSERT(state);
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // set DIO pin mapping
   state = setDioIrqParams(RADIOLIB_SX126X_IRQ_CAD_DETECTED | RADIOLIB_SX126X_IRQ_CAD_DONE, RADIOLIB_SX126X_IRQ_CAD_DETECTED | RADIOLIB_SX126X_IRQ_CAD_DONE);
@@ -874,6 +874,26 @@ int16_t SX126x::setRxBandwidth(float rxBw) {
 
   // update modulation parameters
   return(setModulationParamsFSK(_br, _pulseShape, _rxBw, _freqDev));
+}
+
+int16_t SX126x::setRxBoostedGainMode(bool rxbgm) {
+  // read the current register value
+  uint8_t rxGain = 0;
+  int16_t state = readRegister(RADIOLIB_SX126X_REG_RX_GAIN, &rxGain, 1);
+  RADIOLIB_ASSERT(state);
+
+  // gain mode register value (SX1261/2 datasheet v2.1 section 9.6)
+  if(rxbgm) {
+    rxGain = 0x96; // Rx Boosted Gain
+  } else {
+    rxGain = 0x94; // Rx Power Saving Gain
+  }
+
+  // update RX gain setting register
+  state = writeRegister(RADIOLIB_SX126X_REG_RX_GAIN, &rxGain, 1);
+  RADIOLIB_ASSERT(state);
+
+  return(state);
 }
 
 int16_t SX126x::setDataShaping(uint8_t sh) {
@@ -1203,6 +1223,10 @@ int16_t SX126x::setEncoding(uint8_t encoding) {
 
 void SX126x::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {
   _mod->setRfSwitchPins(rxEn, txEn);
+}
+
+void SX126x::setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]) {
+  _mod->setRfSwitchTable(pins, table);
 }
 
 int16_t SX126x::forceLDRO(bool enable) {
@@ -1594,7 +1618,7 @@ int16_t SX126x::fixSensitivity() {
   return(writeRegister(RADIOLIB_SX126X_REG_SENSITIVITY_CONFIG, &sensitivityConfig, 1));
 }
 
-int16_t SX126x::fixPaClamping() {
+int16_t SX126x::fixPaClamping(bool enable) {
   // fixes overly eager PA clamping
   // see SX1262/SX1268 datasheet, chapter 15 Known Limitations, section 15.2 for details
 
@@ -1603,8 +1627,12 @@ int16_t SX126x::fixPaClamping() {
   int16_t state = readRegister(RADIOLIB_SX126X_REG_TX_CLAMP_CONFIG, &clampConfig, 1);
   RADIOLIB_ASSERT(state);
 
-  // update with the new value
-  clampConfig |= 0x1E;
+  // apply or undo workaround
+  if (enable)
+    clampConfig |= 0x1E;
+  else
+    clampConfig = (clampConfig & ~0x1E) | 0x08;
+
   return(writeRegister(RADIOLIB_SX126X_REG_TX_CLAMP_CONFIG, &clampConfig, 1));
 }
 

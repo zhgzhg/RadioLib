@@ -784,7 +784,7 @@ class SX127x: public PhysicalLayer {
 
       \returns True when a complete packet is sent, false if more data is needed.
     */
-    bool fifoAdd(uint8_t* data, int totalLen, volatile int* remLen);
+    bool fifoAdd(uint8_t* data, int totalLen, int* remLen);
 
     /*!
       \brief Set interrupt service routine function to call when FIFO is sufficently full to read.
@@ -1169,15 +1169,11 @@ class SX127x: public PhysicalLayer {
     */
     int8_t getTempRaw();
 
-    /*!
-      \brief Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state.
-      When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!
-
-      \param rxEn RX enable pin.
-
-      \param txEn TX enable pin.
-    */
+    /*! \copydoc Module::setRfSwitchPins */
     void setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn);
+
+    /*! \copydoc Module::setRfSwitchTable */
+    void setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]);
 
     /*!
      \brief Get one truly random byte from RSSI noise.

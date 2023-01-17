@@ -398,7 +398,7 @@ class SX128x: public PhysicalLayer {
 
       \param power Output power in dBm. Defaults to 10 dBm.
 
-      \parma preambleLength FSK preamble length in bits. Defaults to 16 bits.
+      \param preambleLength FSK preamble length in bits. Defaults to 16 bits.
 
       \returns \ref status_codes
     */
@@ -432,7 +432,7 @@ class SX128x: public PhysicalLayer {
 
       \param power Output power in dBm. Defaults to 10 dBm.
 
-      \parma preambleLength FLRC preamble length in bits. Defaults to 16 bits.
+      \param preambleLength FLRC preamble length in bits. Defaults to 16 bits.
 
       \param dataShaping Time-bandwidth product of the Gaussian filter to be used for shaping. Defaults to 0.5.
 
@@ -564,10 +564,17 @@ class SX128x: public PhysicalLayer {
       \brief Interrupt-driven receive method. DIO1 will be activated when full packet is received.
 
       \param timeout Raw timeout value, expressed as multiples of 15.625 us. Defaults to RADIOLIB_SX128X_RX_TIMEOUT_INF for infinite timeout (Rx continuous mode), set to RADIOLIB_SX128X_RX_TIMEOUT_NONE for no timeout (Rx single mode).
+      If timeout other than infinite is set, signal will be generated on DIO1.
 
       \returns \ref status_codes
     */
     int16_t startReceive(uint16_t timeout = RADIOLIB_SX128X_RX_TIMEOUT_INF);
+
+    /*!
+      \brief Reads the current IRQ status.
+      \returns IRQ status bits
+    */
+    uint16_t getIrqStatus();
 
     /*!
       \brief Reads data received after calling startReceive method.
@@ -802,15 +809,11 @@ class SX128x: public PhysicalLayer {
     */
     int16_t setEncoding(uint8_t encoding) override;
 
-    /*!
-      \brief Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state.
-      When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!
-
-      \param rxEn RX enable pin.
-
-      \param txEn TX enable pin.
-    */
+    /*! \copydoc Module::setRfSwitchPins */
     void setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn);
+
+    /*! \copydoc Module::setRfSwitchTable */
+    void setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]);
 
     /*!
      \brief Dummy random method, to ensure PhysicalLayer compatibility.
@@ -874,7 +877,6 @@ class SX128x: public PhysicalLayer {
     int16_t setPacketParamsBLE(uint8_t connState, uint8_t crcLen, uint8_t bleTestPayload, uint8_t whitening);
     int16_t setPacketParamsLoRa(uint8_t preambleLen, uint8_t headerType, uint8_t payloadLen, uint8_t crc, uint8_t invertIQ = RADIOLIB_SX128X_LORA_IQ_STANDARD);
     int16_t setDioIrqParams(uint16_t irqMask, uint16_t dio1Mask, uint16_t dio2Mask = RADIOLIB_SX128X_IRQ_NONE, uint16_t dio3Mask = RADIOLIB_SX128X_IRQ_NONE);
-    uint16_t getIrqStatus();
     int16_t clearIrqStatus(uint16_t clearIrqParams = RADIOLIB_SX128X_IRQ_ALL);
     int16_t setRangingRole(uint8_t role);
     int16_t setPacketType(uint8_t type);

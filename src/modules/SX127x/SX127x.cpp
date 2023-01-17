@@ -281,7 +281,7 @@ int16_t SX127x::scanChannel() {
 
 int16_t SX127x::sleep() {
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, LOW);
+  _mod->setRfSwitchState(Module::MODE_IDLE);
 
   // set mode to sleep
   return(setMode(RADIOLIB_SX127X_SLEEP));
@@ -289,7 +289,7 @@ int16_t SX127x::sleep() {
 
 int16_t SX127x::standby() {
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, LOW);
+  _mod->setRfSwitchState(Module::MODE_IDLE);
 
   // set mode to standby
   return(setMode(RADIOLIB_SX127X_STANDBY));
@@ -302,7 +302,7 @@ int16_t SX127x::transmitDirect(uint32_t frf) {
   }
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, HIGH);
+  _mod->setRfSwitchState(Module::MODE_TX);
 
   // user requested to start transmitting immediately (required for RTTY)
   if(frf != 0) {
@@ -331,7 +331,7 @@ int16_t SX127x::receiveDirect() {
   }
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // activate direct mode
   int16_t state = directMode();
@@ -411,13 +411,13 @@ int16_t SX127x::startReceive(uint8_t len, uint8_t mode) {
     // FSK modem does not distinguish between Rx single and continuous
     if(mode == RADIOLIB_SX127X_RXCONTINUOUS) {
       // set RF switch (if present)
-      _mod->setRfSwitchState(HIGH, LOW);
+      _mod->setRfSwitchState(Module::MODE_RX);
       return(setMode(RADIOLIB_SX127X_RX));
     }
   }
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // set mode to receive
   return(setMode(mode));
@@ -468,7 +468,7 @@ void SX127x::clearFifoFullAction() {
   _mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, 0x00, 5, 4);
 }
 
-bool SX127x::fifoAdd(uint8_t* data, int totalLen, volatile int* remLen) {
+bool SX127x::fifoAdd(uint8_t* data, int totalLen, int* remLen) {
   // subtract first (this may be the first time we get to modify the remaining length)
   *remLen -= RADIOLIB_SX127X_FIFO_THRESH - 1;
 
@@ -484,15 +484,8 @@ bool SX127x::fifoAdd(uint8_t* data, int totalLen, volatile int* remLen) {
     len = RADIOLIB_SX127X_FIFO_THRESH - 1;
   }
 
-  // clear interrupt flags
-  clearIRQFlags();
-
   // copy the bytes to the FIFO
   _mod->SPIwriteRegisterBurst(RADIOLIB_SX127X_REG_FIFO, &data[totalLen - *remLen], len);
-
-  // this is a hack, but it seems Rx FIFO level is getting triggered 1 byte before it should
-  // we just add a padding byte that we can drop without consequence
-  _mod->SPIwriteRegister(RADIOLIB_SX127X_REG_FIFO, '/');
 
   // we're not done yet
   return(false);
@@ -512,12 +505,6 @@ bool SX127x::fifoGet(volatile uint8_t* data, int totalLen, volatile int* rcvLen)
   // get the data
   _mod->SPIreadRegisterBurst(RADIOLIB_SX127X_REG_FIFO, len, dataPtr);
   (*rcvLen) += (len);
-
-  // dump the padding byte
-  _mod->SPIreadRegister(RADIOLIB_SX127X_REG_FIFO);
-
-  // clear flags
-  clearIRQFlags();
 
   // check if we're done
   if(*rcvLen >= totalLen) {
@@ -588,14 +575,8 @@ int16_t SX127x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   }
   _mod->SPIwriteRegisterBurst(RADIOLIB_SX127X_REG_FIFO, data, packetLen);
 
-  // this is a hack, but it seems than in Stream mode, Rx FIFO level is getting triggered 1 byte before it should
-  // just add a padding byte that can be dropped without consequence
-  if((modem == RADIOLIB_SX127X_FSK_OOK) && (len > RADIOLIB_SX127X_MAX_PACKET_LENGTH_FSK)) {
-    _mod->SPIwriteRegister(RADIOLIB_SX127X_REG_FIFO, '/');
-  }
-
   // set RF switch (if present)
-  _mod->setRfSwitchState(LOW, HIGH);
+  _mod->setRfSwitchState(Module::MODE_TX);
 
   // start transmission
   state |= setMode(RADIOLIB_SX127X_TX);
@@ -684,7 +665,7 @@ int16_t SX127x::startChannelScan() {
   RADIOLIB_ASSERT(state);
 
   // set RF switch (if present)
-  _mod->setRfSwitchState(HIGH, LOW);
+  _mod->setRfSwitchState(Module::MODE_RX);
 
   // set mode to CAD
   state = setMode(RADIOLIB_SX127X_CAD);
@@ -1281,6 +1262,10 @@ uint8_t SX127x::getModemStatus() {
 
 void SX127x::setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn) {
   _mod->setRfSwitchPins(rxEn, txEn);
+}
+
+void SX127x::setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]) {
+  _mod->setRfSwitchTable(pins, table);
 }
 
 uint8_t SX127x::randomByte() {

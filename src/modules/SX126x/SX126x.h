@@ -391,7 +391,7 @@ class SX126x: public PhysicalLayer {
 
       \param tcxoVoltage TCXO reference voltage to be set on DIO3. Defaults to 1.6 V, set to 0 to skip.
 
-      \param useRegulatorLDO use the LDO instead of DC-DC converter (default false). This is necessary for some modules such as the LAMBDA from RF solutions.
+      \param useRegulatorLDO Whether to use only LDO regulator (true) or DC-DC regulator (false). Defaults to false.
 
       \returns \ref status_codes
     */
@@ -410,7 +410,7 @@ class SX126x: public PhysicalLayer {
 
       \param tcxoVoltage TCXO reference voltage to be set on DIO3. Defaults to 1.6 V, set to 0 to skip.
 
-      \param useRegulatorLDO use the LDO instead of DC-DC converter (default false). This is necessary for some modules such as the LAMBDA from RF solutions.
+      \param useRegulatorLDO Whether to use only LDO regulator (true) or DC-DC regulator (false). Defaults to false.
 
       \returns \ref status_codes
     */
@@ -665,9 +665,9 @@ class SX126x: public PhysicalLayer {
     int16_t setSyncWord(uint8_t syncWord, uint8_t controlBits = 0x44);
 
     /*!
-      \brief Sets current protection limit. Can be set in 0.25 mA steps.
+      \brief Sets current protection limit. Can be set in 2.5 mA steps.
 
-      \param currentLimit current protection limit to be set in mA.
+      \param currentLimit current protection limit to be set in mA. Allowed values range from 0 to 140.
 
       \returns \ref status_codes
     */
@@ -715,6 +715,15 @@ class SX126x: public PhysicalLayer {
       \returns \ref status_codes
     */
     int16_t setRxBandwidth(float rxBw);
+
+    /*!
+      \brief Enables or disables Rx Boosted Gain mode as described in SX126x datasheet section 9.6 (SX1261/2 v2.1, SX1268 v1.1)
+
+      \param rxbgm True for Rx Boosted Gain, false for Rx Power Saving Gain
+
+      \returns \ref status_codes
+    */
+    int16_t setRxBoostedGainMode(bool rxbgm);
 
     /*!
       \brief Sets time-bandwidth product of Gaussian filter applied for shaping.
@@ -922,15 +931,11 @@ class SX126x: public PhysicalLayer {
    */
    int16_t setEncoding(uint8_t encoding) override;
 
-   /*!
-     \brief Some modules contain external RF switch controlled by two pins. This function gives RadioLib control over those two pins to automatically switch Rx and Tx state.
-     When using automatic RF switch control, DO NOT change the pin mode of rxEn or txEn from Arduino sketch!
-
-     \param rxEn RX enable pin.
-
-     \param txEn TX enable pin.
-   */
+   /*! \copydoc Module::setRfSwitchPins */
    void setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn);
+
+   /*! \copydoc Module::setRfSwitchTable */
+   void setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]);
 
    /*!
      \brief Forces LoRa low data rate optimization. Only available in LoRa mode. After calling this method, LDRO will always be set to
@@ -1003,7 +1008,7 @@ class SX126x: public PhysicalLayer {
     int16_t writeBuffer(uint8_t* data, uint8_t numBytes, uint8_t offset = 0x00);
     int16_t readBuffer(uint8_t* data, uint8_t numBytes);
     int16_t setDioIrqParams(uint16_t irqMask, uint16_t dio1Mask, uint16_t dio2Mask = RADIOLIB_SX126X_IRQ_NONE, uint16_t dio3Mask = RADIOLIB_SX126X_IRQ_NONE);
-    int16_t clearIrqStatus(uint16_t clearIrqParams = RADIOLIB_SX126X_IRQ_ALL);
+    virtual int16_t clearIrqStatus(uint16_t clearIrqParams = RADIOLIB_SX126X_IRQ_ALL);
     int16_t setRfFrequency(uint32_t frf);
     int16_t calibrateImage(uint8_t* data);
     uint8_t getPacketType();
@@ -1026,7 +1031,7 @@ class SX126x: public PhysicalLayer {
 
     // fixes to errata
     int16_t fixSensitivity();
-    int16_t fixPaClamping();
+    int16_t fixPaClamping(bool enable = true);
     int16_t fixImplicitTimeout();
     int16_t fixInvertedIQ(uint8_t iqConfig);
 
@@ -1064,6 +1069,9 @@ class SX126x: public PhysicalLayer {
 
     uint32_t _transmitAtTimestampUs = 0;
     int16_t _lastError = RADIOLIB_ERR_NONE;
+
+    // Allow subclasses to define different TX modes
+    uint8_t _tx_mode = Module::MODE_TX;
 
     int16_t config(uint8_t modem);
     int16_t checkCommandResult();
