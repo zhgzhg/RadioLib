@@ -68,8 +68,12 @@
 #define RADIOLIB_SX126X_CMD_GET_STATS                          0x10
 #define RADIOLIB_SX126X_CMD_RESET_STATS                        0x00
 
+#define RADIOLIB_SX126X_CMD_PRAM_UPDATE                        0xD9
+#define RADIOLIB_SX126X_CMD_SET_LBT_SCAN_PARAMS                0x9A
+#define RADIOLIB_SX126X_CMD_SET_SPECTR_SCAN_PARAMS             0x9B
 
 // SX126X register map
+#define RADIOLIB_SX126X_REG_VERSION_STRING                     0x0320
 #define RADIOLIB_SX126X_REG_HOPPING_ENABLE                     0x0385
 #define RADIOLIB_SX126X_REG_LR_FHSS_PACKET_LENGTH              0x0386
 #define RADIOLIB_SX126X_REG_LR_FHSS_NUM_HOPPING_BLOCKS         0x0387
@@ -79,12 +83,17 @@
 #define RADIOLIB_SX126X_REG_LR_FHSS_FREQX_1(X)                 (0x038B + (X)*6)
 #define RADIOLIB_SX126X_REG_LR_FHSS_FREQX_2(X)                 (0x038C + (X)*6)
 #define RADIOLIB_SX126X_REG_LR_FHSS_FREQX_3(X)                 (0x038D + (X)*6)
+#define RADIOLIB_SX126X_REG_SPECTRAL_SCAN_RESULT               0x0401
 #define RADIOLIB_SX126X_REG_DIOX_OUT_ENABLE                    0x0580
 #define RADIOLIB_SX126X_REG_DIOX_IN_ENABLE                     0x0583
 #define RADIOLIB_SX126X_REG_DIOX_PULL_UP_CTRL                  0x0584
 #define RADIOLIB_SX126X_REG_DIOX_PULL_DOWN_CTRL                0x0585
+#define RADIOLIB_SX126X_REG_TX_BITBANG_ENABLE_0                0x0587
+#define RADIOLIB_SX126X_REG_PATCH_UPDATE_ENABLE                0x0610
+#define RADIOLIB_SX126X_REG_TX_BITBANG_ENABLE_1                0x0680
 #define RADIOLIB_SX126X_REG_WHITENING_INITIAL_MSB              0x06B8
 #define RADIOLIB_SX126X_REG_WHITENING_INITIAL_LSB              0x06B9
+#define RADIOLIB_SX126X_REG_RX_TX_PLD_LEN                      0x06BB
 #define RADIOLIB_SX126X_REG_CRC_INITIAL_MSB                    0x06BC
 #define RADIOLIB_SX126X_REG_CRC_INITIAL_LSB                    0x06BD
 #define RADIOLIB_SX126X_REG_CRC_POLYNOMIAL_MSB                 0x06BE
@@ -99,21 +108,35 @@
 #define RADIOLIB_SX126X_REG_SYNC_WORD_7                        0x06C7
 #define RADIOLIB_SX126X_REG_NODE_ADDRESS                       0x06CD
 #define RADIOLIB_SX126X_REG_BROADCAST_ADDRESS                  0x06CE
+#define RADIOLIB_SX126X_REG_PAYLOAD_LENGTH                     0x0702
+#define RADIOLIB_SX126X_REG_PACKET_PARAMS                      0x0704
 #define RADIOLIB_SX126X_REG_IQ_CONFIG                          0x0736
 #define RADIOLIB_SX126X_REG_LORA_SYNC_WORD_MSB                 0x0740
 #define RADIOLIB_SX126X_REG_LORA_SYNC_WORD_LSB                 0x0741
+#define RADIOLIB_SX126X_REG_FREQ_ERROR                         0x076B
+#define RADIOLIB_SX126X_REG_SPECTRAL_SCAN_STATUS               0x07CD
+#define RADIOLIB_SX126X_REG_RX_ADDR_PTR                        0x0803
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_0                    0x0819
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_1                    0x081A
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_2                    0x081B
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_3                    0x081C
+#define RADIOLIB_SX126X_REG_TX_MODULATION                      0x0889
+#define RADIOLIB_SX126X_REG_RF_FREQUENCY_0                     0x088B
+#define RADIOLIB_SX126X_REG_RF_FREQUENCY_1                     0x088C
+#define RADIOLIB_SX126X_REG_RF_FREQUENCY_2                     0x088D
+#define RADIOLIB_SX126X_REG_RF_FREQUENCY_3                     0x088E
+#define RADIOLIB_SX126X_REG_RSSI_AVG_WINDOW                    0x089B
 #define RADIOLIB_SX126X_REG_RX_GAIN                            0x08AC
 #define RADIOLIB_SX126X_REG_TX_CLAMP_CONFIG                    0x08D8
+#define RADIOLIB_SX126X_REG_LNA_CAP_TUNE_N                     0x08E3
+#define RADIOLIB_SX126X_REG_LNA_CAP_TUNE_P                     0x08E4
 #define RADIOLIB_SX126X_REG_OCP_CONFIGURATION                  0x08E7
 #define RADIOLIB_SX126X_REG_RTC_CTRL                           0x0902
 #define RADIOLIB_SX126X_REG_XTA_TRIM                           0x0911
 #define RADIOLIB_SX126X_REG_XTB_TRIM                           0x0912
 #define RADIOLIB_SX126X_REG_DIO3_OUT_VOLTAGE_CTRL              0x0920
 #define RADIOLIB_SX126X_REG_EVENT_MASK                         0x0944
+#define RADIOLIB_SX126X_REG_PATCH_MEMORY_BASE                  0x8000
 
 // undocumented registers
 #define RADIOLIB_SX126X_REG_SENSITIVITY_CONFIG                 0x0889 // SX1268 datasheet v1.1, section 15.1
@@ -199,6 +222,7 @@
 #define RADIOLIB_SX126X_IRQ_RADIOLIB_PREAMBLE_DETECTED       0b0000000000000100  //  2     2     preamble detected
 #define RADIOLIB_SX126X_IRQ_RX_DONE                          0b0000000000000010  //  1     1     packet received
 #define RADIOLIB_SX126X_IRQ_TX_DONE                          0b0000000000000001  //  0     0     packet transmission completed
+#define RADIOLIB_SX126X_IRQ_RX_DEFAULT                       0b0000001001100010  //  14    0     default for Rx (RX_DONE, TIMEOUT, CRC_ERR and HEADER_ERR)
 #define RADIOLIB_SX126X_IRQ_ALL                              0b0100001111111111  //  14    0     all interrupts
 #define RADIOLIB_SX126X_IRQ_NONE                             0b0000000000000000  //  14     0    no interrupts
 
@@ -344,6 +368,10 @@
 #define RADIOLIB_SX126X_RC13M_CALIB_ERR                       0b000000010  //  1     1                    RC13M calibration failed
 #define RADIOLIB_SX126X_RC64K_CALIB_ERR                       0b000000001  //  0     0                    RC64K calibration failed
 
+//RADIOLIB_SX126X_CMD_SET_LBT_SCAN_PARAMS + RADIOLIB_SX126X_CMD_SET_SPECTR_SCAN_PARAMS
+#define RADIOLIB_SX126X_SCAN_INTERVAL_7_68_US                  10          //  7     0     RSSI reading interval: 7.68 us
+#define RADIOLIB_SX126X_SCAN_INTERVAL_8_20_US                  11          //  7     0                            8.20 us
+#define RADIOLIB_SX126X_SCAN_INTERVAL_8_68_US                  12          //  7     0                            8.68 us
 
 // SX126X SPI register variables
 //RADIOLIB_SX126X_REG_HOPPING_ENABLE
@@ -354,6 +382,44 @@
 #define RADIOLIB_SX126X_SYNC_WORD_PUBLIC                       0x34        // actually 0x3444  NOTE: The low nibbles in each byte (0x_4_4) are masked out since apparently, they're reserved.
 #define RADIOLIB_SX126X_SYNC_WORD_PRIVATE                      0x12        // actually 0x1424        You couldn't make this up if you tried.
 
+// RADIOLIB_SX126X_REG_TX_BITBANG_ENABLE_1
+#define RADIOLIB_SX126X_TX_BITBANG_1_DISABLED                  0b00000000  //  6     4     Tx bitbang: disabled (default)
+#define RADIOLIB_SX126X_TX_BITBANG_1_ENABLED                   0b00010000  //  6     4                 enabled
+
+// RADIOLIB_SX126X_REG_TX_BITBANG_ENABLE_0
+#define RADIOLIB_SX126X_TX_BITBANG_0_DISABLED                  0b00000000  //  3     0     Tx bitbang: disabled (default)
+#define RADIOLIB_SX126X_TX_BITBANG_0_ENABLED                   0b00001100  //  3     0                 enabled
+
+// RADIOLIB_SX126X_REG_DIOX_OUT_ENABLE
+#define RADIOLIB_SX126X_DIO1_OUT_DISABLED                      0b00000010  //  1     1     DIO1 output: disabled
+#define RADIOLIB_SX126X_DIO1_OUT_ENABLED                       0b00000000  //  1     1                  enabled
+#define RADIOLIB_SX126X_DIO2_OUT_DISABLED                      0b00000100  //  2     2     DIO2 output: disabled
+#define RADIOLIB_SX126X_DIO2_OUT_ENABLED                       0b00000000  //  2     2                  enabled
+#define RADIOLIB_SX126X_DIO3_OUT_DISABLED                      0b00001000  //  3     3     DIO3 output: disabled
+#define RADIOLIB_SX126X_DIO3_OUT_ENABLED                       0b00000000  //  3     3                  enabled
+
+// RADIOLIB_SX126X_REG_DIOX_IN_ENABLE
+#define RADIOLIB_SX126X_DIO1_IN_DISABLED                       0b00000000  //  1     1     DIO1 input: disabled
+#define RADIOLIB_SX126X_DIO1_IN_ENABLED                        0b00000010  //  1     1                 enabled
+#define RADIOLIB_SX126X_DIO2_IN_DISABLED                       0b00000000  //  2     2     DIO2 input: disabled
+#define RADIOLIB_SX126X_DIO2_IN_ENABLED                        0b00000100  //  2     2                 enabled
+#define RADIOLIB_SX126X_DIO3_IN_DISABLED                       0b00000000  //  3     3     DIO3 input: disabled
+#define RADIOLIB_SX126X_DIO3_IN_ENABLED                        0b00001000  //  3     3                 enabled
+
+// RADIOLIB_SX126X_REG_RX_GAIN
+#define RADIOLIB_SX126X_RX_GAIN_BOOSTED                        0x96        //  7     0     Rx gain: boosted
+#define RADIOLIB_SX126X_RX_GAIN_POWER_SAVING                   0x94        //  7     0              power saving
+#define RADIOLIB_SX126X_RX_GAIN_SPECTRAL_SCAN                  0xCB        //  7     0              spectral scan
+
+// RADIOLIB_SX126X_REG_PATCH_UPDATE_ENABLE
+#define RADIOLIB_SX126X_PATCH_UPDATE_DISABLED                  0b00010000  //  4     4     patch update: disabled
+#define RADIOLIB_SX126X_PATCH_UPDATE_ENABLED                   0b00000000  //  4     4                   enabled
+
+// RADIOLIB_SX126X_REG_SPECTRAL_SCAN_STATUS
+#define RADIOLIB_SX126X_SPECTRAL_SCAN_NONE                     0x00        //  7     0      spectral scan status: none
+#define RADIOLIB_SX126X_SPECTRAL_SCAN_ONGOING                  0x0F        //  7     0                            ongoing
+#define RADIOLIB_SX126X_SPECTRAL_SCAN_ABORTED                  0xF0        //  7     0                            aborted
+#define RADIOLIB_SX126X_SPECTRAL_SCAN_COMPLETED                0xFF        //  7     0                            completed
 
 /*!
   \class SX126x
@@ -377,6 +443,11 @@ class SX126x: public PhysicalLayer {
     SX126x(Module* mod);
 
     Module* getMod();
+
+    /*!
+      \brief Whether the module has an XTAL (true) or TCXO (false). Defaults to false.
+    */
+    bool XTAL;
 
     // basic methods
 
@@ -556,9 +627,13 @@ class SX126x: public PhysicalLayer {
       \param timeout Raw timeout value, expressed as multiples of 15.625 us. Defaults to RADIOLIB_SX126X_RX_TIMEOUT_INF for infinite timeout (Rx continuous mode), set to RADIOLIB_SX126X_RX_TIMEOUT_NONE for no timeout (Rx single mode).
       If timeout other than infinite is set, signal will be generated on DIO1.
 
+      \param irqFlags Sets the IRQ flags, defaults to RADIOLIB_SX126X_IRQ_RX_DEFAULT.
+
+      \param irqMask Sets the mask of IRQ flags that will trigger DIO1, defaults to RADIOLIB_SX126X_IRQ_RX_DONE.
+
       \returns \ref status_codes
     */
-    int16_t startReceive(uint32_t timeout = RADIOLIB_SX126X_RX_TIMEOUT_INF);
+    int16_t startReceive(uint32_t timeout = RADIOLIB_SX126X_RX_TIMEOUT_INF, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE);
 
     /*!
       \brief Interrupt-driven receive method where the device mostly sleeps and periodically wakes to listen.
@@ -568,9 +643,13 @@ class SX126x: public PhysicalLayer {
 
       \param sleepPeriod The duration the receiver will not be in Rx mode, in microseconds.
 
+      \param irqFlags Sets the IRQ flags, defaults to RADIOLIB_SX126X_IRQ_RX_DEFAULT.
+
+      \param irqMask Sets the mask of IRQ flags that will trigger DIO1, defaults to RADIOLIB_SX126X_IRQ_RX_DONE.
+
       \returns \ref status_codes
     */
-    int16_t startReceiveDutyCycle(uint32_t rxPeriod, uint32_t sleepPeriod);
+    int16_t startReceiveDutyCycle(uint32_t rxPeriod, uint32_t sleepPeriod, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE);
 
     /*!
       \brief Calls \ref startReceiveDutyCycle with rxPeriod and sleepPeriod set so the unit shouldn't miss any messages.
@@ -581,9 +660,13 @@ class SX126x: public PhysicalLayer {
       \param minSymbols Parameters will be chosen to ensure that the unit will catch at least this many symbols of any preamble of the specified length. Defaults to 8.
       According to Semtech, receiver requires 8 symbols to reliably latch a preamble. This makes this method redundant when transmitter preamble length is less than 17 (2*minSymbols + 1).
 
+      \param irqFlags Sets the IRQ flags, defaults to RADIOLIB_SX126X_IRQ_RX_DEFAULT.
+
+      \param irqMask Sets the mask of IRQ flags that will trigger DIO1, defaults to RADIOLIB_SX126X_IRQ_RX_DONE.
+
       \returns \ref status_codes
     */
-    int16_t startReceiveDutyCycleAuto(uint16_t senderPreambleLength = 0, uint16_t minSymbols = 8);
+    int16_t startReceiveDutyCycleAuto(uint16_t senderPreambleLength = 0, uint16_t minSymbols = 8, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE);
 
     /*!
       \brief Reads the current IRQ status.
@@ -721,9 +804,11 @@ class SX126x: public PhysicalLayer {
 
       \param rxbgm True for Rx Boosted Gain, false for Rx Power Saving Gain
 
+      \param persist True to persist Rx gain setting when waking up from warm-start mode (e.g. when using Rx duty cycle mode)
+
       \returns \ref status_codes
     */
-    int16_t setRxBoostedGainMode(bool rxbgm);
+    int16_t setRxBoostedGainMode(bool rxbgm, bool persist = true);
 
     /*!
       \brief Sets time-bandwidth product of Gaussian filter applied for shaping.
@@ -1024,10 +1109,12 @@ class SX126x: public PhysicalLayer {
     uint16_t getDeviceErrors();
     int16_t clearDeviceErrors();
 
-    int16_t startReceiveCommon(uint32_t timeout = RADIOLIB_SX126X_RX_TIMEOUT_INF);
+    int16_t startReceiveCommon(uint32_t timeout = RADIOLIB_SX126X_RX_TIMEOUT_INF, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE);
     int16_t setFrequencyRaw(float freq);
     int16_t setPacketMode(uint8_t mode, uint8_t len);
     int16_t setHeaderType(uint8_t headerType, size_t len = 0xFF);
+    int16_t directMode();
+    int16_t packetMode();
 
     // fixes to errata
     int16_t fixSensitivity();
@@ -1041,11 +1128,7 @@ class SX126x: public PhysicalLayer {
     Module* _mod;
 
     // common low-level SPI interface
-    int16_t SPIwriteCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
-    int16_t SPIwriteCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
-    int16_t SPIreadCommand(uint8_t cmd, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
-    int16_t SPIreadCommand(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, uint8_t numBytes, bool waitForBusy = true, bool verify = true);
-    int16_t SPItransfer(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* dataOut, uint8_t* dataIn, uint8_t numBytes, bool waitForBusy, uint32_t timeout = 5000);
+    static int16_t SPIparseStatus(uint8_t in);
 
 #if !defined(RADIOLIB_GODMODE)
   protected:
@@ -1070,11 +1153,13 @@ class SX126x: public PhysicalLayer {
     uint32_t _transmitAtTimestampUs = 0;
     int16_t _lastError = RADIOLIB_ERR_NONE;
 
+    uint8_t _chipType = 0;
+
     // Allow subclasses to define different TX modes
     uint8_t _tx_mode = Module::MODE_TX;
 
     int16_t config(uint8_t modem);
-    int16_t checkCommandResult();
+    bool findChip(uint8_t type);
 };
 
 #endif

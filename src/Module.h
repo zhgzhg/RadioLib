@@ -8,6 +8,14 @@
 #endif
 
 /*!
+* Value to use as the last element in a mode table to indicate the
+* end of the table.
+*
+* See setRfSwitchTable() for details.
+*/
+#define END_OF_MODE_TABLE    { Module::MODE_END_OF_TABLE, {} }
+
+/*!
   \class Module
 
   \brief Implements all common low-level methods to control the wireless module.
@@ -55,14 +63,6 @@ class Module {
       /*! Transmission mode */
       MODE_TX,
     };
-
-    /*!
-     * Value to use as the last element in a mode table to indicate the
-     * end of the table.
-     *
-     * See setRfSwitchTable() for details.
-     */
-    static constexpr RfSwitchMode_t END_OF_MODE_TABLE = {MODE_END_OF_TABLE, {}};
 
     #if defined(RADIOLIB_BUILD_ARDUINO)
 
@@ -139,6 +139,43 @@ class Module {
     */
     uint8_t SPIwriteCommand = 0b10000000;
 
+    /*!
+      \brief Basic SPI no-operation command. Defaults to 0x00.
+    */
+    uint8_t SPInopCommand = 0x00;
+
+    /*!
+      \brief Basic SPI status read command. Defaults to 0x00.
+    */
+    uint8_t SPIstatusCommand = 0x00;
+
+    /*!
+      \brief SPI address width. Defaults to 8, currently only supports 8 and 16-bit addresses.
+    */
+    uint8_t SPIaddrWidth = 8;
+
+    /*!
+      \brief Whether the SPI interface is stream-type (e.g. SX126x) or register-type (e.g. SX127x).
+      Defaults to register-type SPI interfaces.
+    */
+    bool SPIstreamType = false;
+
+    /*!
+      \brief The last recorded SPI stream error.
+    */
+    int16_t SPIstreamError = RADIOLIB_ERR_UNKNOWN;
+
+    /*!
+      \brief SPI status parsing callback typedef.
+    */
+    typedef int16_t (*SPIparseStatusCb_t)(uint8_t in);
+
+    /*!
+      \brief Callback to function that will parse the module-specific status codes to RadioLib status codes.
+      Typically used for modules with SPI stream-type interface (e.g. SX126x/SX128x).
+    */
+    SPIparseStatusCb_t SPIparseStatusCb = nullptr;
+
     #if defined(RADIOLIB_INTERRUPT_TIMING)
 
     /*!
@@ -183,7 +220,7 @@ class Module {
 
       \returns Masked register value or status code.
     */
-    int16_t SPIgetRegValue(uint8_t reg, uint8_t msb = 7, uint8_t lsb = 0);
+    int16_t SPIgetRegValue(uint16_t reg, uint8_t msb = 7, uint8_t lsb = 0);
 
     /*!
       \brief Overwrite-safe SPI write method with verification. This method is the preferred SPI write mechanism.
@@ -202,7 +239,7 @@ class Module {
 
       \returns \ref status_codes
     */
-    int16_t SPIsetRegValue(uint8_t reg, uint8_t value, uint8_t msb = 7, uint8_t lsb = 0, uint8_t checkInterval = 2, uint8_t checkMask = 0xFF);
+    int16_t SPIsetRegValue(uint16_t reg, uint8_t value, uint8_t msb = 7, uint8_t lsb = 0, uint8_t checkInterval = 2, uint8_t checkMask = 0xFF);
 
     /*!
       \brief SPI burst read method.
@@ -213,7 +250,7 @@ class Module {
 
       \param inBytes Pointer to array that will hold the read data.
     */
-    void SPIreadRegisterBurst(uint8_t reg, uint8_t numBytes, uint8_t* inBytes);
+    void SPIreadRegisterBurst(uint16_t reg, size_t numBytes, uint8_t* inBytes);
 
     /*!
       \brief SPI basic read method. Use of this method is reserved for special cases, SPIgetRegValue should be used instead.
@@ -222,7 +259,7 @@ class Module {
 
       \returns Value that was read from register.
     */
-    uint8_t SPIreadRegister(uint8_t reg);
+    uint8_t SPIreadRegister(uint16_t reg);
 
     /*!
       \brief SPI burst write method.
@@ -233,7 +270,7 @@ class Module {
 
       \param numBytes Number of bytes that will be written.
     */
-    void SPIwriteRegisterBurst(uint8_t reg, uint8_t* data, uint8_t numBytes);
+    void SPIwriteRegisterBurst(uint16_t reg, uint8_t* data, size_t numBytes);
 
     /*!
       \brief SPI basic write method. Use of this method is reserved for special cases, SPIsetRegValue should be used instead.
@@ -242,7 +279,7 @@ class Module {
 
       \param data Value that will be written to the register.
     */
-    void SPIwriteRegister(uint8_t reg, uint8_t data);
+    void SPIwriteRegister(uint16_t reg, uint8_t data);
 
     /*!
       \brief SPI single transfer method.
@@ -257,7 +294,109 @@ class Module {
 
       \param numBytes Number of bytes to transfer.
     */
-    void SPItransfer(uint8_t cmd, uint8_t reg, uint8_t* dataOut, uint8_t* dataIn, uint8_t numBytes);
+    void SPItransfer(uint8_t cmd, uint16_t reg, uint8_t* dataOut, uint8_t* dataIn, size_t numBytes);
+
+    /*!
+      \brief Method to check the result of last SPI stream transfer.
+
+      \returns \ref status_codes
+    */
+    int16_t SPIcheckStream();
+    
+    /*!
+      \brief Method to perform a read transaction with SPI stream.
+
+      \param cmd SPI operation command.
+
+      \param data Data that will be transferred from slave to master.
+
+      \param numBytes Number of bytes to transfer.
+
+      \param waitForGpio Whether to wait for some GPIO at the end of transfer (e.g. BUSY line on SX126x/SX128x).
+
+      \param verify Whether to verify the result of the transaction after it is finished.
+
+      \returns \ref status_codes
+    */
+    int16_t SPIreadStream(uint8_t cmd, uint8_t* data, size_t numBytes, bool waitForGpio = true, bool verify = true);
+    
+    /*!
+      \brief Method to perform a read transaction with SPI stream.
+
+      \param cmd SPI operation command.
+
+      \param cmdLen SPI command length in bytes.
+
+      \param data Data that will be transferred from slave to master.
+
+      \param numBytes Number of bytes to transfer.
+
+      \param waitForGpio Whether to wait for some GPIO at the end of transfer (e.g. BUSY line on SX126x/SX128x).
+
+      \param verify Whether to verify the result of the transaction after it is finished.
+
+      \returns \ref status_codes
+    */
+    int16_t SPIreadStream(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, size_t numBytes, bool waitForGpio = true, bool verify = true);
+    
+    /*!
+      \brief Method to perform a write transaction with SPI stream.
+
+      \param cmd SPI operation command.
+
+      \param data Data that will be transferred from master to slave.
+
+      \param numBytes Number of bytes to transfer.
+
+      \param waitForGpio Whether to wait for some GPIO at the end of transfer (e.g. BUSY line on SX126x/SX128x).
+
+      \param verify Whether to verify the result of the transaction after it is finished.
+
+      \returns \ref status_codes
+    */
+    int16_t SPIwriteStream(uint8_t cmd, uint8_t* data, size_t numBytes, bool waitForGpio = true, bool verify = true);
+
+    /*!
+      \brief Method to perform a write transaction with SPI stream.
+
+      \param cmd SPI operation command.
+
+      \param cmdLen SPI command length in bytes.
+
+      \param data Data that will be transferred from master to slave.
+
+      \param numBytes Number of bytes to transfer.
+
+      \param waitForGpio Whether to wait for some GPIO at the end of transfer (e.g. BUSY line on SX126x/SX128x).
+
+      \param verify Whether to verify the result of the transaction after it is finished.
+
+      \returns \ref status_codes
+    */
+    int16_t SPIwriteStream(uint8_t* cmd, uint8_t cmdLen, uint8_t* data, size_t numBytes, bool waitForGpio = true, bool verify = true);
+    
+    /*!
+      \brief SPI single transfer method for modules with stream-type SPI interface (SX126x, SX128x etc.).
+
+      \param cmd SPI operation command.
+
+      \param cmdLen SPI command length in bytes.
+
+      \param write Set to true for write commands, false for read commands.
+
+      \param dataOut Data that will be transfered from master to slave.
+
+      \param dataIn Data that was transfered from slave to master.
+
+      \param numBytes Number of bytes to transfer.
+
+      \param waitForGpio Whether to wait for some GPIO at the end of transfer (e.g. BUSY line on SX126x/SX128x).
+
+      \param timeout GPIO wait period timeout in milliseconds.
+
+      \returns \ref status_codes
+    */
+    int16_t SPItransferStream(uint8_t* cmd, uint8_t cmdLen, bool write, uint8_t* dataOut, uint8_t* dataIn, size_t numBytes, bool waitForGpio, uint32_t timeout);
 
     // pin number access methods
 
@@ -545,8 +684,12 @@ class Module {
       \param data Data to dump.
 
       \param len Number of bytes to dump.
+
+      \param width Word width (1 for uint8_t, 2 for uint16_t, 4 for uint32_t).
+
+      \param be Print multi-byte data as big endian. Defaults to false.
     */
-    static void hexdump(uint8_t* data, size_t len);
+    static void hexdump(uint8_t* data, size_t len, uint32_t offset = 0, uint8_t width = 1, bool be = false);
 
     /*!
       \brief Function to dump device registers as hex into the debug port.
@@ -555,7 +698,7 @@ class Module {
 
       \param len Number of bytes to dump.
     */
-    void regdump(uint8_t start, uint8_t len);
+    void regdump(uint16_t start, size_t len);
 
 #if !defined(RADIOLIB_GODMODE)
   private:
