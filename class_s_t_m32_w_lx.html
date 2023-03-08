@@ -85,7 +85,6 @@ $(document).ready(function(){initNavTree('class_s_t_m32_w_lx.html',''); initResi
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="class_s_t_m32_w_lx-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">STM32WLx Class Reference</div>  </div>
@@ -156,6 +155,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a36d2c94ff9c3b9126fde23e3c54630f1 inherit pub_methods_class_s_x1262"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1262.html#a36d2c94ff9c3b9126fde23e3c54630f1">beginFSK</a> (float freq=434.0, float br=4.8, float freqDev=5.0, float rxBw=156.2, int8_t power=10, uint16_t preambleLength=16, float tcxoVoltage=1.6, bool useRegulatorLDO=false)</td></tr>
 <tr class="memdesc:a36d2c94ff9c3b9126fde23e3c54630f1 inherit pub_methods_class_s_x1262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization method for FSK modem.  <a href="class_s_x1262.html#a36d2c94ff9c3b9126fde23e3c54630f1">More...</a><br /></td></tr>
 <tr class="separator:a36d2c94ff9c3b9126fde23e3c54630f1 inherit pub_methods_class_s_x1262"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84840c89b3c182a5d871c170a98c69dc inherit pub_methods_class_s_x1262"><td class="memItemLeft" align="right" valign="top"><a id="a84840c89b3c182a5d871c170a98c69dc"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>beginLRFHSS</b> (float freq=434.0, float tcxoVoltage=0, bool useRegulatorLDO=false)</td></tr>
+<tr class="separator:a84840c89b3c182a5d871c170a98c69dc inherit pub_methods_class_s_x1262"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb018b820eb71ca6b0cd92c62affa767 inherit pub_methods_class_s_x1262"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1262.html#abb018b820eb71ca6b0cd92c62affa767">setFrequency</a> (float freq)</td></tr>
 <tr class="memdesc:abb018b820eb71ca6b0cd92c62affa767 inherit pub_methods_class_s_x1262"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets carrier frequency. Allowed values are in range from 150.0 to 960.0 MHz.  <a href="class_s_x1262.html#abb018b820eb71ca6b0cd92c62affa767">More...</a><br /></td></tr>
 <tr class="separator:abb018b820eb71ca6b0cd92c62affa767 inherit pub_methods_class_s_x1262"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,15 +217,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a8e22d67b64953c8b4da779d87d563f3e inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a8e22d67b64953c8b4da779d87d563f3e">finishTransmit</a> () override</td></tr>
 <tr class="memdesc:a8e22d67b64953c8b4da779d87d563f3e inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean up after transmission is done.  <a href="class_s_x126x.html#a8e22d67b64953c8b4da779d87d563f3e">More...</a><br /></td></tr>
 <tr class="separator:a8e22d67b64953c8b4da779d87d563f3e inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb92dc9d2e2a2b3a3a5ff2856528d497 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#aeb92dc9d2e2a2b3a3a5ff2856528d497">startReceive</a> (uint32_t timeout=RADIOLIB_SX126X_RX_TIMEOUT_INF)</td></tr>
-<tr class="memdesc:aeb92dc9d2e2a2b3a3a5ff2856528d497 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. DIO1 will be activated when full packet is received.  <a href="class_s_x126x.html#aeb92dc9d2e2a2b3a3a5ff2856528d497">More...</a><br /></td></tr>
-<tr class="separator:aeb92dc9d2e2a2b3a3a5ff2856528d497 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc46b6adda2d0e82e25ed1fc78274136 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#adc46b6adda2d0e82e25ed1fc78274136">startReceiveDutyCycle</a> (uint32_t rxPeriod, uint32_t sleepPeriod)</td></tr>
-<tr class="memdesc:adc46b6adda2d0e82e25ed1fc78274136 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method where the device mostly sleeps and periodically wakes to listen. Note that this function assumes the unit will take 500us + TCXO_delay to change state. See datasheet section 13.1.7, version 1.2.  <a href="class_s_x126x.html#adc46b6adda2d0e82e25ed1fc78274136">More...</a><br /></td></tr>
-<tr class="separator:adc46b6adda2d0e82e25ed1fc78274136 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b50cb78f02a3d93939437eb48489d3f inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a6b50cb78f02a3d93939437eb48489d3f">startReceiveDutyCycleAuto</a> (uint16_t senderPreambleLength=0, uint16_t minSymbols=8)</td></tr>
-<tr class="memdesc:a6b50cb78f02a3d93939437eb48489d3f inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="class_s_x126x.html#adc46b6adda2d0e82e25ed1fc78274136">startReceiveDutyCycle</a> with rxPeriod and sleepPeriod set so the unit shouldn't miss any messages.  <a href="class_s_x126x.html#a6b50cb78f02a3d93939437eb48489d3f">More...</a><br /></td></tr>
-<tr class="separator:a6b50cb78f02a3d93939437eb48489d3f inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34057f054d1cd3cce520ddf87b0821d5 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a34057f054d1cd3cce520ddf87b0821d5">startReceive</a> (uint32_t timeout=RADIOLIB_SX126X_RX_TIMEOUT_INF, uint16_t irqFlags=RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask=RADIOLIB_SX126X_IRQ_RX_DONE)</td></tr>
+<tr class="memdesc:a34057f054d1cd3cce520ddf87b0821d5 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method. DIO1 will be activated when full packet is received.  <a href="class_s_x126x.html#a34057f054d1cd3cce520ddf87b0821d5">More...</a><br /></td></tr>
+<tr class="separator:a34057f054d1cd3cce520ddf87b0821d5 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b4f8a41b593436b8c7a2a2d46ac387e inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a5b4f8a41b593436b8c7a2a2d46ac387e">startReceiveDutyCycle</a> (uint32_t rxPeriod, uint32_t sleepPeriod, uint16_t irqFlags=RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask=RADIOLIB_SX126X_IRQ_RX_DONE)</td></tr>
+<tr class="memdesc:a5b4f8a41b593436b8c7a2a2d46ac387e inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven receive method where the device mostly sleeps and periodically wakes to listen. Note that this function assumes the unit will take 500us + TCXO_delay to change state. See datasheet section 13.1.7, version 1.2.  <a href="class_s_x126x.html#a5b4f8a41b593436b8c7a2a2d46ac387e">More...</a><br /></td></tr>
+<tr class="separator:a5b4f8a41b593436b8c7a2a2d46ac387e inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a077f180905ce4818cbdacad0cd9fe841 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a077f180905ce4818cbdacad0cd9fe841">startReceiveDutyCycleAuto</a> (uint16_t senderPreambleLength=0, uint16_t minSymbols=8, uint16_t irqFlags=RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask=RADIOLIB_SX126X_IRQ_RX_DONE)</td></tr>
+<tr class="memdesc:a077f180905ce4818cbdacad0cd9fe841 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls <a class="el" href="class_s_x126x.html#a5b4f8a41b593436b8c7a2a2d46ac387e">startReceiveDutyCycle</a> with rxPeriod and sleepPeriod set so the unit shouldn't miss any messages.  <a href="class_s_x126x.html#a077f180905ce4818cbdacad0cd9fe841">More...</a><br /></td></tr>
+<tr class="separator:a077f180905ce4818cbdacad0cd9fe841 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a9b090eddcb811ee19b595debfab1df inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a9a9b090eddcb811ee19b595debfab1df">getIrqStatus</a> ()</td></tr>
 <tr class="memdesc:a9a9b090eddcb811ee19b595debfab1df inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the current IRQ status.  <a href="class_s_x126x.html#a9a9b090eddcb811ee19b595debfab1df">More...</a><br /></td></tr>
 <tr class="separator:a9a9b090eddcb811ee19b595debfab1df inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,9 +268,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a59d443c02d4620cda32c63a00c6bcc22 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a59d443c02d4620cda32c63a00c6bcc22">setRxBandwidth</a> (float rxBw)</td></tr>
 <tr class="memdesc:a59d443c02d4620cda32c63a00c6bcc22 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets FSK receiver bandwidth. Allowed values are 4.8, 5.8, 7.3, 9.7, 11.7, 14.6, 19.5, 23.4, 29.3, 39.0, 46.9, 58.6, 78.2, 93.8, 117.3, 156.2, 187.2, 234.3, 312.0, 373.6 and 467.0 kHz.  <a href="class_s_x126x.html#a59d443c02d4620cda32c63a00c6bcc22">More...</a><br /></td></tr>
 <tr class="separator:a59d443c02d4620cda32c63a00c6bcc22 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1277855a742e085fb849a6da8943d77 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#af1277855a742e085fb849a6da8943d77">setRxBoostedGainMode</a> (bool rxbgm)</td></tr>
-<tr class="memdesc:af1277855a742e085fb849a6da8943d77 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables Rx Boosted Gain mode as described in <a class="el" href="class_s_x126x.html" title="Base class for SX126x series. All derived classes for SX126x (e.g. SX1262 or SX1268) inherit from thi...">SX126x</a> datasheet section 9.6 (SX1261/2 v2.1, <a class="el" href="class_s_x1268.html" title="Derived class for SX1268 modules.">SX1268</a> v1.1)  <a href="class_s_x126x.html#af1277855a742e085fb849a6da8943d77">More...</a><br /></td></tr>
-<tr class="separator:af1277855a742e085fb849a6da8943d77 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a920aa76ff5f0f579424ef6de92e588c8 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a920aa76ff5f0f579424ef6de92e588c8">setRxBoostedGainMode</a> (bool rxbgm, bool persist=true)</td></tr>
+<tr class="memdesc:a920aa76ff5f0f579424ef6de92e588c8 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enables or disables Rx Boosted Gain mode as described in <a class="el" href="class_s_x126x.html" title="Base class for SX126x series. All derived classes for SX126x (e.g. SX1262 or SX1268) inherit from thi...">SX126x</a> datasheet section 9.6 (SX1261/2 v2.1, <a class="el" href="class_s_x1268.html" title="Derived class for SX1268 modules.">SX1268</a> v1.1)  <a href="class_s_x126x.html#a920aa76ff5f0f579424ef6de92e588c8">More...</a><br /></td></tr>
+<tr class="separator:a920aa76ff5f0f579424ef6de92e588c8 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d8f4deb555844b24c2426dd86e69676 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a1d8f4deb555844b24c2426dd86e69676">setDataShaping</a> (uint8_t sh) override</td></tr>
 <tr class="memdesc:a1d8f4deb555844b24c2426dd86e69676 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets time-bandwidth product of Gaussian filter applied for shaping. Allowed values are RADIOLIB_SHAPING_0_3, RADIOLIB_SHAPING_0_5, RADIOLIB_SHAPING_0_7 or RADIOLIB_SHAPING_1_0. Set to RADIOLIB_SHAPING_NONE to disable data shaping.  <a href="class_s_x126x.html#a1d8f4deb555844b24c2426dd86e69676">More...</a><br /></td></tr>
 <tr class="separator:a1d8f4deb555844b24c2426dd86e69676 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -353,9 +355,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a819bb3ced0f184a63cbfbef408a68561 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#a819bb3ced0f184a63cbfbef408a68561">randomByte</a> ()</td></tr>
 <tr class="memdesc:a819bb3ced0f184a63cbfbef408a68561 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get one truly random byte from RSSI noise.  <a href="class_s_x126x.html#a819bb3ced0f184a63cbfbef408a68561">More...</a><br /></td></tr>
 <tr class="separator:a819bb3ced0f184a63cbfbef408a68561 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac71eb1209354837ced2e21e66534bff3 inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#ac71eb1209354837ced2e21e66534bff3">getLastError</a> ()</td></tr>
-<tr class="memdesc:ac71eb1209354837ced2e21e66534bff3 inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last recorded transaction error.  <a href="class_s_x126x.html#ac71eb1209354837ced2e21e66534bff3">More...</a><br /></td></tr>
-<tr class="separator:ac71eb1209354837ced2e21e66534bff3 inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abbf8b4623da8c2caa83a8c3d35a44d0a inherit pub_methods_class_s_x126x"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#abbf8b4623da8c2caa83a8c3d35a44d0a">setDirectAction</a> (void(*func)(void))</td></tr>
 <tr class="memdesc:abbf8b4623da8c2caa83a8c3d35a44d0a inherit pub_methods_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dummy method, to ensure <a class="el" href="class_physical_layer.html" title="Provides common interface for protocols that run on LoRa/FSK modules, such as RTTY or LoRaWAN....">PhysicalLayer</a> compatibility.  <a href="class_s_x126x.html#abbf8b4623da8c2caa83a8c3d35a44d0a">More...</a><br /></td></tr>
 <tr class="separator:abbf8b4623da8c2caa83a8c3d35a44d0a inherit pub_methods_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -449,10 +448,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a47c1d94d2ad2fd7eb5d11480b44cc368 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure DIO pin mapping to get a given signal on a DIO pin (if available).  <a href="class_physical_layer.html#a47c1d94d2ad2fd7eb5d11480b44cc368">More...</a><br /></td></tr>
 <tr class="separator:a47c1d94d2ad2fd7eb5d11480b44cc368 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
-Static Public Attributes</h2></td></tr>
-<tr class="memitem:af632a308ba5ad8caf6732210cf7acaf7"><td class="memItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_t_m32_w_lx.html#af632a308ba5ad8caf6732210cf7acaf7">END_OF_MODE_TABLE</a> = Module::END_OF_MODE_TABLE</td></tr>
-<tr class="separator:af632a308ba5ad8caf6732210cf7acaf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_attribs_class_s_x126x"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_s_x126x')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_s_x126x.html">SX126x</a></td></tr>
+<tr class="memitem:ada0fe6c3d31885952b439135cf0c18f1 inherit pub_attribs_class_s_x126x"><td class="memItemLeft" align="right" valign="top"><a id="ada0fe6c3d31885952b439135cf0c18f1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x126x.html#ada0fe6c3d31885952b439135cf0c18f1">XTAL</a></td></tr>
+<tr class="memdesc:ada0fe6c3d31885952b439135cf0c18f1 inherit pub_attribs_class_s_x126x"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the module has an XTAL (true) or TCXO (false). Defaults to false. <br /></td></tr>
+<tr class="separator:ada0fe6c3d31885952b439135cf0c18f1 inherit pub_attribs_class_s_x126x"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Derived class for STM32WL modules. </p>
@@ -474,7 +476,7 @@ Static Public Attributes</h2></td></tr>
 <p>Custom operation modes for STMWLx. </p>
 <p>This splits the TX mode into two modes: Low-power and high-power. These constants can be used with the <a class="el" href="class_s_t_m32_w_lx.html#ad92085fdf4508c0849de0aec8dee2494" title="Some modules contain external RF switch controlled by pins. This function gives RadioLib control over...">setRfSwitchTable()</a> method, instead of the <a class="el" href="class_module.html#a5a67b3a63420d762ecba9448671c99bf">Module::OpMode_t</a> constants. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac8d380c3d3201015ad35594826975787a0cffe238c4822ab7f8beddf4ec72052b"></a>MODE_END_OF_TABLE&#160;</td><td class="fielddoc"><p>End of table marker, use <a class="el" href="class_s_t_m32_w_lx.html#af632a308ba5ad8caf6732210cf7acaf7">END_OF_MODE_TABLE</a> constant instead </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac8d380c3d3201015ad35594826975787a0cffe238c4822ab7f8beddf4ec72052b"></a>MODE_END_OF_TABLE&#160;</td><td class="fielddoc"><p>End of table marker, use END_OF_MODE_TABLE constant instead </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ac8d380c3d3201015ad35594826975787a8cf0ccad0eec5fde12798e0b0347d6bf"></a>MODE_IDLE&#160;</td><td class="fielddoc"><p>Idle mode </p>
 </td></tr>
@@ -765,33 +767,6 @@ Static Public Attributes</h2></td></tr>
 <p>This method works like <a class="el" href="class_module.html#a870c63233146d03380f753498c975050" title="Some modules contain external RF switch controlled by pins. This function gives RadioLib control over...">Module::setRfSwitchTable()</a>, except that you should use <a class="el" href="class_s_t_m32_w_lx.html#ac8d380c3d3201015ad35594826975787" title="Custom operation modes for STMWLx.">STM32WLx::OpMode_t</a> constants for modes, which distinguishes between a low-power (LP) and high-power (HP) TX mode.</p>
 <p>For boards that do not support both modes, just omit the unsupported mode from the table and it will not be used (and the valid power range is adjusted by <a class="el" href="class_s_t_m32_w_lx.html#a9afbde1c466907598974cc3923784c5b" title="Sets output power. Allowed values are in range from -17 to 22 dBm.">setOutputPower()</a> accordingly).</p>
 <p>Note that the <a class="el" href="class_s_t_m32_w_lx.html#ad92085fdf4508c0849de0aec8dee2494" title="Some modules contain external RF switch controlled by pins. This function gives RadioLib control over...">setRfSwitchTable()</a> method should be called <em>before</em> the <a class="el" href="class_s_t_m32_w_lx.html#a4f2a9b5a72b5238d2014199d91094f84" title="Initialization method for LoRa modem.">begin()</a> method, to ensure the radio knows which modes are supported during initialization. </p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="af632a308ba5ad8caf6732210cf7acaf7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af632a308ba5ad8caf6732210cf7acaf7">&#9670;&nbsp;</a></span>END_OF_MODE_TABLE</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto STM32WLx::END_OF_MODE_TABLE = Module::END_OF_MODE_TABLE</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p></p>
-<p>Value to use as the last element in a mode table to indicate the end of the table.</p>
-<p>See <a class="el" href="class_s_t_m32_w_lx.html#ad92085fdf4508c0849de0aec8dee2494" title="Some modules contain external RF switch controlled by pins. This function gives RadioLib control over...">setRfSwitchTable()</a> for details. </p>
 
 </div>
 </div>

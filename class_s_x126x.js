@@ -14,7 +14,6 @@ var class_s_x126x =
     [ "getCurrentLimit", "class_s_x126x.html#aa668babb0bd129b2facee9fd280525ab", null ],
     [ "getDataRate", "class_s_x126x.html#acbe2d75b1e2df8bcc58c4fd9d8e6e4f9", null ],
     [ "getIrqStatus", "class_s_x126x.html#a9a9b090eddcb811ee19b595debfab1df", null ],
-    [ "getLastError", "class_s_x126x.html#ac71eb1209354837ced2e21e66534bff3", null ],
     [ "getMod", "class_s_x126x.html#aae1af90432c457e5bf8f8f362295399b", null ],
     [ "getPacketLength", "class_s_x126x.html#ac4ef8c8751a3c09d64e431684840c987", null ],
     [ "getRSSI", "class_s_x126x.html#a0e5f0032a91686b9673a48c908eb1925", null ],
@@ -52,7 +51,7 @@ var class_s_x126x =
     [ "setRfSwitchPins", "class_s_x126x.html#a288257242e483cb3eb6944333179dd26", null ],
     [ "setRfSwitchTable", "class_s_x126x.html#ad92085fdf4508c0849de0aec8dee2494", null ],
     [ "setRxBandwidth", "class_s_x126x.html#a59d443c02d4620cda32c63a00c6bcc22", null ],
-    [ "setRxBoostedGainMode", "class_s_x126x.html#af1277855a742e085fb849a6da8943d77", null ],
+    [ "setRxBoostedGainMode", "class_s_x126x.html#a920aa76ff5f0f579424ef6de92e588c8", null ],
     [ "setSpreadingFactor", "class_s_x126x.html#ae5993359ace652fbdc862eb23fdd263d", null ],
     [ "setSyncBits", "class_s_x126x.html#ac594fbb30c5010658c970a64654c7162", null ],
     [ "setSyncWord", "class_s_x126x.html#a38e6d7831f35893a5b8328c10a2901bf", null ],
@@ -63,9 +62,9 @@ var class_s_x126x =
     [ "standby", "class_s_x126x.html#a7a1579e2557c36a4a34b09039c0d0c71", null ],
     [ "standby", "class_s_x126x.html#ad7569396f09f3867dc1bd4d4a0613acd", null ],
     [ "startChannelScan", "class_s_x126x.html#a10a0e75571350fb05fa100e5d5151be2", null ],
-    [ "startReceive", "class_s_x126x.html#aeb92dc9d2e2a2b3a3a5ff2856528d497", null ],
-    [ "startReceiveDutyCycle", "class_s_x126x.html#adc46b6adda2d0e82e25ed1fc78274136", null ],
-    [ "startReceiveDutyCycleAuto", "class_s_x126x.html#a6b50cb78f02a3d93939437eb48489d3f", null ],
+    [ "startReceive", "class_s_x126x.html#a34057f054d1cd3cce520ddf87b0821d5", null ],
+    [ "startReceiveDutyCycle", "class_s_x126x.html#a5b4f8a41b593436b8c7a2a2d46ac387e", null ],
+    [ "startReceiveDutyCycleAuto", "class_s_x126x.html#a077f180905ce4818cbdacad0cd9fe841", null ],
     [ "startTransmit", "class_s_x126x.html#a923654706eff5118ef6e84214e837f27", null ],
     [ "startTransmit", "class_s_x126x.html#af068e6e862c99e39d0261a7971dd56db", null ],
     [ "startTransmit", "class_s_x126x.html#ad59e37ce0606dc8051e40be9d14cfec3", null ],
@@ -76,5 +75,6 @@ var class_s_x126x =
     [ "transmit", "class_s_x126x.html#a3dd42f8d5569487ea74f004ca652a709", null ],
     [ "transmit", "class_s_x126x.html#aab18364237ddac0c56aeaf63f08cf009", null ],
     [ "transmitDirect", "class_s_x126x.html#a921aa8afb8d33b2660731c1f8d67664b", null ],
-    [ "variablePacketLengthMode", "class_s_x126x.html#a92c157efe751b4ae73d22ff44115285d", null ]
+    [ "variablePacketLengthMode", "class_s_x126x.html#a92c157efe751b4ae73d22ff44115285d", null ],
+    [ "XTAL", "class_s_x126x.html#ada0fe6c3d31885952b439135cf0c18f1", null ]
 ];
