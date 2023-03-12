@@ -10,6 +10,7 @@
   #include <iomanip>
   #include <limits>
   #include <locale>
+  #include <type_traits>
 
   #define String std::string
 
@@ -34,6 +35,7 @@
     #define digitalPinToInterrupt(p) {}
     #define max(p, n) std::max(p, n)
     #define ceil(p) std::ceil(p)
+    #define my_typeof(x) std::remove_reference<decltype((x))>::type
 
     class __FlashStringHelper;
     #define FPSTR(pstr_pointer) (reinterpret_cast<const __FlashStringHelper *>(pstr_pointer))
@@ -45,6 +47,11 @@
     #define PGM_VOID_P const void *
     #define PSTR(s) (__extension__({static const char __c[] PROGMEM = (s); &__c[0];}))
     #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+    #define pgm_read_dword(addr) ({ \
+      my_typeof(addr) _addr = (addr); \
+      *(const unsigned long *)(_addr); \
+    })
+
     void yield();
     typedef std::ios_base& (*mock_manipulator)(std::ios_base&);
 
@@ -253,6 +260,7 @@
 
     #define RADIOLIB_NONVOLATILE                        PROGMEM
     #define RADIOLIB_NONVOLATILE_READ_BYTE(addr)        pgm_read_byte(addr)
+    #define RADIOLIB_NONVOLATILE_READ_DWORD(addr)       pgm_read_dword(addr)
     #define RADIOLIB_TYPE_ALIAS(type, alias)            using alias = type;
 
     #define RADIOLIB_CB_ARGS_PIN_MODE                   (void, pinMode, int pin, int mode)
