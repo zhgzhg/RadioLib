@@ -73,6 +73,12 @@ int16_t SX126x::begin(uint8_t cr, uint8_t syncWord, uint16_t preambleLength, flo
   state = setPreambleLength(preambleLength);
   RADIOLIB_ASSERT(state);
 
+  if (useRegulatorLDO) {
+      state = setRegulatorLDO();
+  } else {
+      state = setRegulatorDCDC();
+  }
+
   // set publicly accessible settings that are not a part of begin method
   state = setCurrentLimit(60.0);
   RADIOLIB_ASSERT(state);
@@ -80,11 +86,8 @@ int16_t SX126x::begin(uint8_t cr, uint8_t syncWord, uint16_t preambleLength, flo
   state = setDio2AsRfSwitch(true);
   RADIOLIB_ASSERT(state);
 
-  if (useRegulatorLDO) {
-      state = setRegulatorLDO();
-  } else {
-      state = setRegulatorDCDC();
-  }
+  state = setCRC(2);
+  RADIOLIB_ASSERT(state);
 
   return(state);
 }
@@ -386,7 +389,7 @@ int16_t SX126x::directMode() {
   // set preamble length to the maximum to prevent SX126x from exiting Tx mode for a while
   state = setPreambleLength(0xFFFF);
   RADIOLIB_ASSERT(state);
-  
+
   return(state);
 }
 
@@ -394,7 +397,7 @@ int16_t SX126x::packetMode() {
   // set mode to standby
   int16_t state = standby();
   RADIOLIB_ASSERT(state);
-  
+
   // set preamble length to the default
   state = setPreambleLength(16);
   RADIOLIB_ASSERT(state);
@@ -402,7 +405,7 @@ int16_t SX126x::packetMode() {
   // disable TxDone interrupt
   state = setDioIrqParams(RADIOLIB_SX126X_IRQ_NONE, RADIOLIB_SX126X_IRQ_NONE);
   RADIOLIB_ASSERT(state);
-  
+
   // restore the magic registers
   state = _mod->SPIsetRegValue(RADIOLIB_SX126X_REG_DIOX_IN_ENABLE, RADIOLIB_SX126X_DIO3_IN_DISABLED, 3, 3);
   RADIOLIB_ASSERT(state);
@@ -442,7 +445,7 @@ int16_t SX126x::sleep(bool retainConfig) {
   if(!retainConfig) {
     sleepMode = RADIOLIB_SX126X_SLEEP_START_COLD | RADIOLIB_SX126X_SLEEP_RTC_OFF;
   }
-  int16_t state = _mod->SPIwriteStream(RADIOLIB_SX126X_CMD_SET_SLEEP, &sleepMode, 1, false);
+  int16_t state = _mod->SPIwriteStream(RADIOLIB_SX126X_CMD_SET_SLEEP, &sleepMode, 1, false, false);
 
   // wait for SX126x to safely enter sleep mode
   _mod->delay(1);
@@ -1247,6 +1250,39 @@ float SX126x::getSNR() {
   }
 }
 
+float SX126x::getFrequencyError() {
+  // check active modem
+  uint8_t modem = getPacketType();
+  if(modem != RADIOLIB_SX126X_PACKET_TYPE_LORA) {
+    return(0.0);
+  }
+
+  // read the raw frequency error register values
+  uint8_t efeRaw[3] = {0};
+  int16_t state = readRegister(RADIOLIB_SX126X_REG_FREQ_ERROR, &efeRaw[0], 1);
+  RADIOLIB_ASSERT(state);
+  state = readRegister(RADIOLIB_SX126X_REG_FREQ_ERROR + 1, &efeRaw[1], 1);
+  RADIOLIB_ASSERT(state);
+  state = readRegister(RADIOLIB_SX126X_REG_FREQ_ERROR + 2, &efeRaw[2], 1);
+  RADIOLIB_ASSERT(state);
+  uint32_t efe = ((uint32_t) efeRaw[0] << 16) | ((uint32_t) efeRaw[1] << 8) | efeRaw[2];
+  efe &= 0x0FFFFF;
+
+  float error = 0;
+
+  // check the first bit
+  if (efe & 0x80000) {
+    // frequency error is negative
+    efe |= (uint32_t) 0xFFF00000;
+    efe = ~efe + 1;
+    error = 1.55 * (float) efe / (1600.0 / (float) _bwKhz) * -1.0;
+  } else {
+    error = 1.55 * (float) efe / (1600.0 / (float) _bwKhz);
+  }
+
+  return(error);
+}
+
 size_t SX126x::getPacketLength(bool update) {
   (void)update;
   uint8_t rxBufStatus[2] = {0, 0};
@@ -1945,22 +1981,20 @@ int16_t SX126x::config(uint8_t modem) {
 
 int16_t SX126x::SPIparseStatus(uint8_t in) {
   if((in & 0b00001110) == RADIOLIB_SX126X_STATUS_CMD_TIMEOUT) {
-      return(RADIOLIB_ERR_SPI_CMD_TIMEOUT);
+    return(RADIOLIB_ERR_SPI_CMD_TIMEOUT);
   } else if((in & 0b00001110) == RADIOLIB_SX126X_STATUS_CMD_INVALID) {
-      return(RADIOLIB_ERR_SPI_CMD_INVALID);
+    return(RADIOLIB_ERR_SPI_CMD_INVALID);
   } else if((in & 0b00001110) == RADIOLIB_SX126X_STATUS_CMD_FAILED) {
-      return(RADIOLIB_ERR_SPI_CMD_FAILED);
+    return(RADIOLIB_ERR_SPI_CMD_FAILED);
   } else if((in == 0x00) || (in == 0xFF)) {
-      return(RADIOLIB_ERR_CHIP_NOT_FOUND);
+    return(RADIOLIB_ERR_CHIP_NOT_FOUND);
   }
-      return(RADIOLIB_ERR_NONE);
+  return(RADIOLIB_ERR_NONE);
 }
 
-bool SX126x::findChip(uint8_t ver) {
+bool SX126x::findChip(const char* verStr) {
   uint8_t i = 0;
   bool flagFound = false;
-  char versionBuff[16];
-  sprintf(versionBuff, "SX126%d", ver);
   while((i < 10) && !flagFound) {
     // reset the module
     reset();
@@ -1970,7 +2004,7 @@ bool SX126x::findChip(uint8_t ver) {
     _mod->SPIreadRegisterBurst(RADIOLIB_SX126X_REG_VERSION_STRING, 16, (uint8_t*)version);
 
     // check version register
-    if(strncmp(versionBuff, version, 6) == 0) {
+    if(strncmp(verStr, version, 6) == 0) {
       RADIOLIB_DEBUG_PRINTLN(F("Found SX126x: RADIOLIB_SX126X_REG_VERSION_STRING:"));
       _mod->hexdump((uint8_t*)version, 16, RADIOLIB_SX126X_REG_VERSION_STRING);
       RADIOLIB_DEBUG_PRINTLN();
@@ -1980,9 +2014,9 @@ bool SX126x::findChip(uint8_t ver) {
         RADIOLIB_DEBUG_PRINT(F("SX126x not found! ("));
         RADIOLIB_DEBUG_PRINT(i + 1);
         RADIOLIB_DEBUG_PRINTLN(F(" of 10 tries) RADIOLIB_SX126X_REG_VERSION_STRING:"));
-      _mod->hexdump((uint8_t*)version, 16, RADIOLIB_SX126X_REG_VERSION_STRING);
+        _mod->hexdump((uint8_t*)version, 16, RADIOLIB_SX126X_REG_VERSION_STRING);
         RADIOLIB_DEBUG_PRINT(F("Expected string: "));
-        RADIOLIB_DEBUG_PRINTLN(versionBuff);
+        RADIOLIB_DEBUG_PRINTLN(verStr);
       #endif
       _mod->delay(10);
       i++;

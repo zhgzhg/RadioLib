@@ -73,6 +73,9 @@
 #define RADIOLIB_SX126X_CMD_SET_SPECTR_SCAN_PARAMS             0x9B
 
 // SX126X register map
+#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_0                0x029F // SX1268 datasheet v1.1, section 9.6
+#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_1                0x02A0 // SX1268 datasheet v1.1, section 9.6
+#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_2                0x02A1 // SX1268 datasheet v1.1, section 9.6
 #define RADIOLIB_SX126X_REG_VERSION_STRING                     0x0320
 #define RADIOLIB_SX126X_REG_HOPPING_ENABLE                     0x0385
 #define RADIOLIB_SX126X_REG_LR_FHSS_PACKET_LENGTH              0x0386
@@ -85,6 +88,7 @@
 #define RADIOLIB_SX126X_REG_LR_FHSS_FREQX_3(X)                 (0x038D + (X)*6)
 #define RADIOLIB_SX126X_REG_SPECTRAL_SCAN_RESULT               0x0401
 #define RADIOLIB_SX126X_REG_DIOX_OUT_ENABLE                    0x0580
+#define RADIOLIB_SX126X_REG_DIOX_DRIVE_STRENGTH                0x0582
 #define RADIOLIB_SX126X_REG_DIOX_IN_ENABLE                     0x0583
 #define RADIOLIB_SX126X_REG_DIOX_PULL_UP_CTRL                  0x0584
 #define RADIOLIB_SX126X_REG_DIOX_PULL_DOWN_CTRL                0x0585
@@ -120,7 +124,7 @@
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_1                    0x081A
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_2                    0x081B
 #define RADIOLIB_SX126X_REG_RANDOM_NUMBER_3                    0x081C
-#define RADIOLIB_SX126X_REG_TX_MODULATION                      0x0889
+#define RADIOLIB_SX126X_REG_SENSITIVITY_CONFIG                 0x0889 // SX1268 datasheet v1.1, section 15.1
 #define RADIOLIB_SX126X_REG_RF_FREQUENCY_0                     0x088B
 #define RADIOLIB_SX126X_REG_RF_FREQUENCY_1                     0x088C
 #define RADIOLIB_SX126X_REG_RF_FREQUENCY_2                     0x088D
@@ -137,13 +141,6 @@
 #define RADIOLIB_SX126X_REG_DIO3_OUT_VOLTAGE_CTRL              0x0920
 #define RADIOLIB_SX126X_REG_EVENT_MASK                         0x0944
 #define RADIOLIB_SX126X_REG_PATCH_MEMORY_BASE                  0x8000
-
-// undocumented registers
-#define RADIOLIB_SX126X_REG_SENSITIVITY_CONFIG                 0x0889 // SX1268 datasheet v1.1, section 15.1
-#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_0                0x029F // SX1268 datasheet v1.1, section 9.6
-#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_1                0x02A0 // SX1268 datasheet v1.1, section 9.6
-#define RADIOLIB_SX126X_REG_RX_GAIN_RETENTION_2                0x02A1 // SX1268 datasheet v1.1, section 9.6
-
 
 // SX126X SPI command variables
 //RADIOLIB_SX126X_CMD_SET_SLEEP                                                MSB   LSB   DESCRIPTION
@@ -940,6 +937,15 @@ class SX126x: public PhysicalLayer {
     float getSNR();
 
     /*!
+      \brief Gets frequency error of the latest received packet.
+      WARNING: This functionality is based on SX128x implementation and not documented on SX126x.
+      While it seems to be working, it should be used with caution!
+
+      \returns Frequency error in Hz.
+    */
+    float getFrequencyError();
+
+    /*!
       \brief Query modem for the packet length of received payload.
 
       \param update Update received packet length. Will return cached value when set to false.
@@ -949,108 +955,108 @@ class SX126x: public PhysicalLayer {
     size_t getPacketLength(bool update = true) override;
 
     /*!
-     \brief Set modem in fixed packet length mode. Available in FSK mode only.
+      \brief Set modem in fixed packet length mode. Available in FSK mode only.
 
-     \param len Packet length.
+      \param len Packet length.
 
-     \returns \ref status_codes
-   */
-   int16_t fixedPacketLengthMode(uint8_t len = RADIOLIB_SX126X_MAX_PACKET_LENGTH);
+      \returns \ref status_codes
+    */
+    int16_t fixedPacketLengthMode(uint8_t len = RADIOLIB_SX126X_MAX_PACKET_LENGTH);
 
-   /*!
-     \brief Set modem in variable packet length mode. Available in FSK mode only.
+    /*!
+      \brief Set modem in variable packet length mode. Available in FSK mode only.
 
-     \param len Maximum packet length.
+      \param len Maximum packet length.
 
-     \returns \ref status_codes
-   */
-   int16_t variablePacketLengthMode(uint8_t maxLen = RADIOLIB_SX126X_MAX_PACKET_LENGTH);
+      \returns \ref status_codes
+    */
+    int16_t variablePacketLengthMode(uint8_t maxLen = RADIOLIB_SX126X_MAX_PACKET_LENGTH);
 
-   /*!
-     \brief Get expected time-on-air for a given size of payload
+    /*!
+      \brief Get expected time-on-air for a given size of payload
 
-     \param len Payload length in bytes.
+      \param len Payload length in bytes.
 
-     \returns Expected time-on-air in microseconds.
-   */
-   uint32_t getTimeOnAir(size_t len);
+      \returns Expected time-on-air in microseconds.
+    */
+    uint32_t getTimeOnAir(size_t len);
 
-   /*!
-     \brief Get instantaneous RSSI value during recption of the packet. Should switch to FSK receive mode for LBT implementation.
+    /*!
+      \brief Get instantaneous RSSI value during recption of the packet. Should switch to FSK receive mode for LBT implementation.
 
-     \returns Instantaneous RSSI value in dBm, in steps of 0.5dBm
-   */
-   float getRSSIInst();
+      \returns Instantaneous RSSI value in dBm, in steps of 0.5dBm
+    */
+    float getRSSIInst();
 
-   /*!
-     \brief Set implicit header mode for future reception/transmission.
+    /*!
+      \brief Set implicit header mode for future reception/transmission.
 
-     \param len Payload length in bytes.
+      \param len Payload length in bytes.
 
-     \returns \ref status_codes
-   */
-   int16_t implicitHeader(size_t len);
+      \returns \ref status_codes
+    */
+    int16_t implicitHeader(size_t len);
 
-   /*!
-     \brief Set explicit header mode for future reception/transmission.
+    /*!
+      \brief Set explicit header mode for future reception/transmission.
 
-     \returns \ref status_codes
-   */
-   int16_t explicitHeader();
+      \returns \ref status_codes
+    */
+    int16_t explicitHeader();
 
-   /*!
-     \brief Set regulator mode to LDO.
+    /*!
+      \brief Set regulator mode to LDO.
 
-     \returns \ref status_codes
-   */
-   int16_t setRegulatorLDO();
+      \returns \ref status_codes
+    */
+    int16_t setRegulatorLDO();
 
-   /*!
-     \brief Set regulator mode to DC-DC.
+    /*!
+      \brief Set regulator mode to DC-DC.
 
-     \returns \ref status_codes
-   */
-   int16_t setRegulatorDCDC();
+      \returns \ref status_codes
+    */
+    int16_t setRegulatorDCDC();
 
-   /*!
-     \brief Sets transmission encoding. Available in FSK mode only. Serves only as alias for PhysicalLayer compatibility.
+    /*!
+      \brief Sets transmission encoding. Available in FSK mode only. Serves only as alias for PhysicalLayer compatibility.
 
-     \param encoding Encoding to be used. Set to 0 for NRZ, and 2 for whitening.
+      \param encoding Encoding to be used. Set to 0 for NRZ, and 2 for whitening.
 
-     \returns \ref status_codes
-   */
-   int16_t setEncoding(uint8_t encoding) override;
+      \returns \ref status_codes
+    */
+    int16_t setEncoding(uint8_t encoding) override;
 
-   /*! \copydoc Module::setRfSwitchPins */
-   void setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn);
+    /*! \copydoc Module::setRfSwitchPins */
+    void setRfSwitchPins(RADIOLIB_PIN_TYPE rxEn, RADIOLIB_PIN_TYPE txEn);
 
-   /*! \copydoc Module::setRfSwitchTable */
-   void setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]);
+    /*! \copydoc Module::setRfSwitchTable */
+    void setRfSwitchTable(const RADIOLIB_PIN_TYPE (&pins)[Module::RFSWITCH_MAX_PINS], const Module::RfSwitchMode_t table[]);
 
-   /*!
-     \brief Forces LoRa low data rate optimization. Only available in LoRa mode. After calling this method, LDRO will always be set to
-     the provided value, regardless of symbol length. To re-enable automatic LDRO configuration, call SX126x::autoLDRO()
+    /*!
+      \brief Forces LoRa low data rate optimization. Only available in LoRa mode. After calling this method, LDRO will always be set to
+      the provided value, regardless of symbol length. To re-enable automatic LDRO configuration, call SX126x::autoLDRO()
 
-     \param enable Force LDRO to be always enabled (true) or disabled (false).
+      \param enable Force LDRO to be always enabled (true) or disabled (false).
 
-     \returns \ref status_codes
-   */
-   int16_t forceLDRO(bool enable);
+      \returns \ref status_codes
+    */
+    int16_t forceLDRO(bool enable);
 
-   /*!
-     \brief Re-enables automatic LDRO configuration. Only available in LoRa mode. After calling this method, LDRO will be enabled automatically
-     when symbol length exceeds 16 ms.
+    /*!
+      \brief Re-enables automatic LDRO configuration. Only available in LoRa mode. After calling this method, LDRO will be enabled automatically
+      when symbol length exceeds 16 ms.
 
-     \returns \ref status_codes
-   */
-   int16_t autoLDRO();
+      \returns \ref status_codes
+    */
+    int16_t autoLDRO();
 
-   /*!
-    \brief Get one truly random byte from RSSI noise.
+/*!
+      \brief Get one truly random byte from RSSI noise.
 
-    \returns TRNG byte.
-  */
-   uint8_t randomByte();
+      \returns TRNG byte.
+    */
+    uint8_t randomByte();
 
    /*!
     \brief Get the last recorded transaction error.
@@ -1059,21 +1065,21 @@ class SX126x: public PhysicalLayer {
    */
    int16_t getLastError();
 
-   #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
-   /*!
+    #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
+    /*!
       \brief Set interrupt service routine function to call when data bit is receveid in direct mode.
 
       \param func Pointer to interrupt service routine.
-   */
-   void setDirectAction(void (*func)(void));
+    */
+    void setDirectAction(void (*func)(void));
 
-   /*!
+    /*!
       \brief Function to read and process data bit in direct reception mode.
 
       \param pin Pin on which to read.
-   */
-   void readBit(RADIOLIB_PIN_TYPE pin);
-   #endif
+    */
+    void readBit(RADIOLIB_PIN_TYPE pin);
+    #endif
 
     /*!
       \brief Upload binary patch into the SX126x device RAM.
@@ -1202,17 +1208,16 @@ class SX126x: public PhysicalLayer {
     uint32_t _tcxoDelay = 0;
 
     size_t _implicitLen = 0;
-
     uint32_t _transmitAtTimestampUs = 0;
     int16_t _lastError = RADIOLIB_ERR_NONE;
 
-    uint8_t _chipType = 0;
+    const char* _chipType;
 
     // Allow subclasses to define different TX modes
     uint8_t _tx_mode = Module::MODE_TX;
 
     int16_t config(uint8_t modem);
-    bool findChip(uint8_t type);
+    bool findChip(const char* verStr);
 };
 
 #endif
