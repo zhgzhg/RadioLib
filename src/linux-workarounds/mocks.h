@@ -32,7 +32,7 @@
 
   #ifndef DUMMY_ARDUINO_FUNCS
     #define DUMMY_ARDUINO_FUNCS
-    #define digitalPinToInterrupt(p) {}
+    #define digitalPinToInterrupt(p) ({ p;})
     #define max(p, n) std::max(p, n)
     #define ceil(p) std::ceil(p)
     #define my_typeof(x) std::remove_reference<decltype((x))>::type
@@ -253,7 +253,7 @@
     #define RADIOLIB_INTERRUPT_STATUS                   RADIOLIB_PIN_STATUS
     #define RADIOLIB_DIGITAL_PIN_TO_INTERRUPT(p)        digitalPinToInterrupt(p)
 
-    #define RADIOLIB_NC                                 (std::numeric_limits<int>::min())
+    #define RADIOLIB_NC                                 (std::numeric_limits<uint32_t>::min())
 
     #define RADIOLIB_DEFAULT_SPI                        SPI
     #define RADIOLIB_DEFAULT_SPI_SETTINGS               SPISettings(2000000, MSBFIRST, SPI_MODE0)
@@ -288,6 +288,7 @@
     #define RADIOLIB_EXCLUDE_NRF24
     #define RADIOLIB_EXCLUDE_SI443X
     #define RADIOLIB_EXCLUDE_RFM2X
+    #define RADIOLIB_EXCLUDE_STM32WLX
     #define RADIOLIB_EXCLUDE_AFSK
     #define RADIOLIB_EXCLUDE_APRS
     #define RADIOLIB_EXCLUDE_AX25

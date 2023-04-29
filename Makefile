@@ -7,7 +7,8 @@ SRC = $(wildcard src/linux-workarounds/SPI/*.cpp) $(wildcard src/linux-workaroun
       $(wildcard src/protocols/PhysicalLayer/*.cpp) $(wildcard src/modules/RF69/*.cpp) \
       $(wildcard src/modules/RFM9x/*.cpp) $(wildcard src/modules/SX127x/*.cpp) \
       $(wildcard src/modules/SX128x/*.cpp) $(wildcard src/modules/SX126x/*.cpp) \
-      $(wildcard src/modules/SX1231/*.cpp) $(wildcard src/*.cpp) $(wildcard *.cpp)
+      $(wildcard src/modules/SX1231/*.cpp) $(wildcard src/modules/LLCC68/*.cpp) \
+      $(wildcard src/*.cpp) $(wildcard *.cpp)
 
 all: $(SRC)
 	$(CC) -o test $^ $(CFLAGS) -O3 $(LIBS)

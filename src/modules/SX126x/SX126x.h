@@ -1015,14 +1015,6 @@ class SX126x: public PhysicalLayer {
     */
     int16_t spectralScanGetResult(uint16_t* results);
 
-   /*!
-      \brief Enables/disables Invert the LoRa I and Q signals.
-
-      \param invertIQ Enable (true) or disable (false) LoRa I and Q signals.
-
-      \returns \ref status_codes
-   */
-   int16_t invertIQ(bool invertIQ);
 
 #if !defined(RADIOLIB_GODMODE)
   protected:

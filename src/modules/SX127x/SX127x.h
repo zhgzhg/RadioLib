@@ -856,15 +856,6 @@ class SX127x: public PhysicalLayer {
     float getSNR();
 
     /*!
-      \brief Gets recorded signal strength indicator of the latest received packet for LoRa modem, or current RSSI level for FSK modem.
-
-      \param skipReceive Set to true to skip putting radio in receive mode for the RSSI measurement in FKS/OOK mode.
-
-      \returns Last packet RSSI for LoRa modem, or current RSSI level for FSK modem.
-    */
-    virtual float getRSSI(bool skipReceive) = 0;
-
-    /*!
       \brief Enables/disables CRC check of received packets.
 
       \param enable Enable (true) or disable (false) CRC.

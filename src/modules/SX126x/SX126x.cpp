@@ -1608,9 +1608,9 @@ int16_t SX126x::setTx(uint32_t timeout) {
   uint8_t data[] = { (uint8_t)((timeout >> 16) & 0xFF), (uint8_t)((timeout >> 8) & 0xFF), (uint8_t)(timeout & 0xFF)} ;
 
   if (this->_transmitAtTimestampUs != 0) {
-    uint32_t now = this->mod->micros();
+    uint32_t now = this->mod->hal->micros();
     if (now < this->_transmitAtTimestampUs && (this->_transmitAtTimestampUs - now) < 30'000'000U) {
-      this->mod->delayMicroseconds(this->_transmitAtTimestampUs - now);
+      this->mod->hal->delayMicroseconds(this->_transmitAtTimestampUs - now);
     }
     this->_transmitAtTimestampUs = 0;
   }

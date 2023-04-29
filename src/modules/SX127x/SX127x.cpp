@@ -1455,9 +1455,9 @@ int16_t SX127x::setMode(uint8_t mode) {
   }
 
   if (mode == RADIOLIB_SX127X_TX && this->_transmitAtTimestampUs != 0) {
-    uint32_t now = this->mod->micros();
+    uint32_t now = this->mod->hal->micros();
     if (now < this->_transmitAtTimestampUs && (this->_transmitAtTimestampUs - now) < 30'000'000U) {
-      this->mod->delayMicroseconds(this->_transmitAtTimestampUs - now);
+      this->mod->hal->delayMicroseconds(this->_transmitAtTimestampUs - now);
     }
     this->_transmitAtTimestampUs = 0;
   }
