@@ -129,8 +129,6 @@
       void end() { }
 
       int peek() { return 0; }
-      template <typename MYBYTE=uint8_t>
-      size_t write(MYBYTE b) { return 0; }
       int read() { return 0; }
       int available() { return 0; }
       void flush() { }
@@ -230,6 +228,27 @@
         std::cerr << std::endl; // TODO
         return 1;
       }
+
+      size_t write(uint8_t c) {
+        std::cerr << c;
+        return 1;
+      }
+      size_t write(const uint8_t *buffer, size_t size) {
+        std::cerr.write(reinterpret_cast<char*>(const_cast<uint8_t*>(buffer)), size);
+        return size;
+      }
+      inline size_t write(const char * buffer, size_t size)
+      { return write((uint8_t*) buffer, size); }
+      inline size_t write(const char * s)
+      { return write((uint8_t*) s, strlen(s)); }
+      inline size_t write(unsigned long n)
+      { return write((uint8_t) n); }
+      inline size_t write(long n)
+      { return write((uint8_t) n); }
+      inline size_t write(unsigned int n)
+      { return write((uint8_t) n); }
+      inline size_t write(int n)
+      { return write((uint8_t) n); }
     };
 
     extern _BIN BIN;
