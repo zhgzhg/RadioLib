@@ -315,6 +315,7 @@
     #define RADIOLIB_EXCLUDE_MORSE
     #define RADIOLIB_EXCLUDE_RTTY
     #define RADIOLIB_EXCLUDE_SSTV
+    #define RADIOLIB_EXCLUDE_BELL
   #endif
 
 #endif
