@@ -455,11 +455,16 @@ int16_t SX126x::standby() {
   return(SX126x::standby(RADIOLIB_SX126X_STANDBY_RC));
 }
 
-int16_t SX126x::standby(uint8_t mode) {
+int16_t SX126x::standby(uint8_t mode, bool wakeup) {
   // set RF switch (if present)
   this->mod->setRfSwitchState(Module::MODE_IDLE);
 
-  uint8_t data[] = {mode};
+  if(wakeup) {
+    // pull NSS low to wake up
+    this->mod->hal->digitalWrite(this->mod->getCs(), this->mod->hal->GpioLevelLow);
+  }
+
+  uint8_t data[] = { mode };
   return(this->mod->SPIwriteStream(RADIOLIB_SX126X_CMD_SET_STANDBY, data, 1));
 }
 
@@ -606,7 +611,7 @@ int16_t SX126x::startReceiveDutyCycleAuto(uint16_t senderPreambleLength, uint16_
   // We need to ensure that the timeout is longer than senderPreambleLength.
   // So we must satisfy: wakePeriod > (preamblePeriod - (sleepPeriod - 1000)) / 2. (A)
   // we also need to ensure the unit is awake to see at least minSymbols. (B)
-  uint32_t wakePeriod = max(
+  uint32_t wakePeriod = RADIOLIB_MAX(
     (symbolLength * (senderPreambleLength + 1) - (sleepPeriod - 1000)) / 2, // (A)
     symbolLength * (minSymbols + 1)); //(B)
   RADIOLIB_DEBUG_PRINTLN("Auto wake period: ", wakePeriod);

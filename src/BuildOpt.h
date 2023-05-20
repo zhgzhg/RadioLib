@@ -268,6 +268,10 @@
     #define RADIOLIB_NONVOLATILE                        PROGMEM
   #endif
 
+  #if !defined(RADIOLIB_NONVOLATILE_PTR)
+    #define RADIOLIB_NONVOLATILE_PTR                    PGM_P
+  #endif
+
   #if !defined(RADIOLIB_NONVOLATILE_READ_BYTE)
     #define RADIOLIB_NONVOLATILE_READ_BYTE(addr)        pgm_read_byte(addr)
   #endif
@@ -311,11 +315,8 @@
   #define OCT 8
   #define BIN 2
 
-  #include <algorithm>
   #include <stdint.h>
 
-  using std::max;
-  using std::min;
 #endif
 
 /*
@@ -451,7 +452,6 @@
 */
 #define RADIOLIB_ASSERT(STATEVAR) { if((STATEVAR) != RADIOLIB_ERR_NONE) { return(STATEVAR); } }
 
-
 /*!
   \brief Macro to check variable is within constraints - this is commonly used to check parameter ranges. Requires RADIOLIB_CHECK_RANGE to be enabled
 */
@@ -466,6 +466,11 @@
 #else
   #define RADIOLIB_ERRATA_SX127X(...) {}
 #endif
+
+// these macros are usually defined by Arduino, but some platforms undef them, so its safer to use our own
+#define RADIOLIB_MIN(a,b)				((a)<(b)?(a):(b))
+#define RADIOLIB_MAX(a,b)				((a)>(b)?(a):(b))
+#define RADIOLIB_ABS(x)         ((x)>0?(x):-(x))
 
 // version definitions
 #define RADIOLIB_VERSION_MAJOR  (0x06)

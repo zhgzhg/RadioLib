@@ -546,7 +546,7 @@ class SX126x: public PhysicalLayer {
     int16_t scanChannel(uint8_t symbolNum = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detPeak = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detMin = RADIOLIB_SX126X_CAD_PARAM_DEFAULT);
     
     /*!
-      \brief Sets the module to sleep mode.
+      \brief Sets the module to sleep mode. To wake the device up, call standby().
       \param retainConfig Set to true to retain configuration of the currently active modem ("warm start")
       or to false to discard current configuration ("cold start"). Defaults to true.
       \returns \ref status_codes
@@ -563,9 +563,10 @@ class SX126x: public PhysicalLayer {
       \brief Sets the module to standby mode.
       \param mode Oscillator to be used in standby mode. Can be set to RADIOLIB_SX126X_STANDBY_RC (13 MHz RC oscillator)
       or RADIOLIB_SX126X_STANDBY_XOSC (32 MHz external crystal oscillator).
+      \param wakeup Whether to force the module to wake up. Setting to true will immediately attempt to wake up the module.
       \returns \ref status_codes
     */
-    int16_t standby(uint8_t mode);
+    int16_t standby(uint8_t mode, bool wakeup = true);
 
     // interrupt methods
 

@@ -455,9 +455,14 @@ int16_t SX128x::standby() {
   return(SX128x::standby(RADIOLIB_SX128X_STANDBY_RC));
 }
 
-int16_t SX128x::standby(uint8_t mode) {
+int16_t SX128x::standby(uint8_t mode, bool wakeup) {
   // set RF switch (if present)
   this->mod->setRfSwitchState(Module::MODE_IDLE);
+
+  if(wakeup) {
+    // pull NSS low to wake up
+    this->mod->hal->digitalWrite(this->mod->getCs(), this->mod->hal->GpioLevelLow);
+  }
 
   uint8_t data[] = { mode };
   return(this->mod->SPIwriteStream(RADIOLIB_SX128X_CMD_SET_STANDBY, data, 1));
@@ -1237,7 +1242,7 @@ uint32_t SX128x::getTimeOnAir(size_t len) {
       uint32_t N_symbolPreamble = (this->preambleLengthLoRa & 0x0F) * (uint32_t(1) << ((this->preambleLengthLoRa & 0xF0) >> 4));
 
       // calculate the number of symbols
-      N_symbol = (float)N_symbolPreamble + coeff1 + 8.0 + ceil(max((int16_t)(8 * len + N_bitCRC - coeff2 + N_symbolHeader), (int16_t)0) / (float)coeff3) * (float)(this->codingRateLoRa + 4);
+      N_symbol = (float)N_symbolPreamble + coeff1 + 8.0 + ceil(RADIOLIB_MAX((int16_t)(8 * len + N_bitCRC - coeff2 + N_symbolHeader), (int16_t)0) / (float)coeff3) * (float)(this->codingRateLoRa + 4);
 
     } else {
       // long interleaving - abandon hope all ye who enter here
@@ -1379,7 +1384,7 @@ int16_t SX128x::setModulationParams(uint8_t modParam1, uint8_t modParam2, uint8_
 }
 
 int16_t SX128x::setPacketParamsGFSK(uint8_t preambleLen, uint8_t syncLen, uint8_t syncMatch, uint8_t crcLen, uint8_t whiten, uint8_t payLen, uint8_t hdrType) {
-  uint8_t data[] = { preambleLen, syncLen, syncMatch, hdrType, this->payloadLen, crcLen, whiten };
+  uint8_t data[] = { preambleLen, syncLen, syncMatch, hdrType, payLen, crcLen, whiten };
   return(this->mod->SPIwriteStream(RADIOLIB_SX128X_CMD_SET_PACKET_PARAMS, data, 7));
 }
 
@@ -1389,7 +1394,7 @@ int16_t SX128x::setPacketParamsBLE(uint8_t connState, uint8_t crcLen, uint8_t bl
 }
 
 int16_t SX128x::setPacketParamsLoRa(uint8_t preambleLen, uint8_t hdrType, uint8_t payLen, uint8_t crc, uint8_t invIQ) {
-  uint8_t data[] = { preambleLen, hdrType, this->payloadLen, crc, invIQ, 0x00, 0x00 };
+  uint8_t data[] = { preambleLen, hdrType, payLen, crc, invIQ, 0x00, 0x00 };
   return(this->mod->SPIwriteStream(RADIOLIB_SX128X_CMD_SET_PACKET_PARAMS, data, 7));
 }
 
