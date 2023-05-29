@@ -249,7 +249,7 @@ int16_t SX126x::transmit(uint8_t* data, size_t len, uint8_t addr) {
 
   timeout += this->_transmitAtTimestampUs;
 
-  RADIOLIB_DEBUG_PRINTLN("Timeout in %d us", timeout);
+  RADIOLIB_DEBUG_PRINTLN("Timeout in %lu us", timeout);
 
   // start transmission
   state = startTransmit(data, len, addr);
@@ -302,7 +302,7 @@ int16_t SX126x::receive(uint8_t* data, size_t len) {
     return(RADIOLIB_ERR_UNKNOWN);
   }
 
-  RADIOLIB_DEBUG_PRINTLN("Timeout in %d us", timeout);
+  RADIOLIB_DEBUG_PRINTLN("Timeout in %lu us", timeout);
 
   // start reception
   uint32_t timeoutValue = (uint32_t)((float)timeout / 15.625);
@@ -545,6 +545,10 @@ int16_t SX126x::finishTransmit() {
   return(standby());
 }
 
+int16_t SX126x::startReceive() {
+  return(this->startReceive(RADIOLIB_SX126X_RX_TIMEOUT_INF, RADIOLIB_SX126X_IRQ_RX_DEFAULT, RADIOLIB_SX126X_IRQ_RX_DONE, 0));
+}
+
 int16_t SX126x::startReceive(uint32_t timeout, uint16_t irqFlags, uint16_t irqMask, size_t len) {
   (void)len;
   int16_t state = startReceiveCommon(timeout, irqFlags, irqMask);
@@ -614,7 +618,7 @@ int16_t SX126x::startReceiveDutyCycleAuto(uint16_t senderPreambleLength, uint16_
   uint32_t wakePeriod = RADIOLIB_MAX(
     (symbolLength * (senderPreambleLength + 1) - (sleepPeriod - 1000)) / 2, // (A)
     symbolLength * (minSymbols + 1)); //(B)
-  RADIOLIB_DEBUG_PRINTLN("Auto wake period: ", wakePeriod);
+  RADIOLIB_DEBUG_PRINTLN("Auto wake period: %lu", wakePeriod);
 
   // If our sleep period is shorter than our transition time, just use the standard startReceive
   if(sleepPeriod < this->tcxoDelay + 1016) {
@@ -1464,7 +1468,7 @@ int16_t SX126x::uploadPatch(const uint32_t* patch, size_t len, bool nonvolatile)
   #if defined(RADIOLIB_DEBUG)
   char ver_pre[16];
   this->mod->SPIreadRegisterBurst(RADIOLIB_SX126X_REG_VERSION_STRING, 16, (uint8_t*)ver_pre);
-  RADIOLIB_DEBUG_PRINTLN("Pre-update version string: %d", ver_pre);
+  RADIOLIB_DEBUG_PRINTLN("Pre-update version string: %s", ver_pre);
   #endif
 
   // enable patch update
@@ -1496,7 +1500,7 @@ int16_t SX126x::uploadPatch(const uint32_t* patch, size_t len, bool nonvolatile)
   #if defined(RADIOLIB_DEBUG)
   char ver_post[16];
   this->mod->SPIreadRegisterBurst(RADIOLIB_SX126X_REG_VERSION_STRING, 16, (uint8_t*)ver_post);
-  RADIOLIB_DEBUG_PRINTLN("Post-update version string: %d", ver_post);
+  RADIOLIB_DEBUG_PRINTLN("Post-update version string: %s", ver_post);
   #endif
 
   return(state);
@@ -1785,7 +1789,7 @@ int16_t SX126x::setModulationParams(uint8_t sf, uint8_t bw, uint8_t cr, uint8_t 
   // calculate symbol length and enable low data rate optimization, if auto-configuration is enabled
   if(this->ldroAuto) {
     float symbolLength = (float)(uint32_t(1) << this->spreadingFactor) / (float)this->bandwidthKhz;
-    RADIOLIB_DEBUG_PRINTLN("Symbol length: %d ms", symbolLength);
+    RADIOLIB_DEBUG_PRINTLN("Symbol length: %f ms", symbolLength);
     if(symbolLength >= 16.0) {
       this->ldrOptimize = RADIOLIB_SX126X_LORA_LOW_DATA_RATE_OPTIMIZE_ON;
     } else {

@@ -128,6 +128,10 @@ int16_t PhysicalLayer::standby(uint8_t mode) {
   return(RADIOLIB_ERR_UNSUPPORTED);
 }
 
+int16_t PhysicalLayer::startReceive() {
+  return(RADIOLIB_ERR_UNSUPPORTED);
+}
+
 int16_t PhysicalLayer::startReceive(uint32_t timeout, uint16_t irqFlags, uint16_t irqMask, size_t len) {
   (void)timeout;
   (void)irqFlags;
@@ -275,7 +279,6 @@ int32_t PhysicalLayer::random(int32_t max) {
   if(randNum < 0) {
     randNum *= -1;
   }
-  RADIOLIB_DEBUG_PRINTLN("%d", randNum);
   return(randNum % max);
 }
 
@@ -347,7 +350,7 @@ void PhysicalLayer::updateDirectBuffer(uint8_t bit) {
     this->syncBuffer <<= 1;
     this->syncBuffer |= bit;
 
-    RADIOLIB_VERBOSE_PRINTLN("S\t%X", this->syncBuffer);
+    RADIOLIB_VERBOSE_PRINTLN("S\t%lu", this->syncBuffer);
 
     if((this->syncBuffer & this->directSyncWordMask) == this->directSyncWord) {
       this->gotSync = true;

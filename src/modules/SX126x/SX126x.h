@@ -596,6 +596,14 @@ class SX126x: public PhysicalLayer {
       \returns \ref status_codes
     */
     int16_t finishTransmit() override;
+    
+    /*!
+      \brief Interrupt-driven receive method with default parameters.
+      Implemented for compatibility with PhysicalLayer.
+
+      \returns \ref status_codes
+    */
+    int16_t startReceive();
 
     /*!
       \brief Interrupt-driven receive method. DIO1 will be activated when full packet is received.
@@ -612,7 +620,7 @@ class SX126x: public PhysicalLayer {
       \param len Only for PhysicalLayer compatibility, not used.
       \returns \ref status_codes
     */
-    int16_t startReceive(uint32_t timeout = RADIOLIB_SX126X_RX_TIMEOUT_INF, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE, size_t len = 0);
+    int16_t startReceive(uint32_t timeout, uint16_t irqFlags = RADIOLIB_SX126X_IRQ_RX_DEFAULT, uint16_t irqMask = RADIOLIB_SX126X_IRQ_RX_DONE, size_t len = 0);
 
     /*!
       \brief Interrupt-driven receive method where the device mostly sleeps and periodically wakes to listen.

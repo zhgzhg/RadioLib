@@ -312,7 +312,7 @@ int16_t SX128x::transmit(uint8_t* data, size_t len, uint8_t addr) {
   // calculate timeout (500% of expected time-on-air)
   uint32_t timeout = getTimeOnAir(len) * 5;
 
-  RADIOLIB_DEBUG_PRINTLN("Timeout in %d us", timeout);
+  RADIOLIB_DEBUG_PRINTLN("Timeout in %lu us", timeout);
 
   // start transmission
   state = startTransmit(data, len, addr);
@@ -345,7 +345,7 @@ int16_t SX128x::receive(uint8_t* data, size_t len) {
   // calculate timeout (1000% of expected time-on-air)
   uint32_t timeout = getTimeOnAir(len) * 10;
 
-  RADIOLIB_DEBUG_PRINTLN("Timeout in %d us", timeout);
+  RADIOLIB_DEBUG_PRINTLN("Timeout in %lu us", timeout);
 
   // start reception
   uint32_t timeoutValue = (uint32_t)((float)timeout / 15.625);
@@ -546,6 +546,10 @@ int16_t SX128x::finishTransmit() {
 
   // set mode to standby to disable transmitter/RF switch
   return(standby());
+}
+
+int16_t SX128x::startReceive() {
+  return(this->startReceive(RADIOLIB_SX128X_RX_TIMEOUT_INF, RADIOLIB_SX128X_IRQ_RX_DEFAULT, RADIOLIB_SX128X_IRQ_RX_DONE, 0));
 }
 
 int16_t SX128x::startReceive(uint16_t timeout, uint16_t irqFlags, uint16_t irqMask, size_t len) {
