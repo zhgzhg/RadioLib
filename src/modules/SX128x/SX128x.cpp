@@ -353,14 +353,28 @@ int16_t SX128x::receive(uint8_t* data, size_t len) {
   RADIOLIB_ASSERT(state);
 
   // wait for packet reception or timeout
+  bool softTimeout = false;
   uint32_t start = this->mod->hal->micros();
   while(!this->mod->hal->digitalRead(this->mod->getIrq())) {
     this->mod->hal->yield();
+    // safety check, the timeout should be done by the radio
     if(this->mod->hal->micros() - start > timeout) {
-      clearIrqStatus();
-      standby();
-      return(RADIOLIB_ERR_RX_TIMEOUT);
+      softTimeout = true;
+      break;
     }
+  }
+
+  // if it was a timeout, this will return an error code
+  state = standby();
+  if((state != RADIOLIB_ERR_NONE) && (state != RADIOLIB_ERR_SPI_CMD_TIMEOUT)) {
+    return(state);
+  }
+
+  // check whether this was a timeout or not
+  if((getIrqStatus() & RADIOLIB_SX128X_IRQ_RX_TX_TIMEOUT) || softTimeout) {
+    standby();
+    clearIrqStatus();
+    return(RADIOLIB_ERR_RX_TIMEOUT);
   }
 
   // read the received data
@@ -474,6 +488,22 @@ void SX128x::setDio1Action(void (*func)(void)) {
 
 void SX128x::clearDio1Action() {
   this->mod->hal->detachInterrupt(this->mod->hal->pinToInterrupt(this->mod->getIrq()));
+}
+
+void SX128x::setPacketReceivedAction(void (*func)(void)) {
+  this->setDio1Action(func);
+}
+
+void SX128x::clearPacketReceivedAction() {
+  this->clearDio1Action();
+}
+
+void SX128x::setPacketSentAction(void (*func)(void)) {
+  this->setDio1Action(func);
+}
+
+void SX128x::clearPacketSentAction() {
+  this->clearDio1Action();
 }
 
 int16_t SX128x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {

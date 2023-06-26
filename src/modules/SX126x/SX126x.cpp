@@ -310,15 +310,29 @@ int16_t SX126x::receive(uint8_t* data, size_t len) {
   RADIOLIB_ASSERT(state);
 
   // wait for packet reception or timeout
+  bool softTimeout = false;
   uint32_t start = this->mod->hal->micros();
   while(!this->mod->hal->digitalRead(this->mod->getIrq())) {
     this->mod->hal->yield();
+    // safety check, the timeout should be done by the radio
     if(this->mod->hal->micros() - start > timeout) {
-      fixImplicitTimeout();
-      clearIrqStatus();
-      standby();
-      return(RADIOLIB_ERR_RX_TIMEOUT);
+      softTimeout = true;
+      break;
     }
+  }
+
+  // if it was a timeout, this will return an error code
+  state = standby();
+  if((state != RADIOLIB_ERR_NONE) && (state != RADIOLIB_ERR_SPI_CMD_TIMEOUT)) {
+    return(state);
+  }
+
+  // check whether this was a timeout or not
+  if((getIrqStatus() & RADIOLIB_SX126X_IRQ_TIMEOUT) || softTimeout) {
+    standby();
+    fixImplicitTimeout();
+    clearIrqStatus();
+    return(RADIOLIB_ERR_RX_TIMEOUT);
   }
 
   // fix timeout in implicit LoRa mode
@@ -476,6 +490,22 @@ void SX126x::clearDio1Action() {
   this->mod->hal->detachInterrupt(this->mod->hal->pinToInterrupt(this->mod->getIrq()));
 }
 
+void SX126x::setPacketReceivedAction(void (*func)(void)) {
+  this->setDio1Action(func);
+}
+
+void SX126x::clearPacketReceivedAction() {
+  this->clearDio1Action();
+}
+
+void SX126x::setPacketSentAction(void (*func)(void)) {
+  this->setDio1Action(func);
+}
+
+void SX126x::clearPacketSentAction() {
+  this->clearDio1Action();
+}
+
 int16_t SX126x::startTransmit(uint8_t* data, size_t len, uint8_t addr) {
   // suppress unused variable warning
   (void)addr;
@@ -607,7 +637,7 @@ int16_t SX126x::startReceiveDutyCycleAuto(uint16_t senderPreambleLength, uint16_
 
   uint32_t symbolLength = ((uint32_t)(10 * 1000) << this->spreadingFactor) / (10 * this->bandwidthKhz);
   uint32_t sleepPeriod = symbolLength * sleepSymbols;
-  RADIOLIB_DEBUG_PRINTLN("Auto sleep period: %d", sleepPeriod);
+  RADIOLIB_DEBUG_PRINTLN("Auto sleep period: %lu", sleepPeriod);
 
   // when the unit detects a preamble, it starts a timer that will timeout if it doesn't receive a header in time.
   // the duration is sleepPeriod + 2 * wakePeriod.
