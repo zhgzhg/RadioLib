@@ -4,8 +4,66 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#include "BuildOpt.h"
+
+// list of persistent parameters
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_TABLE_VERSION_ID   (0)  // this is NOT the LoRaWAN version, but version of this table
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_MAGIC_ID           (1)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_VERSION_ID         (2)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_TXDR_RX2DR_ID      (3)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_TXPWR_CUR_ID       (4)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_RX1_DROFF_DEL_ID   (5)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_RX2FREQ_ID         (6)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_ADR_LIM_DEL_ID     (7)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_NBTRANS_ID         (8)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_DEV_ADDR_ID        (9)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_APP_S_KEY_ID      (10)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_FNWK_SINT_KEY_ID  (11)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_SNWK_SINT_KEY_ID  (12)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_NWK_SENC_KEY_ID   (13)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_HOME_NET_ID       (14)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_DEV_NONCE_ID      (15)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_JOIN_NONCE_ID     (16)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_A_FCNT_DOWN_ID    (17)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_N_FCNT_DOWN_ID    (18)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_CONF_FCNT_UP_ID   (19)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_CONF_FCNT_DOWN_ID (20) 
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_ADR_FCNT_ID       (21)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_FCNT_UP_ID        (22)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_FOPTS_ID          (23)
+#define RADIOLIB_PERSISTENT_PARAM_LORAWAN_FREQS_ID          (24)
+
+static const uint32_t RadioLibPersistentParamTable[] = {
+  0x00,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_TABLE_VERSION_ID
+  0x01,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_MAGIC_ID
+  0x03,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_VERSION
+  0x04,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_TXDR_RX2DR_ID
+  0x05,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_TXPWR_CUR_ID
+  0x06,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_RX1_DROFF_DEL_ID
+  0x07,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_RX2FREQ_ID
+  0x0A,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_ADR_LIM_DEL_ID
+  0x0B,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_NBTRANS_ID
+  0x0C,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_DEV_ADDR_ID
+  0x10,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_APP_S_KEY_ID
+  0x20,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_FNWK_SINT_KEY_ID
+  0x30,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_SNWK_SINT_KEY_ID
+  0x40,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_NWK_SENC_KEY_ID
+  0x50,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_HOME_NET_ID
+  0x54,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_DEV_NONCE_ID
+  0x58,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_JOIN_NONCE_ID
+  0x5C,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_A_FCNT_DOWN_ID
+  0x60,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_N_FCNT_DOWN_ID
+  0x64,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_CONF_FCNT_UP_ID
+  0x68,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_CONF_FCNT_DOWN_ID
+  0x6C,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_ADR_FCNT_ID
+  0x70,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_FCNT_UP_ID
+  0x8E,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_FOPTS_ID
+  0xD0,   // RADIOLIB_PERSISTENT_PARAM_LORAWAN_FREQS_ID
+  0x0180, // end
+};
+
 /*!
-  \class Hal
+  \class RadioLibHal
   \brief Hardware abstraction library base interface.
 */
 class RadioLibHal {
@@ -169,13 +227,13 @@ class RadioLibHal {
     /*!
       \brief Module initialization method.
       This will be called by all radio modules at the beginning of startup.
-      Can be used to e.g., initalize SPI interface.
+      Can be used to e.g., initialize SPI interface.
     */
     virtual void init();
 
     /*!
       \brief Module termination method.
-      This will be called by all radio modules when the desctructor is called.
+      This will be called by all radio modules when the destructor is called.
       Can be used to e.g., stop SPI interface.
     */
     virtual void term();
@@ -205,6 +263,56 @@ class RadioLibHal {
       \returns The interrupt number of a given pin.
     */
     virtual uint32_t pinToInterrupt(uint32_t pin);
+
+    /*!
+      \brief Method to read from persistent storage (e.g. EEPROM).
+      \param addr Address to start reading at.
+      \param buff Buffer to read into.
+      \param len Number of bytes to read.
+    */
+    virtual void readPersistentStorage(uint32_t addr, uint8_t* buff, size_t len);
+
+    /*!
+      \brief Method to write to persistent storage (e.g. EEPROM).
+      \param addr Address to start writing to.
+      \param buff Buffer to write.
+      \param len Number of bytes to write.
+    */
+    virtual void writePersistentStorage(uint32_t addr, uint8_t* buff, size_t len);
+
+    /*!
+      \brief Method to wipe the persistent storage by writing to 0.
+      Will write at most RADIOLIB_HAL_PERSISTENT_STORAGE_SIZE bytes.
+    */
+    void wipePersistentStorage();
+    
+    /*!
+      \brief Method to convert from persistent parameter ID to its physical address.
+      \param id Parameter ID.
+      \returns Parameter physical address.
+    */
+    uint32_t getPersistentAddr(uint32_t id);
+
+    /*!
+      \brief Method to set arbitrary parameter to persistent storage.
+      This method DOES NOT perform any endianness conversion, so the value
+      will be stored in the system endian!
+      \param id Parameter ID to save at.
+      \param val Value to set.
+      \param offset An additional offset added to the address.
+    */
+    template<typename T>
+    void setPersistentParameter(uint32_t id, T val, uint32_t offset = 0);
+
+    /*!
+      \brief Method to get arbitrary parameter from persistent storage.
+      This method DOES NOT perform any endianness conversion, so the value
+      will be retrieved in the system endian!
+      \param id Parameter ID to load from.
+      \returns The loaded value.
+    */
+    template<typename T>
+    T getPersistentParameter(uint32_t id);
 };
 
 #endif

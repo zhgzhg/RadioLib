@@ -1,6 +1,6 @@
 #include "Si443x.h"
 #include <math.h>
-#if !defined(RADIOLIB_EXCLUDE_SI443X)
+#if !RADIOLIB_EXCLUDE_SI443X
 
 Si443x::Si443x(Module* mod) : PhysicalLayer(RADIOLIB_SI443X_FREQUENCY_STEP_SIZE, RADIOLIB_SI443X_MAX_PACKET_LENGTH) {
   this->mod = mod;
@@ -623,7 +623,7 @@ int16_t Si443x::getChipVersion() {
   return(this->mod->SPIgetRegValue(RADIOLIB_SI443X_REG_DEVICE_VERSION));
 }
 
-#if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
+#if !RADIOLIB_EXCLUDE_DIRECT_RECEIVE
 void Si443x::setDirectAction(void (*func)(void)) {
   setIrqAction(func);
 }
@@ -770,7 +770,8 @@ int16_t Si443x::updateClockRecovery() {
 
   // print that whole mess
   RADIOLIB_DEBUG_PRINTLN("%X\n%X\n%X", bypass, decRate, manch);
-  RADIOLIB_DEBUG_PRINTLN("%f\t%d\t%X\n%lu\t%lX\n%d\t%X", rxOsr, rxOsr_fixed, rxOsr_fixed, ncoOff, ncoOff, crGain, crGain);
+  RADIOLIB_DEBUG_PRINT_FLOAT(rxOsr, 2);
+  RADIOLIB_DEBUG_PRINTLN("\t%d\t%X\n%lu\t%lX\n%d\t%X", rxOsr_fixed, rxOsr_fixed, ncoOff, ncoOff, crGain, crGain);
 
   // update oversampling ratio
   int16_t state = this->mod->SPIsetRegValue(RADIOLIB_SI443X_REG_CLOCK_REC_OFFSET_2, (uint8_t)((rxOsr_fixed & 0x0700) >> 3), 7, 5);

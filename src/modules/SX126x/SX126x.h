@@ -3,7 +3,7 @@
 
 #include "../../TypeDef.h"
 
-#if !defined(RADIOLIB_EXCLUDE_SX126X)
+#if !RADIOLIB_EXCLUDE_SX126X
 
 #include "../../Module.h"
 
@@ -35,10 +35,10 @@
 #define RADIOLIB_SX126X_CMD_SET_RX_TX_FALLBACK_MODE             0x93
 
 // register and buffer access commands
-#define RADIOLIB_SX126X_CMD_WRITE_REGISTER                     0x0D
-#define RADIOLIB_SX126X_CMD_READ_REGISTER                      0x1D
-#define RADIOLIB_SX126X_CMD_WRITE_BUFFER                       0x0E
-#define RADIOLIB_SX126X_CMD_READ_BUFFER                        0x1E
+#define RADIOLIB_SX126X_CMD_WRITE_REGISTER                      0x0D
+#define RADIOLIB_SX126X_CMD_READ_REGISTER                       0x1D
+#define RADIOLIB_SX126X_CMD_WRITE_BUFFER                        0x0E
+#define RADIOLIB_SX126X_CMD_READ_BUFFER                         0x1E
 
 // DIO and IRQ control
 #define RADIOLIB_SX126X_CMD_SET_DIO_IRQ_PARAMS                  0x08
@@ -56,7 +56,7 @@
 #define RADIOLIB_SX126X_CMD_SET_PACKET_PARAMS                   0x8C
 #define RADIOLIB_SX126X_CMD_SET_CAD_PARAMS                      0x88
 #define RADIOLIB_SX126X_CMD_SET_BUFFER_BASE_ADDRESS             0x8F
-#define RADIOLIB_SX126X_CMD_SET_LORA_SYMB_NUM_TIMEOUT           0x0A
+#define RADIOLIB_SX126X_CMD_SET_LORA_SYMB_NUM_TIMEOUT           0xA0
 
 // status commands
 #define RADIOLIB_SX126X_CMD_GET_STATUS                          0xC0
@@ -219,7 +219,7 @@
 #define RADIOLIB_SX126X_IRQ_HEADER_ERR                          0b0000000000100000  //  5     5   LoRa header CRC error
 #define RADIOLIB_SX126X_IRQ_HEADER_VALID                        0b0000000000010000  //  4     4   valid LoRa header received
 #define RADIOLIB_SX126X_IRQ_SYNC_WORD_VALID                     0b0000000000001000  //  3     3   valid sync word detected
-#define RADIOLIB_SX126X_IRQ_RADIOLIB_PREAMBLE_DETECTED          0b0000000000000100  //  2     2   preamble detected
+#define RADIOLIB_SX126X_IRQ_PREAMBLE_DETECTED                   0b0000000000000100  //  2     2   preamble detected
 #define RADIOLIB_SX126X_IRQ_RX_DONE                             0b0000000000000010  //  1     1   packet received
 #define RADIOLIB_SX126X_IRQ_TX_DONE                             0b0000000000000001  //  0     0   packet transmission completed
 #define RADIOLIB_SX126X_IRQ_RX_DEFAULT                          0b0000001001100010  //  14    0   default for Rx (RX_DONE, TIMEOUT, CRC_ERR and HEADER_ERR)
@@ -538,12 +538,18 @@ class SX126x: public PhysicalLayer {
 
     /*!
       \brief Performs scan for LoRa transmission in the current channel. Detects both preamble and payload.
+      \returns \ref status_codes
+    */
+    int16_t scanChannel() override;
+
+    /*!
+      \brief Performs scan for LoRa transmission in the current channel. Detects both preamble and payload.
       \param symbolNum Number of symbols for CAD detection. Defaults to the value recommended by AN1200.48.
       \param detPeak Peak value for CAD detection. Defaults to the value recommended by AN1200.48.
       \param detMin Minimum value for CAD detection. Defaults to the value recommended by AN1200.48.
       \returns \ref status_codes
     */
-    int16_t scanChannel(uint8_t symbolNum = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detPeak = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detMin = RADIOLIB_SX126X_CAD_PARAM_DEFAULT);
+    int16_t scanChannel(uint8_t symbolNum, uint8_t detPeak, uint8_t detMin);
     
     /*!
       \brief Sets the module to sleep mode. To wake the device up, call standby().
@@ -602,6 +608,17 @@ class SX126x: public PhysicalLayer {
       \brief Clears interrupt service routine to call when a packet is sent.
     */
     void clearPacketSentAction();
+
+    /*!
+      \brief Sets interrupt service routine to call when a channel scan is finished.
+      \param func ISR to call.
+    */
+    void setChannelScanAction(void (*func)(void));
+
+    /*!
+      \brief Clears interrupt service routine to call when a channel scan is finished.
+    */
+    void clearChannelScanAction();
 
     /*!
       \brief Interrupt-driven binary transmit method.
@@ -679,29 +696,37 @@ class SX126x: public PhysicalLayer {
     uint16_t getIrqStatus();
 
     /*!
-      \brief Reads data received after calling startReceive method.
+      \brief Reads data received after calling startReceive method. When the packet length is not known in advance,
+      getPacketLength method must be called BEFORE calling readData!
       \param data Pointer to array to save the received binary data.
-      \param len Number of bytes that will be read. When set to 0, the packet length will be retreived automatically.
+      \param len Number of bytes that will be read. When set to 0, the packet length will be retrieved automatically.
       When more bytes than received are requested, only the number of bytes requested will be returned.
       \returns \ref status_codes
     */
     int16_t readData(uint8_t* data, size_t len) override;
-
+    
     /*!
-      \brief Interrupt-driven channel activity detection method. DIO0 will be activated
-      when LoRa preamble is detected, or upon timeout.
-      \param symbolNum Number of symbols for CAD detection. Defaults to the value recommended by AN1200.48.
-      \param detPeak Peak value for CAD detection. Defaults to the value recommended by AN1200.48.
-      \param detMin Minimum value for CAD detection. Defaults to the value recommended by AN1200.48.
+      \brief Interrupt-driven channel activity detection method. DIO1 will be activated
+      when LoRa preamble is detected, or upon timeout. Defaults to CAD parameter values recommended by AN1200.48.
       \returns \ref status_codes
     */
-    int16_t startChannelScan(uint8_t symbolNum = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detPeak = RADIOLIB_SX126X_CAD_PARAM_DEFAULT, uint8_t detMin = RADIOLIB_SX126X_CAD_PARAM_DEFAULT);
+    int16_t startChannelScan() override;
+
+    /*!
+      \brief Interrupt-driven channel activity detection method. DIO1 will be activated
+      when LoRa preamble is detected, or upon timeout.
+      \param symbolNum Number of symbols for CAD detection. 
+      \param detPeak Peak value for CAD detection.
+      \param detMin Minimum value for CAD detection.
+      \returns \ref status_codes
+    */
+    int16_t startChannelScan(uint8_t symbolNum, uint8_t detPeak, uint8_t detMin);
 
     /*!
       \brief Read the channel scan result
       \returns \ref status_codes
     */
-    int16_t getChannelScanResult();
+    int16_t getChannelScanResult() override;
 
     // configuration methods
 
@@ -752,7 +777,7 @@ class SX126x: public PhysicalLayer {
       \param preambleLength Preamble length to be set in symbols (LoRa) or bits (FSK).
       \returns \ref status_codes
     */
-    int16_t setPreambleLength(uint16_t preambleLength);
+    int16_t setPreambleLength(size_t preambleLength) override;
 
     /*!
       \brief Sets FSK frequency deviation. Allowed values range from 0.0 to 200.0 kHz.
@@ -767,6 +792,13 @@ class SX126x: public PhysicalLayer {
       \returns \ref status_codes
     */
     int16_t setBitRate(float br);
+
+    /*!
+      \brief Set data.
+      \param dr Data rate struct. Interpretation depends on currently active modem (FSK or LoRa).
+      \returns \ref status_codes
+    */
+    int16_t setDataRate(DataRate_t dr) override;
 
     /*!
       \brief Sets FSK receiver bandwidth. Allowed values are 4.8, 5.8, 7.3, 9.7, 11.7, 14.6, 19.5,
@@ -801,7 +833,7 @@ class SX126x: public PhysicalLayer {
       \param len FSK sync word length in bytes.
       \returns \ref status_codes
     */
-    int16_t setSyncWord(uint8_t* syncWord, uint8_t len);
+    int16_t setSyncWord(uint8_t* syncWord, size_t len) override;
 
     /*!
       \brief Sets FSK sync word in the form of array of up to 8 bytes.
@@ -846,11 +878,11 @@ class SX126x: public PhysicalLayer {
     /*!
       \brief Sets FSK whitening parameters.
       \param enabled True = Whitening enabled
-      \param initial Initial value used for the whitening LFSR in FSK mode. Defaults to 0x0100,
-      use 0x01FF for SX127x compatibility.
+      \param initial Initial value used for the whitening LFSR in FSK mode.
+      By default set to 0x01FF for compatibility with SX127x and LoRaWAN.
       \returns \ref status_codes
     */
-    int16_t setWhitening(bool enabled, uint16_t initial = 0x0100);
+    int16_t setWhitening(bool enabled, uint16_t initial = 0x01FF);
 
     /*!
       \brief Sets TCXO (Temperature Compensated Crystal Oscillator) configuration.
@@ -923,7 +955,28 @@ class SX126x: public PhysicalLayer {
       \param len Payload length in bytes.
       \returns Expected time-on-air in microseconds.
     */
-    uint32_t getTimeOnAir(size_t len);
+    uint32_t getTimeOnAir(size_t len) override;
+
+    /*!
+      \brief Calculate the timeout value for this specific module / series (in number of symbols or units of time)
+      \param timeoutUs Timeout in microseconds to listen for
+      \returns Timeout value in a unit that is specific for the used module
+    */
+    uint32_t calculateRxTimeout(uint32_t timeoutUs);
+
+    /*!
+      \brief Create the flags that make up RxDone and RxTimeout used for receiving downlinks
+      \param irqFlags The flags for which IRQs must be triggered
+      \param irqMask Mask indicating which IRQ triggers a DIO
+      \returns \ref status_codes
+    */
+    int16_t irqRxDoneRxTimeout(uint16_t &irqFlags, uint16_t &irqMask);
+
+    /*!
+      \brief Check whether the IRQ bit for RxTimeout is set
+      \returns \ref RxTimeout IRQ is set
+    */
+    bool isRxTimeout();
 
     /*!
       \brief Set implicit header mode for future reception/transmission.
@@ -992,11 +1045,11 @@ class SX126x: public PhysicalLayer {
       \param enable QI inversion enabled (true) or disabled (false);
       \returns \ref status_codes
     */
-    int16_t invertIQ(bool enable);
+    int16_t invertIQ(bool enable) override;
 
-    #if !defined(RADIOLIB_EXCLUDE_DIRECT_RECEIVE)
+    #if !RADIOLIB_EXCLUDE_DIRECT_RECEIVE
     /*!
-      \brief Set interrupt service routine function to call when data bit is receveid in direct mode.
+      \brief Set interrupt service routine function to call when data bit is received in direct mode.
       \param func Pointer to interrupt service routine.
     */
     void setDirectAction(void (*func)(void));
@@ -1046,8 +1099,20 @@ class SX126x: public PhysicalLayer {
     */
     int16_t spectralScanGetResult(uint16_t* results);
 
+    /*!
+      \brief Set the PA configuration. Allows user to optimize PA for a specific output power
+      and matching network. Any calls to this method must be done after calling begin/beginFSK and/or setOutputPower.
+      WARNING: Use at your own risk! Setting invalid values can and will lead to permanent damage!
+      \param paDutyCycle PA duty cycle raw value.
+      \param deviceSel Device select, usually RADIOLIB_SX126X_PA_CONFIG_SX1261,
+      RADIOLIB_SX126X_PA_CONFIG_SX1262 or RADIOLIB_SX126X_PA_CONFIG_SX1268.
+      \param hpMax hpMax raw value.
+      \param paLut paLut PA lookup table raw value.
+      \returns \ref status_codes
+    */
+    int16_t setPaConfig(uint8_t paDutyCycle, uint8_t deviceSel, uint8_t hpMax = RADIOLIB_SX126X_PA_CONFIG_HP_MAX, uint8_t paLut = RADIOLIB_SX126X_PA_CONFIG_PA_LUT);
 
-#if !defined(RADIOLIB_GODMODE)
+#if !RADIOLIB_GODMODE
   protected:
 #endif
     // SX126x SPI command implementations
@@ -1055,7 +1120,6 @@ class SX126x: public PhysicalLayer {
     int16_t setTx(uint32_t timeout = 0);
     int16_t setRx(uint32_t timeout);
     int16_t setCad(uint8_t symbolNum, uint8_t detPeak, uint8_t detMin);
-    int16_t setPaConfig(uint8_t paDutyCycle, uint8_t deviceSel, uint8_t hpMax = RADIOLIB_SX126X_PA_CONFIG_HP_MAX, uint8_t paLut = RADIOLIB_SX126X_PA_CONFIG_PA_LUT);
     int16_t writeRegister(uint16_t addr, uint8_t* data, uint8_t numBytes);
     int16_t readRegister(uint16_t addr, uint8_t* data, uint8_t numBytes);
     int16_t writeBuffer(uint8_t* data, uint8_t numBytes, uint8_t offset = 0x00);
@@ -1090,7 +1154,7 @@ class SX126x: public PhysicalLayer {
     int16_t fixImplicitTimeout();
     int16_t fixInvertedIQ(uint8_t iqConfig);
 
-#if !defined(RADIOLIB_GODMODE) && !defined(RADIOLIB_LOW_LEVEL)
+#if !RADIOLIB_GODMODE && !RADIOLIB_LOW_LEVEL
   protected:
 #endif
     Module* mod;
@@ -1098,7 +1162,7 @@ class SX126x: public PhysicalLayer {
     // common low-level SPI interface
     static int16_t SPIparseStatus(uint8_t in);
 
-#if !defined(RADIOLIB_GODMODE)
+#if !RADIOLIB_GODMODE
   protected:
 #endif
 
