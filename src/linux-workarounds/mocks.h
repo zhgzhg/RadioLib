@@ -302,20 +302,21 @@
     #define RADIOLIB_CB_ARGS_SPI_END                    (void, SPIend, void)
 
 
-    #define RADIOLIB_TONE_UNSUPPORTED
-    #define RADIOLIB_EXCLUDE_CC1101
-    #define RADIOLIB_EXCLUDE_NRF24
-    #define RADIOLIB_EXCLUDE_SI443X
-    #define RADIOLIB_EXCLUDE_RFM2X
-    #define RADIOLIB_EXCLUDE_STM32WLX
-    #define RADIOLIB_EXCLUDE_AFSK
-    #define RADIOLIB_EXCLUDE_APRS
-    #define RADIOLIB_EXCLUDE_AX25
-    #define RADIOLIB_EXCLUDE_HELLSCHREIBER
-    #define RADIOLIB_EXCLUDE_MORSE
-    #define RADIOLIB_EXCLUDE_RTTY
-    #define RADIOLIB_EXCLUDE_SSTV
-    #define RADIOLIB_EXCLUDE_BELL
+    #define RADIOLIB_EEPROM_UNSUPPORTED                 (1)
+    #define RADIOLIB_TONE_UNSUPPORTED                   (1)
+    #define RADIOLIB_EXCLUDE_CC1101                     (1)
+    #define RADIOLIB_EXCLUDE_NRF24                      (1)
+    #define RADIOLIB_EXCLUDE_SI443X                     (1)
+    #define RADIOLIB_EXCLUDE_RFM2X                      (1)
+    #define RADIOLIB_EXCLUDE_STM32WLX                   (1)
+    #define RADIOLIB_EXCLUDE_AFSK                       (1)
+    #define RADIOLIB_EXCLUDE_APRS                       (1)
+    #define RADIOLIB_EXCLUDE_AX25                       (1)
+    #define RADIOLIB_EXCLUDE_HELLSCHREIBER              (1)
+    #define RADIOLIB_EXCLUDE_MORSE                      (1)
+    #define RADIOLIB_EXCLUDE_RTTY                       (1)
+    #define RADIOLIB_EXCLUDE_SSTV                       (1)
+    #define RADIOLIB_EXCLUDE_BELL                       (1)
   #endif
 
 #endif
