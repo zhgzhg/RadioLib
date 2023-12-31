@@ -275,7 +275,39 @@ $(document).ready(function(){initNavTree('_type_def_8h_source.html',''); initRes
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160; </div>
 <div class="line"><a name="l00482"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga025420df476275dc901f67dd6ae13a9c">  482</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_INVALID_FUNCTION                           (-1003)</span></div>
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;<span class="comment">// LoRaWAN-specific status codes</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160; </div>
+<div class="line"><a name="l00489"></a><span class="lineno"><a class="line" href="group__status__codes.html#gafc3bca002b982af27b703c30b2d12df3">  489</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_NETWORK_NOT_JOINED                         (-1101)</span></div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160; </div>
+<div class="line"><a name="l00494"></a><span class="lineno"><a class="line" href="group__status__codes.html#gab120f980c06c581cd071452464199aac">  494</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_DOWNLINK_MALFORMED                         (-1102)</span></div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160; </div>
+<div class="line"><a name="l00499"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga3de55ebac1629efa9c64a9d6c201482a">  499</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_INVALID_REVISION                           (-1103)</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160; </div>
+<div class="line"><a name="l00504"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga96db1938b39b1b9cb7e8229718f08ff2">  504</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_INVALID_PORT                               (-1104)</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
+<div class="line"><a name="l00509"></a><span class="lineno"><a class="line" href="group__status__codes.html#gacf823b58331e32d37a9378a114d7d08e">  509</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_NO_RX_WINDOW                               (-1105)</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160; </div>
+<div class="line"><a name="l00514"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga5305b2452d4d2d9c495a7c882f96aca6">  514</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_INVALID_CHANNEL                            (-1106)</span></div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160; </div>
+<div class="line"><a name="l00519"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga5133c0c17301cfc39ac6121c5851292f">  519</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_INVALID_CID                                (-1107)</span></div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
+<div class="line"><a name="l00524"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga8b424bb8992a6ac80e2ba46667bf9c6e">  524</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_UPLINK_UNAVAILABLE                         (-1108)</span></div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160; </div>
+<div class="line"><a name="l00529"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga442250961d11f2582857cd1eafe0df17">  529</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_COMMAND_QUEUE_FULL                         (-1109)</span></div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160; </div>
+<div class="line"><a name="l00534"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga9fc9d71b0a60dfc859b392a7474521c0">  534</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_COMMAND_QUEUE_EMPTY                        (-1110)</span></div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160; </div>
+<div class="line"><a name="l00539"></a><span class="lineno"><a class="line" href="group__status__codes.html#gac4e026589229f7f737c77c641447d180">  539</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_COMMAND_QUEUE_ITEM_NOT_FOUND               (-1111)</span></div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160; </div>
+<div class="line"><a name="l00544"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga68c7f7b8c699dbd6524da685be476fca">  544</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_JOIN_NONCE_INVALID                         (-1112)</span></div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160; </div>
+<div class="line"><a name="l00549"></a><span class="lineno"><a class="line" href="group__status__codes.html#gac67f8a734c2011f738db1a3159403e09">  549</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_N_FCNT_DOWN_INVALID                        (-1113)</span></div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160; </div>
+<div class="line"><a name="l00554"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga81bd164044ef4d523464ad17d1e473bb">  554</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_A_FCNT_DOWN_INVALID                        (-1114)</span></div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160; </div>
+<div class="line"><a name="l00559"></a><span class="lineno"><a class="line" href="group__status__codes.html#ga6e26158e75f1d83939b5e457f1f316b8">  559</a></span>&#160;<span class="preprocessor">#define RADIOLIB_ERR_DATA_RATE_INVALID                          (-1115)</span></div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160; </div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

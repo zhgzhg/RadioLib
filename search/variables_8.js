@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['numrepeaters_785',['numRepeaters',['../class_a_x25_frame.html#ad27453a838ba90f917a1a9853358bb9a',1,'AX25Frame']]],
-  ['numtones_786',['numTones',['../struct_s_s_t_v_mode__t.html#ae3d67bbc9815c38bea17ec070c8c0096',1,'SSTVMode_t']]]
+  ['joinrequestdatarate_928',['joinRequestDataRate',['../struct_lo_ra_w_a_n_channel_span__t.html#a09bbd5a4bc1f458769f0d28bdeb4a502',1,'LoRaWANChannelSpan_t']]]
 ];

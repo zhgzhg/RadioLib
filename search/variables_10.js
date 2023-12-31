@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xtal_814',['XTAL',['../class_s_x126x.html#ada0fe6c3d31885952b439135cf0c18f1',1,'SX126x']]]
+  ['viscode_972',['visCode',['../struct_s_s_t_v_mode__t.html#a4033deed34e2703ab7f9a95cc32e5820',1,'SSTVMode_t']]]
 ];

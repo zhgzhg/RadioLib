@@ -13,9 +13,18 @@ var hierarchy =
     [ "Bell103", "struct_bell103.html", null ],
     [ "Bell202", "struct_bell202.html", null ],
     [ "BellModem_t", "struct_bell_modem__t.html", null ],
+    [ "DataRate_t", "union_data_rate__t.html", null ],
     [ "FSK4Client", "class_f_s_k4_client.html", null ],
-    [ "Hal", "class_hal.html", null ],
+    [ "FSKRate_t", "struct_f_s_k_rate__t.html", null ],
     [ "ITA2String", "class_i_t_a2_string.html", null ],
+    [ "LoRaRate_t", "struct_lo_ra_rate__t.html", null ],
+    [ "LoRaWANBand_t", "struct_lo_ra_w_a_n_band__t.html", null ],
+    [ "LoRaWANChannel_t", "struct_lo_ra_w_a_n_channel__t.html", null ],
+    [ "LoRaWANChannelSpan_t", "struct_lo_ra_w_a_n_channel_span__t.html", null ],
+    [ "LoRaWANEvent_t", "struct_lo_ra_w_a_n_event__t.html", null ],
+    [ "LoRaWANMacCommand_t", "struct_lo_ra_w_a_n_mac_command__t.html", null ],
+    [ "LoRaWANMacCommandQueue_t", "struct_lo_ra_w_a_n_mac_command_queue__t.html", null ],
+    [ "LoRaWANNode", "class_lo_ra_w_a_n_node.html", null ],
     [ "Module", "class_module.html", [
       [ "STM32WLx_Module", "class_s_t_m32_w_lx___module.html", null ]
     ] ],
@@ -24,7 +33,9 @@ var hierarchy =
       [ "CC1101", "class_c_c1101.html", null ],
       [ "ExternalRadio", "class_external_radio.html", null ],
       [ "RF69", "class_r_f69.html", [
-        [ "SX1231", "class_s_x1231.html", null ]
+        [ "SX1231", "class_s_x1231.html", [
+          [ "SX1233", "class_s_x1233.html", null ]
+        ] ]
       ] ],
       [ "SX126x", "class_s_x126x.html", [
         [ "SX1262", "class_s_x1262.html", [
@@ -39,10 +50,6 @@ var hierarchy =
           [ "SX1273", "class_s_x1273.html", null ]
         ] ],
         [ "SX1278", "class_s_x1278.html", [
-          [ "RFM95", "class_r_f_m95.html", [
-            [ "RFM97", "class_r_f_m97.html", null ]
-          ] ],
-          [ "RFM96", "class_r_f_m96.html", null ],
           [ "SX1276", "class_s_x1276.html", null ],
           [ "SX1277", "class_s_x1277.html", null ],
           [ "SX1279", "class_s_x1279.html", null ]
@@ -75,6 +82,9 @@ var hierarchy =
     ] ],
     [ "RFM22", "class_r_f_m22.html", null ],
     [ "RFM23", "class_r_f_m23.html", null ],
+    [ "RFM95", "class_r_f_m95.html", null ],
+    [ "RFM96", "class_r_f_m96.html", null ],
+    [ "RFM97", "class_r_f_m97.html", null ],
     [ "RFM98", "class_r_f_m98.html", null ],
     [ "Module::RfSwitchMode_t", "struct_module_1_1_rf_switch_mode__t.html", null ],
     [ "SSTVClient", "class_s_s_t_v_client.html", null ],

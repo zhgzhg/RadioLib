@@ -174,6 +174,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acb45b2342400a03a914a91d2ac7fb488"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acb45b2342400a03a914a91d2ac7fb488">setEncoding</a> (uint8_t encoding)</td></tr>
 <tr class="memdesc:acb45b2342400a03a914a91d2ac7fb488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets FSK data encoding. Only available in FSK mode. Must be implemented in module class.  <a href="class_physical_layer.html#acb45b2342400a03a914a91d2ac7fb488">More...</a><br /></td></tr>
 <tr class="separator:acb45b2342400a03a914a91d2ac7fb488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11b4c6d0bf3ae7b9ca04e9434180feab"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a11b4c6d0bf3ae7b9ca04e9434180feab">invertIQ</a> (bool enable)</td></tr>
+<tr class="memdesc:a11b4c6d0bf3ae7b9ca04e9434180feab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set IQ inversion. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a11b4c6d0bf3ae7b9ca04e9434180feab">More...</a><br /></td></tr>
+<tr class="separator:a11b4c6d0bf3ae7b9ca04e9434180feab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2286dc78dbf8e3084f38e9159b99ae5"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ad2286dc78dbf8e3084f38e9159b99ae5">setOutputPower</a> (int8_t power)</td></tr>
+<tr class="memdesc:ad2286dc78dbf8e3084f38e9159b99ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set output power. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#ad2286dc78dbf8e3084f38e9159b99ae5">More...</a><br /></td></tr>
+<tr class="separator:ad2286dc78dbf8e3084f38e9159b99ae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c71cdc1238e1368274670758431a977"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a6c71cdc1238e1368274670758431a977">setSyncWord</a> (uint8_t *sync, size_t len)</td></tr>
+<tr class="memdesc:a6c71cdc1238e1368274670758431a977"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sync word. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a6c71cdc1238e1368274670758431a977">More...</a><br /></td></tr>
+<tr class="separator:a6c71cdc1238e1368274670758431a977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85db1ff64e6c56e054f276c511194633"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a85db1ff64e6c56e054f276c511194633">setPreambleLength</a> (size_t len)</td></tr>
+<tr class="memdesc:a85db1ff64e6c56e054f276c511194633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set preamble length. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a85db1ff64e6c56e054f276c511194633">More...</a><br /></td></tr>
+<tr class="separator:a85db1ff64e6c56e054f276c511194633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee1fed6bbb8d3571974153ac6f26751"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a6ee1fed6bbb8d3571974153ac6f26751">setDataRate</a> (<a class="el" href="union_data_rate__t.html">DataRate_t</a> dr)</td></tr>
+<tr class="memdesc:a6ee1fed6bbb8d3571974153ac6f26751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a6ee1fed6bbb8d3571974153ac6f26751">More...</a><br /></td></tr>
+<tr class="separator:a6ee1fed6bbb8d3571974153ac6f26751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977e5236693960bb1c79090a201e9e1c"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a977e5236693960bb1c79090a201e9e1c">getFreqStep</a> () const</td></tr>
 <tr class="memdesc:a977e5236693960bb1c79090a201e9e1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the module frequency step size that was set in constructor.  <a href="class_physical_layer.html#a977e5236693960bb1c79090a201e9e1c">More...</a><br /></td></tr>
 <tr class="separator:a977e5236693960bb1c79090a201e9e1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +201,27 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aedddaf9460941b90e43e9005035faa0f"><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#aedddaf9460941b90e43e9005035faa0f">getSNR</a> ()</td></tr>
 <tr class="memdesc:aedddaf9460941b90e43e9005035faa0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets SNR (Signal to Noise Ratio) of the last received packet. Only available for LoRa modem.  <a href="class_physical_layer.html#aedddaf9460941b90e43e9005035faa0f">More...</a><br /></td></tr>
 <tr class="separator:aedddaf9460941b90e43e9005035faa0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55ccbe60bfc1ab58814dbd5f9cd4939e"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a55ccbe60bfc1ab58814dbd5f9cd4939e">getTimeOnAir</a> (size_t len)</td></tr>
+<tr class="memdesc:a55ccbe60bfc1ab58814dbd5f9cd4939e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get expected time-on-air for a given size of payload.  <a href="class_physical_layer.html#a55ccbe60bfc1ab58814dbd5f9cd4939e">More...</a><br /></td></tr>
+<tr class="separator:a55ccbe60bfc1ab58814dbd5f9cd4939e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c3c0866faa474ae2ea8d5b79a73358"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a50c3c0866faa474ae2ea8d5b79a73358">calculateRxTimeout</a> (uint32_t timeoutUs)</td></tr>
+<tr class="memdesc:a50c3c0866faa474ae2ea8d5b79a73358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the timeout value for this specific module / series (in number of symbols or units of time)  <a href="class_physical_layer.html#a50c3c0866faa474ae2ea8d5b79a73358">More...</a><br /></td></tr>
+<tr class="separator:a50c3c0866faa474ae2ea8d5b79a73358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d1fe00d107bbc23b0315fd442bc3292"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a1d1fe00d107bbc23b0315fd442bc3292">irqRxDoneRxTimeout</a> (uint16_t &amp;irqFlags, uint16_t &amp;irqMask)</td></tr>
+<tr class="memdesc:a1d1fe00d107bbc23b0315fd442bc3292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the flags that make up RxDone and RxTimeout used for receiving downlinks.  <a href="class_physical_layer.html#a1d1fe00d107bbc23b0315fd442bc3292">More...</a><br /></td></tr>
+<tr class="separator:a1d1fe00d107bbc23b0315fd442bc3292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8d8182a32439fe91f2806d73e629f4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acb8d8182a32439fe91f2806d73e629f4">isRxTimeout</a> ()</td></tr>
+<tr class="memdesc:acb8d8182a32439fe91f2806d73e629f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the IRQ bit for RxTimeout is set.  <a href="class_physical_layer.html#acb8d8182a32439fe91f2806d73e629f4">More...</a><br /></td></tr>
+<tr class="separator:acb8d8182a32439fe91f2806d73e629f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae30dfbb5445bb674898fc54f5f90b2f9"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ae30dfbb5445bb674898fc54f5f90b2f9">startChannelScan</a> ()</td></tr>
+<tr class="memdesc:ae30dfbb5445bb674898fc54f5f90b2f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven channel activity detection method. interrupt will be activated when packet is detected. Must be implemented in module class.  <a href="class_physical_layer.html#ae30dfbb5445bb674898fc54f5f90b2f9">More...</a><br /></td></tr>
+<tr class="separator:ae30dfbb5445bb674898fc54f5f90b2f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63979795a7b53557560bb95b65480906"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a63979795a7b53557560bb95b65480906">getChannelScanResult</a> ()</td></tr>
+<tr class="memdesc:a63979795a7b53557560bb95b65480906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the channel scan result.  <a href="class_physical_layer.html#a63979795a7b53557560bb95b65480906">More...</a><br /></td></tr>
+<tr class="separator:a63979795a7b53557560bb95b65480906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd9e39cc745acbf084cfa0d3f4d10718"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#abd9e39cc745acbf084cfa0d3f4d10718">scanChannel</a> ()</td></tr>
+<tr class="memdesc:abd9e39cc745acbf084cfa0d3f4d10718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the current communication channel is free or occupied. Performs CAD for LoRa modules, or RSSI measurement for FSK modules.  <a href="class_physical_layer.html#abd9e39cc745acbf084cfa0d3f4d10718">More...</a><br /></td></tr>
+<tr class="separator:abd9e39cc745acbf084cfa0d3f4d10718"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9171bd71aa80fb86113b612c42de53"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acd9171bd71aa80fb86113b612c42de53">random</a> (int32_t max)</td></tr>
 <tr class="memdesc:acd9171bd71aa80fb86113b612c42de53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get truly random number in range 0 - max.  <a href="class_physical_layer.html#acd9171bd71aa80fb86113b612c42de53">More...</a><br /></td></tr>
 <tr class="separator:acd9171bd71aa80fb86113b612c42de53"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +238,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8e378fe136a498ea485a9c10f5e15aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sync word to be used to determine start of packet in direct reception mode.  <a href="class_physical_layer.html#a8e378fe136a498ea485a9c10f5e15aab">More...</a><br /></td></tr>
 <tr class="separator:a8e378fe136a498ea485a9c10f5e15aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf96cf4f3cb4c82d44be581dbe615966"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#abf96cf4f3cb4c82d44be581dbe615966">setDirectAction</a> (void(*func)(void))</td></tr>
-<tr class="memdesc:abf96cf4f3cb4c82d44be581dbe615966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set interrupt service routine function to call when data bit is receveid in direct mode. Must be implemented in module class.  <a href="class_physical_layer.html#abf96cf4f3cb4c82d44be581dbe615966">More...</a><br /></td></tr>
+<tr class="memdesc:abf96cf4f3cb4c82d44be581dbe615966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set interrupt service routine function to call when data bit is received in direct mode. Must be implemented in module class.  <a href="class_physical_layer.html#abf96cf4f3cb4c82d44be581dbe615966">More...</a><br /></td></tr>
 <tr class="separator:abf96cf4f3cb4c82d44be581dbe615966"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acda61fc99cfa373153c50c78380ed885"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acda61fc99cfa373153c50c78380ed885">readBit</a> (uint32_t pin)</td></tr>
 <tr class="memdesc:acda61fc99cfa373153c50c78380ed885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function to read and process data bit in direct reception mode. Must be implemented in module class.  <a href="class_physical_layer.html#acda61fc99cfa373153c50c78380ed885">More...</a><br /></td></tr>
@@ -234,6 +270,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a67ee4ec36f352d06dda0102260f6bfce">clearPacketSentAction</a> ()</td></tr>
 <tr class="memdesc:a67ee4ec36f352d06dda0102260f6bfce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears interrupt service routine to call when a packet is sent. <br /></td></tr>
 <tr class="separator:a67ee4ec36f352d06dda0102260f6bfce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae11c191a7edf3116bf468b9153237260"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ae11c191a7edf3116bf468b9153237260">setChannelScanAction</a> (void(*func)(void))</td></tr>
+<tr class="memdesc:ae11c191a7edf3116bf468b9153237260"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets interrupt service routine to call when a channel scan is finished.  <a href="class_physical_layer.html#ae11c191a7edf3116bf468b9153237260">More...</a><br /></td></tr>
+<tr class="separator:ae11c191a7edf3116bf468b9153237260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a169a4d04c5c50d3336e274d70930d9f6"><td class="memItemLeft" align="right" valign="top"><a id="a169a4d04c5c50d3336e274d70930d9f6"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a169a4d04c5c50d3336e274d70930d9f6">clearChannelScanAction</a> ()</td></tr>
+<tr class="memdesc:a169a4d04c5c50d3336e274d70930d9f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears interrupt service routine to call when a channel scan is finished. <br /></td></tr>
+<tr class="separator:a169a4d04c5c50d3336e274d70930d9f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -332,6 +375,43 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 
 </div>
 </div>
+<a id="a50c3c0866faa474ae2ea8d5b79a73358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50c3c0866faa474ae2ea8d5b79a73358">&#9670;&nbsp;</a></span>calculateRxTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t PhysicalLayer::calculateRxTimeout </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>timeoutUs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate the timeout value for this specific module / series (in number of symbols or units of time) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timeoutUs</td><td>Timeout in microseconds to listen for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Timeout value in a unit that is specific for the used module </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a55e6c443b0e66d8bbfe8588826475090">SX127x</a>, and <a class="el" href="class_s_x126x.html#a62d3ec87046483c5077343dd5ebd1aa5">SX126x</a>.</p>
+
+</div>
+</div>
 <a id="a1de26f68b939f5af79ec29cc34c7be18"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1de26f68b939f5af79ec29cc34c7be18">&#9670;&nbsp;</a></span>finishTransmit()</h2>
 
@@ -359,6 +439,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_s_x128x.html#a4587409a9b96a0c496cf12b3acac20c4">SX128x</a>, <a class="el" href="class_s_x127x.html#a7fd9cec52b7fbd0c69cbd861dc17549f">SX127x</a>, <a class="el" href="class_s_x126x.html#a8e22d67b64953c8b4da779d87d563f3e">SX126x</a>, <a class="el" href="class_si443x.html#a6792f13441a1bbb3340d2ba3d9abbec3">Si443x</a>, <a class="el" href="class_r_f69.html#a3e449fa06c9e76cf69585bfbeed1c46b">RF69</a>, <a class="el" href="classn_r_f24.html#af0c21ff66c011dfdc1ad12bc7dd11c2f">nRF24</a>, and <a class="el" href="class_c_c1101.html#af70ea860154cd6d2b2e2a6962e161c8f">CC1101</a>.</p>
+
+</div>
+</div>
+<a id="a63979795a7b53557560bb95b65480906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63979795a7b53557560bb95b65480906">&#9670;&nbsp;</a></span>getChannelScanResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::getChannelScanResult </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read the channel scan result. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a81189ce77541d78fc8feb99c2a3f35b2">SX127x</a>, and <a class="el" href="class_s_x126x.html#afdd901c5eac2ca8773d0977e2c493317">SX126x</a>.</p>
 
 </div>
 </div>
@@ -476,6 +586,158 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 <dl class="section return"><dt>Returns</dt><dd>SNR of the last received packet in dB. </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_s_x128x.html#a89ebf1f4f227cd35c0799c06d5d9c1d2">SX128x</a>, <a class="el" href="class_s_x127x.html#abc5069b39dc31b637ee561d5745e1deb">SX127x</a>, and <a class="el" href="class_s_x126x.html#ae36823d3539667bdf7d2f073bd4fa1ca">SX126x</a>.</p>
+
+</div>
+</div>
+<a id="a55ccbe60bfc1ab58814dbd5f9cd4939e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55ccbe60bfc1ab58814dbd5f9cd4939e">&#9670;&nbsp;</a></span>getTimeOnAir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t PhysicalLayer::getTimeOnAir </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get expected time-on-air for a given size of payload. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">len</td><td>Payload length in bytes. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Expected time-on-air in microseconds. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#aca2e782dc6ed44fa77d4d14775d9a4a3">SX127x</a>, <a class="el" href="class_s_x126x.html#a691c960e3fabfb9edcfccbae6eab5b76">SX126x</a>, and <a class="el" href="class_s_x128x.html#a2361a94f2e12ebc93e750a027d633232">SX128x</a>.</p>
+
+</div>
+</div>
+<a id="a11b4c6d0bf3ae7b9ca04e9434180feab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11b4c6d0bf3ae7b9ca04e9434180feab">&#9670;&nbsp;</a></span>invertIQ()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::invertIQ </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set IQ inversion. Must be implemented in module class if the module supports it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>True to use inverted IQ, false for non-inverted. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a363a436978ba990e1bf7d73f648ad7e9">SX127x</a>, <a class="el" href="class_s_x126x.html#a269c8e4ae0d21af88e9422ccf9708c1e">SX126x</a>, and <a class="el" href="class_s_x128x.html#a1463f0769b815e95d789fd708dc2ffe6">SX128x</a>.</p>
+
+</div>
+</div>
+<a id="a1d1fe00d107bbc23b0315fd442bc3292"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d1fe00d107bbc23b0315fd442bc3292">&#9670;&nbsp;</a></span>irqRxDoneRxTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::irqRxDoneRxTimeout </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t &amp;&#160;</td>
+          <td class="paramname"><em>irqFlags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t &amp;&#160;</td>
+          <td class="paramname"><em>irqMask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create the flags that make up RxDone and RxTimeout used for receiving downlinks. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irqFlags</td><td>The flags for which IRQs must be triggered </td></tr>
+    <tr><td class="paramname">irqMask</td><td>Mask indicating which IRQ triggers a DIO </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a399911660ab71520bbda77a6431be8ae">SX127x</a>, and <a class="el" href="class_s_x126x.html#a16a4433b9bebac0aa867e31a74dc258a">SX126x</a>.</p>
+
+</div>
+</div>
+<a id="acb8d8182a32439fe91f2806d73e629f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb8d8182a32439fe91f2806d73e629f4">&#9670;&nbsp;</a></span>isRxTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PhysicalLayer::isRxTimeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether the IRQ bit for RxTimeout is set. </p>
+<dl class="section return"><dt>Returns</dt><dd>RxTimeout IRQ is set </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a09bb29746b5de2d1aa88a6778450306e">SX127x</a>, and <a class="el" href="class_s_x126x.html#a4fc7d4fc9da64e5cd2517d3432ee6ffe">SX126x</a>.</p>
 
 </div>
 </div>
@@ -675,7 +937,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to array to save the received binary data. </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retrieved automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
   </table>
   </dd>
 </dl>
@@ -763,6 +1025,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 
 </div>
 </div>
+<a id="abd9e39cc745acbf084cfa0d3f4d10718"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9e39cc745acbf084cfa0d3f4d10718">&#9670;&nbsp;</a></span>scanChannel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::scanChannel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check whether the current communication channel is free or occupied. Performs CAD for LoRa modules, or RSSI measurement for FSK modules. </p>
+<dl class="section return"><dt>Returns</dt><dd>RADIOLIB_CHANNEL_FREE when channel is free, RADIOLIB_PREAMBLE_DETECTEDwhen occupied or other <a class="el" href="group__status__codes.html">Status Codes</a>. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a13ae97e18744dc617bc9326cfbaad3a3">SX127x</a>, <a class="el" href="class_s_x126x.html#acb8611a9c3862dd1bfa73ef47b8f9b20">SX126x</a>, and <a class="el" href="class_s_x128x.html#a89cc916f5cd5cdfbd331bb15f8a3d5cb">SX128x</a>.</p>
+
+</div>
+</div>
 <a id="aedd39ad84b45c6392087b12d59192d8c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aedd39ad84b45c6392087b12d59192d8c">&#9670;&nbsp;</a></span>setBitRate()</h2>
 
@@ -796,7 +1088,80 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x1278.html#afd6df07fc4972cc656f05670e6802f67">SX1278</a>, <a class="el" href="class_s_x1272.html#ab5c9a79d72996c3d793cee812b0aded5">SX1272</a>, <a class="el" href="class_s_x128x.html#a465ac114dbe6844069b5cb989f87c3ee">SX128x</a>, <a class="el" href="class_s_x126x.html#a7deeef45d7f64a4018a3e56aaea4eb0e">SX126x</a>, <a class="el" href="class_si443x.html#ad43575e731dd7e66d5ad9e6dccd27170">Si443x</a>, <a class="el" href="class_r_f69.html#ad7f8132912a5dbf38c5cf676ac167d13">RF69</a>, <a class="el" href="classn_r_f24.html#a0873f58ae62e41cff99813e21cc8b02a">nRF24</a>, and <a class="el" href="class_c_c1101.html#aa53427cabcda0778f287ed1d850bbe37">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x1278.html#afd6df07fc4972cc656f05670e6802f67">SX1278</a>, <a class="el" href="class_s_x1272.html#ab5c9a79d72996c3d793cee812b0aded5">SX1272</a>, <a class="el" href="class_s_x128x.html#a465ac114dbe6844069b5cb989f87c3ee">SX128x</a>, <a class="el" href="class_s_x126x.html#a7deeef45d7f64a4018a3e56aaea4eb0e">SX126x</a>, <a class="el" href="class_s_x1233.html#af245e451dca502ee8975c7ecd291a859">SX1233</a>, <a class="el" href="class_si443x.html#ad43575e731dd7e66d5ad9e6dccd27170">Si443x</a>, <a class="el" href="class_r_f69.html#ad7f8132912a5dbf38c5cf676ac167d13">RF69</a>, <a class="el" href="classn_r_f24.html#a0873f58ae62e41cff99813e21cc8b02a">nRF24</a>, and <a class="el" href="class_c_c1101.html#aa53427cabcda0778f287ed1d850bbe37">CC1101</a>.</p>
+
+</div>
+</div>
+<a id="ae11c191a7edf3116bf468b9153237260"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae11c191a7edf3116bf468b9153237260">&#9670;&nbsp;</a></span>setChannelScanAction()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PhysicalLayer::setChannelScanAction </td>
+          <td>(</td>
+          <td class="paramtype">void(*)(void)&#160;</td>
+          <td class="paramname"><em>func</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets interrupt service routine to call when a channel scan is finished. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">func</td><td>ISR to call. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#ab0f5f695011a8d734ae86ff39c8ff6f5">SX127x</a>, <a class="el" href="class_s_x126x.html#a1fc6360740d80b664a5042ecc9d8b4fa">SX126x</a>, and <a class="el" href="class_s_t_m32_w_lx.html#ad0ca0a6cc9f1eebe738681df10fd5de4">STM32WLx</a>.</p>
+
+</div>
+</div>
+<a id="a6ee1fed6bbb8d3571974153ac6f26751"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee1fed6bbb8d3571974153ac6f26751">&#9670;&nbsp;</a></span>setDataRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::setDataRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="union_data_rate__t.html">DataRate_t</a>&#160;</td>
+          <td class="paramname"><em>dr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set data. Must be implemented in module class if the module supports it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dr</td><td>Data rate struct. Interpretation depends on currently active modem (FSK or LoRa). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x1278.html#a286f1ee00e2c7f2ab1bd06b66196c3f9">SX1278</a>, <a class="el" href="class_s_x1277.html#ac4bfae9258662381e685e46c803c984c">SX1277</a>, <a class="el" href="class_s_x1273.html#acaffc772f70e7db371cbe736dc4a19ab">SX1273</a>, <a class="el" href="class_s_x1272.html#a5b79b7cd20c4c3cd1f486f777b3457d1">SX1272</a>, and <a class="el" href="class_s_x126x.html#af30a581d31feae6f50c0591d1ee113f1">SX126x</a>.</p>
 
 </div>
 </div>
@@ -833,7 +1198,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a99491c705e88dddc820f884b778f1660">SX128x</a>, <a class="el" href="class_s_x1278.html#afb740a4925b64d83d5edca10d93f0563">SX1278</a>, <a class="el" href="class_s_x1272.html#a91aca64124321c07a67f26b3c6934aea">SX1272</a>, <a class="el" href="class_s_x126x.html#a1d8f4deb555844b24c2426dd86e69676">SX126x</a>, <a class="el" href="class_si443x.html#ade08c79074c7e4414d34eefa25cee168">Si443x</a>, <a class="el" href="class_r_f69.html#a42b99e437454e92c6932c3b7acc1fc4a">RF69</a>, <a class="el" href="classn_r_f24.html#a0db248d2bcdb4ca2b401e8e638442916">nRF24</a>, and <a class="el" href="class_c_c1101.html#adf96e77f25b7e256891601bef04f35a6">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_external_radio.html#abe0bfb0f178783eff28bdc867e9324fd">ExternalRadio</a>, <a class="el" href="class_s_x128x.html#a99491c705e88dddc820f884b778f1660">SX128x</a>, <a class="el" href="class_s_x1278.html#afb740a4925b64d83d5edca10d93f0563">SX1278</a>, <a class="el" href="class_s_x1272.html#a91aca64124321c07a67f26b3c6934aea">SX1272</a>, <a class="el" href="class_s_x126x.html#a1d8f4deb555844b24c2426dd86e69676">SX126x</a>, <a class="el" href="class_si443x.html#ade08c79074c7e4414d34eefa25cee168">Si443x</a>, <a class="el" href="class_r_f69.html#a42b99e437454e92c6932c3b7acc1fc4a">RF69</a>, <a class="el" href="classn_r_f24.html#a0db248d2bcdb4ca2b401e8e638442916">nRF24</a>, and <a class="el" href="class_c_c1101.html#adf96e77f25b7e256891601bef04f35a6">CC1101</a>.</p>
 
 </div>
 </div>
@@ -909,7 +1274,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </table>
 </div><div class="memdoc">
 
-<p>Set interrupt service routine function to call when data bit is receveid in direct mode. Must be implemented in module class. </p>
+<p>Set interrupt service routine function to call when data bit is received in direct mode. Must be implemented in module class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">func</td><td>Pointer to interrupt service routine. </td></tr>
@@ -992,7 +1357,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a8720a388d2cd10fac3112b89f4a80947">SX128x</a>, <a class="el" href="class_s_x127x.html#abad2d455012bd28d304589c8164390eb">SX127x</a>, <a class="el" href="class_s_x126x.html#a2b3eb51117558c58384b03de4b7bfe60">SX126x</a>, <a class="el" href="class_si443x.html#a1382fc3b68f447e381613e6670747128">Si443x</a>, <a class="el" href="class_r_f69.html#aae828ce8dda16da4e54d2f18b1fb8af2">RF69</a>, <a class="el" href="classn_r_f24.html#a0429a9d6524005065e6fac21aaebdcbf">nRF24</a>, and <a class="el" href="class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_external_radio.html#ae619f011daea49a97098d2897e5a3c2c">ExternalRadio</a>, <a class="el" href="class_s_x128x.html#a8720a388d2cd10fac3112b89f4a80947">SX128x</a>, <a class="el" href="class_s_x127x.html#abad2d455012bd28d304589c8164390eb">SX127x</a>, <a class="el" href="class_s_x126x.html#a2b3eb51117558c58384b03de4b7bfe60">SX126x</a>, <a class="el" href="class_si443x.html#a1382fc3b68f447e381613e6670747128">Si443x</a>, <a class="el" href="class_r_f69.html#aae828ce8dda16da4e54d2f18b1fb8af2">RF69</a>, <a class="el" href="classn_r_f24.html#a0429a9d6524005065e6fac21aaebdcbf">nRF24</a>, and <a class="el" href="class_c_c1101.html#ab4b98eb6af33d006306bb7514ed216ea">CC1101</a>.</p>
 
 </div>
 </div>
@@ -1029,7 +1394,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a2043ef7bb806968b9d9dcb64561ca371">SX128x</a>, <a class="el" href="class_s_x1279.html#acf9b2087f5b661f06e9512bad36b3817">SX1279</a>, <a class="el" href="class_s_x1278.html#a4b14d432ef1bd72982f4771cac5b62e4">SX1278</a>, <a class="el" href="class_s_x1277.html#a42adde5eecccdca95214980848795e82">SX1277</a>, <a class="el" href="class_s_x1276.html#a657d75dced0af8c89c4e38535dd5b008">SX1276</a>, <a class="el" href="class_s_x1272.html#af409f50e51042cf9357c0a8267f762f8">SX1272</a>, <a class="el" href="class_s_x1268.html#abf338b7036d692a4a8ca6bf305c0cb12">SX1268</a>, <a class="el" href="class_s_x1262.html#abb018b820eb71ca6b0cd92c62affa767">SX1262</a>, <a class="el" href="class_si4432.html#aa0cdb6cb53bb0176803d5115356a8e84">Si4432</a>, <a class="el" href="class_si4430.html#a025a31861d1511090168e416140d0343">Si4430</a>, <a class="el" href="class_r_f_m96.html#ae2be63ae8365648098b84cc86475fb84">RFM96</a>, <a class="el" href="class_r_f_m95.html#a9dbe60f998ddc661282ebf454dba0f87">RFM95</a>, <a class="el" href="class_r_f69.html#ab467f0fc318e651d0cdfbc0399d4c34b">RF69</a>, <a class="el" href="classn_r_f24.html#a408278336cdf25fd205ecffea86c26e8">nRF24</a>, and <a class="el" href="class_c_c1101.html#a9592c023556c38c2b8066a23da96ae5e">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x128x.html#a2043ef7bb806968b9d9dcb64561ca371">SX128x</a>, <a class="el" href="class_s_x1279.html#acf9b2087f5b661f06e9512bad36b3817">SX1279</a>, <a class="el" href="class_s_x1278.html#a4b14d432ef1bd72982f4771cac5b62e4">SX1278</a>, <a class="el" href="class_s_x1277.html#a42adde5eecccdca95214980848795e82">SX1277</a>, <a class="el" href="class_s_x1276.html#a657d75dced0af8c89c4e38535dd5b008">SX1276</a>, <a class="el" href="class_s_x1272.html#af409f50e51042cf9357c0a8267f762f8">SX1272</a>, <a class="el" href="class_s_x1268.html#abf338b7036d692a4a8ca6bf305c0cb12">SX1268</a>, <a class="el" href="class_s_x1262.html#abb018b820eb71ca6b0cd92c62affa767">SX1262</a>, <a class="el" href="class_si4432.html#aa0cdb6cb53bb0176803d5115356a8e84">Si4432</a>, <a class="el" href="class_si4430.html#a025a31861d1511090168e416140d0343">Si4430</a>, <a class="el" href="class_r_f69.html#ab467f0fc318e651d0cdfbc0399d4c34b">RF69</a>, <a class="el" href="classn_r_f24.html#a408278336cdf25fd205ecffea86c26e8">nRF24</a>, and <a class="el" href="class_c_c1101.html#a9592c023556c38c2b8066a23da96ae5e">CC1101</a>.</p>
 
 </div>
 </div>
@@ -1066,7 +1431,44 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a26d0d02e5e53a3172df9208fa343a3f1">SX128x</a>, <a class="el" href="class_s_x127x.html#a448ea8a6a6011a9cdddd4e09bd6c9679">SX127x</a>, <a class="el" href="class_s_x126x.html#a7cd95a5f2e39ae8fb1a3040e77fa21a3">SX126x</a>, <a class="el" href="class_si443x.html#a7c4e6caa95e5622f6f515ba0339a1c66">Si443x</a>, <a class="el" href="class_r_f69.html#adb9fbfedf95f34ac537815870b98a9be">RF69</a>, <a class="el" href="classn_r_f24.html#a5170284f0a5535de7d00216d450b87a4">nRF24</a>, and <a class="el" href="class_c_c1101.html#a0d69713b9f20c9de354c13c3167b18b3">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_external_radio.html#a02928a19eab0eab615c02180cedda3eb">ExternalRadio</a>, <a class="el" href="class_s_x128x.html#a26d0d02e5e53a3172df9208fa343a3f1">SX128x</a>, <a class="el" href="class_s_x127x.html#a448ea8a6a6011a9cdddd4e09bd6c9679">SX127x</a>, <a class="el" href="class_s_x126x.html#a7cd95a5f2e39ae8fb1a3040e77fa21a3">SX126x</a>, <a class="el" href="class_si443x.html#a7c4e6caa95e5622f6f515ba0339a1c66">Si443x</a>, <a class="el" href="class_r_f69.html#adb9fbfedf95f34ac537815870b98a9be">RF69</a>, <a class="el" href="classn_r_f24.html#a5170284f0a5535de7d00216d450b87a4">nRF24</a>, and <a class="el" href="class_c_c1101.html#a0d69713b9f20c9de354c13c3167b18b3">CC1101</a>.</p>
+
+</div>
+</div>
+<a id="ad2286dc78dbf8e3084f38e9159b99ae5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2286dc78dbf8e3084f38e9159b99ae5">&#9670;&nbsp;</a></span>setOutputPower()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::setOutputPower </td>
+          <td>(</td>
+          <td class="paramtype">int8_t&#160;</td>
+          <td class="paramname"><em>power</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set output power. Must be implemented in module class if the module supports it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">power</td><td>Output power in dBm. The allowed range depends on the module used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x128x.html#ad988727ea6c9b4e11562651d312514c0">SX128x</a>, <a class="el" href="classn_r_f24.html#ad9859fa54aed7d3cd82839bad9d7d33a">nRF24</a>, <a class="el" href="class_c_c1101.html#a4f89d13ea170157df109eca36674f0aa">CC1101</a>, <a class="el" href="class_s_x1278.html#a69abc18e7fa0055e6b80024e8cde7db4">SX1278</a>, <a class="el" href="class_s_x1272.html#aec51f08c0902145ff5f11e27e7cab638">SX1272</a>, <a class="el" href="class_s_t_m32_w_lx.html#a9afbde1c466907598974cc3923784c5b">STM32WLx</a>, <a class="el" href="class_s_x1268.html#a5b0744aa46fbb4f8c738b010dfcc9b45">SX1268</a>, <a class="el" href="class_s_x1262.html#aa149463283dc9cddfec836ec6620d4dc">SX1262</a>, <a class="el" href="class_s_x1261.html#aa541f927995a1756c651b93fd24edc65">SX1261</a>, <a class="el" href="class_si4432.html#a8b26e2c86a9e5e8f6405f0a57b65caca">Si4432</a>, <a class="el" href="class_si4431.html#a4da296b35056e076ff69a288bd801d19">Si4431</a>, and <a class="el" href="class_si4430.html#af8d615431bf66e06b45487f3fff73d16">Si4430</a>.</p>
 
 </div>
 </div>
@@ -1102,7 +1504,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a697880c42c4b1def04c8fe7f3a023ffb">SX128x</a>, <a class="el" href="class_s_x127x.html#ad63322c9c58dd82e4b9982f10e546f33">SX127x</a>, <a class="el" href="class_s_x126x.html#ad2bc2016783a3fcad3ad4e6518ee7fc8">SX126x</a>, <a class="el" href="class_si443x.html#a2badfa5db1ae5b9ec26ad7a8b3cab167">Si443x</a>, <a class="el" href="class_r_f69.html#ac8bff26070735a733a24146d414c3c5f">RF69</a>, <a class="el" href="classn_r_f24.html#a08b90ae895a6a45bceb11f67237245b4">nRF24</a>, and <a class="el" href="class_c_c1101.html#a4f47f83e7a1cb6cd014161803db867fb">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x128x.html#a697880c42c4b1def04c8fe7f3a023ffb">SX128x</a>, <a class="el" href="class_s_x127x.html#ad63322c9c58dd82e4b9982f10e546f33">SX127x</a>, <a class="el" href="class_s_x126x.html#ad2bc2016783a3fcad3ad4e6518ee7fc8">SX126x</a>, <a class="el" href="class_s_t_m32_w_lx.html#a9194a526a32bd4891d59fe2a08641622">STM32WLx</a>, <a class="el" href="class_si443x.html#a2badfa5db1ae5b9ec26ad7a8b3cab167">Si443x</a>, <a class="el" href="class_r_f69.html#ac8bff26070735a733a24146d414c3c5f">RF69</a>, <a class="el" href="classn_r_f24.html#a08b90ae895a6a45bceb11f67237245b4">nRF24</a>, and <a class="el" href="class_c_c1101.html#a4f47f83e7a1cb6cd014161803db867fb">CC1101</a>.</p>
 
 </div>
 </div>
@@ -1138,7 +1540,92 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#acaa115bb9eb3d325d6baba1f578d678b">SX128x</a>, <a class="el" href="class_s_x127x.html#a91476a51019910b958f464e73ba797c5">SX127x</a>, <a class="el" href="class_s_x126x.html#a0417720a61b2d587e5633360cbecb33c">SX126x</a>, <a class="el" href="class_si443x.html#aa55274bb345f178328ea2a674621fc84">Si443x</a>, <a class="el" href="class_r_f69.html#a27fad7a67c4239c19bd94d1ccfb493ca">RF69</a>, <a class="el" href="classn_r_f24.html#a8e00d6729ee3c869cda8ccb5ae15ba27">nRF24</a>, and <a class="el" href="class_c_c1101.html#aff4ddeb8f8680307079a1e84de1cc676">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x128x.html#acaa115bb9eb3d325d6baba1f578d678b">SX128x</a>, <a class="el" href="class_s_x127x.html#a91476a51019910b958f464e73ba797c5">SX127x</a>, <a class="el" href="class_s_x126x.html#a0417720a61b2d587e5633360cbecb33c">SX126x</a>, <a class="el" href="class_s_t_m32_w_lx.html#a771bb4b32a6d9a2f44326e85678e3270">STM32WLx</a>, <a class="el" href="class_si443x.html#aa55274bb345f178328ea2a674621fc84">Si443x</a>, <a class="el" href="class_r_f69.html#a27fad7a67c4239c19bd94d1ccfb493ca">RF69</a>, <a class="el" href="classn_r_f24.html#a8e00d6729ee3c869cda8ccb5ae15ba27">nRF24</a>, and <a class="el" href="class_c_c1101.html#aff4ddeb8f8680307079a1e84de1cc676">CC1101</a>.</p>
+
+</div>
+</div>
+<a id="a85db1ff64e6c56e054f276c511194633"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85db1ff64e6c56e054f276c511194633">&#9670;&nbsp;</a></span>setPreambleLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::setPreambleLength </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set preamble length. Must be implemented in module class if the module supports it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">len</td><td>Preamble length in bytes. Maximum length depends on the module used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a844499bace6ae001446d71bee2877656">SX127x</a>, and <a class="el" href="class_s_x126x.html#ad6274222ccf534e98e3cd17dfa1520d4">SX126x</a>.</p>
+
+</div>
+</div>
+<a id="a6c71cdc1238e1368274670758431a977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c71cdc1238e1368274670758431a977">&#9670;&nbsp;</a></span>setSyncWord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::setSyncWord </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>sync</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set sync word. Must be implemented in module class if the module supports it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sync</td><td>Pointer to the sync word. </td></tr>
+    <tr><td class="paramname">len</td><td>Sync word length in bytes. Maximum length depends on the module used. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#aaf400f33e17c1679c0b55cd70bef90b0">SX127x</a>, <a class="el" href="class_s_x126x.html#a827a4754ea53388513d263e5d9171395">SX126x</a>, and <a class="el" href="class_si443x.html#a4ed0da298c2418db4a88a19ef8938e0a">Si443x</a>.</p>
 
 </div>
 </div>
@@ -1230,6 +1717,36 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
 <p>Reimplemented in <a class="el" href="class_s_x127x.html#aa565bbff460e487672953dc05d335cb0">SX127x</a>, <a class="el" href="class_si443x.html#acbc0f95f32ca961294666405596ff529">Si443x</a>, <a class="el" href="class_r_f69.html#a6e3002ab0c58e2087a7d101eda7afa82">RF69</a>, <a class="el" href="classn_r_f24.html#a03e9ae7fbd0d55887acf1996df28ed5b">nRF24</a>, and <a class="el" href="class_c_c1101.html#af374ad0ecd820a01baef7d177a30132a">CC1101</a>.</p>
+
+</div>
+</div>
+<a id="ae30dfbb5445bb674898fc54f5f90b2f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae30dfbb5445bb674898fc54f5f90b2f9">&#9670;&nbsp;</a></span>startChannelScan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t PhysicalLayer::startChannelScan </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Interrupt-driven channel activity detection method. interrupt will be activated when packet is detected. Must be implemented in module class. </p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="class_s_x127x.html#a6fa5723724393576ed597509200e17d1">SX127x</a>, and <a class="el" href="class_s_x126x.html#a001c4637f01ed6f0216cd6c4d7e10da3">SX126x</a>.</p>
 
 </div>
 </div>
@@ -1341,7 +1858,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x126x.html#a0d5ce0a8d2a5b275676d9d98124312ce">SX126x</a>, <a class="el" href="class_si443x.html#a1070a6cde04a01d4a35da670f65ce539">Si443x</a>, <a class="el" href="class_r_f69.html#ae8b6f87d4b798dc8fcda07bfa5af5a66">RF69</a>, <a class="el" href="classn_r_f24.html#ad672f45f73267249265044063e19b4fa">nRF24</a>, <a class="el" href="class_c_c1101.html#a22ebe5b75a09c420cf6e6464dac3fe33">CC1101</a>, and <a class="el" href="class_s_x127x.html#a0ae533401c801f1d4034eb3db8b1f30c">SX127x</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x126x.html#a0d5ce0a8d2a5b275676d9d98124312ce">SX126x</a>, <a class="el" href="class_s_x127x.html#ae274d8640bba5c22217db120c51c6bb8">SX127x</a>, <a class="el" href="class_si443x.html#a1070a6cde04a01d4a35da670f65ce539">Si443x</a>, <a class="el" href="class_r_f69.html#ae8b6f87d4b798dc8fcda07bfa5af5a66">RF69</a>, <a class="el" href="classn_r_f24.html#ad672f45f73267249265044063e19b4fa">nRF24</a>, and <a class="el" href="class_c_c1101.html#a22ebe5b75a09c420cf6e6464dac3fe33">CC1101</a>.</p>
 
 </div>
 </div>
@@ -1564,7 +2081,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>LoRaWANNode</b></td>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="class_s_x128x.html#a53892566b0259d348158efe3c3c3601a">SX128x</a>, <a class="el" href="class_s_x127x.html#aefeeb9f7192e11a75b5dfb1ab8488e84">SX127x</a>, <a class="el" href="class_s_x126x.html#a921aa8afb8d33b2660731c1f8d67664b">SX126x</a>, <a class="el" href="class_si443x.html#a5a86a2032c4b876c1c8e4a7cf4730c99">Si443x</a>, <a class="el" href="class_r_f69.html#a222682569338abb49d6952430b6eebdd">RF69</a>, <a class="el" href="classn_r_f24.html#a090bb64f65309efabfa1ffd86daa2303">nRF24</a>, and <a class="el" href="class_c_c1101.html#a240eef8fa7d838d76f3c11086dc50e46">CC1101</a>.</p>
+<p>Reimplemented in <a class="el" href="class_s_x128x.html#a53892566b0259d348158efe3c3c3601a">SX128x</a>, <a class="el" href="class_s_x127x.html#aefeeb9f7192e11a75b5dfb1ab8488e84">SX127x</a>, <a class="el" href="class_s_x126x.html#a921aa8afb8d33b2660731c1f8d67664b">SX126x</a>, <a class="el" href="class_si443x.html#a5a86a2032c4b876c1c8e4a7cf4730c99">Si443x</a>, <a class="el" href="class_r_f69.html#a222682569338abb49d6952430b6eebdd">RF69</a>, <a class="el" href="classn_r_f24.html#a090bb64f65309efabfa1ffd86daa2303">nRF24</a>, <a class="el" href="class_c_c1101.html#a240eef8fa7d838d76f3c11086dc50e46">CC1101</a>, and <a class="el" href="class_external_radio.html#ae8c160da3b82f706b2526af2bac85d69">ExternalRadio</a>.</p>
 
 </div>
 </div>

@@ -191,7 +191,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:ae1f933f767161cc59fdaca816ab93e22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the current IRQ status.  <a href="class_s_x128x.html#ae1f933f767161cc59fdaca816ab93e22">More...</a><br /></td></tr>
 <tr class="separator:ae1f933f767161cc59fdaca816ab93e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94bca43258b09217fb476a2d8db784bb"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x128x.html#a94bca43258b09217fb476a2d8db784bb">readData</a> (uint8_t *data, size_t len) override</td></tr>
-<tr class="memdesc:a94bca43258b09217fb476a2d8db784bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data received after calling startReceive method.  <a href="class_s_x128x.html#a94bca43258b09217fb476a2d8db784bb">More...</a><br /></td></tr>
+<tr class="memdesc:a94bca43258b09217fb476a2d8db784bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads data received after calling startReceive method. When the packet length is not known in advance, getPacketLength method must be called BEFORE calling readData!  <a href="class_s_x128x.html#a94bca43258b09217fb476a2d8db784bb">More...</a><br /></td></tr>
 <tr class="separator:a94bca43258b09217fb476a2d8db784bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2043ef7bb806968b9d9dcb64561ca371"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x128x.html#a2043ef7bb806968b9d9dcb64561ca371">setFrequency</a> (float freq)</td></tr>
 <tr class="memdesc:a2043ef7bb806968b9d9dcb64561ca371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets carrier frequency. Allowed values are in range from 2400.0 to 2500.0 MHz.  <a href="class_s_x128x.html#a2043ef7bb806968b9d9dcb64561ca371">More...</a><br /></td></tr>
@@ -320,9 +320,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a923654706eff5118ef6e84214e837f27 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a923654706eff5118ef6e84214e837f27">startTransmit</a> (const char *str, uint8_t addr=0)</td></tr>
 <tr class="memdesc:a923654706eff5118ef6e84214e837f27 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven Arduino String transmit method. Unlike the standard transmit method, this one is non-blocking. Interrupt pin will be activated when transmission finishes.  <a href="class_physical_layer.html#a923654706eff5118ef6e84214e837f27">More...</a><br /></td></tr>
 <tr class="separator:a923654706eff5118ef6e84214e837f27 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c71cdc1238e1368274670758431a977 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a6c71cdc1238e1368274670758431a977">setSyncWord</a> (uint8_t *sync, size_t len)</td></tr>
+<tr class="memdesc:a6c71cdc1238e1368274670758431a977 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set sync word. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a6c71cdc1238e1368274670758431a977">More...</a><br /></td></tr>
+<tr class="separator:a6c71cdc1238e1368274670758431a977 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85db1ff64e6c56e054f276c511194633 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a85db1ff64e6c56e054f276c511194633">setPreambleLength</a> (size_t len)</td></tr>
+<tr class="memdesc:a85db1ff64e6c56e054f276c511194633 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set preamble length. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a85db1ff64e6c56e054f276c511194633">More...</a><br /></td></tr>
+<tr class="separator:a85db1ff64e6c56e054f276c511194633 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee1fed6bbb8d3571974153ac6f26751 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a6ee1fed6bbb8d3571974153ac6f26751">setDataRate</a> (<a class="el" href="union_data_rate__t.html">DataRate_t</a> dr)</td></tr>
+<tr class="memdesc:a6ee1fed6bbb8d3571974153ac6f26751 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data. Must be implemented in module class if the module supports it.  <a href="class_physical_layer.html#a6ee1fed6bbb8d3571974153ac6f26751">More...</a><br /></td></tr>
+<tr class="separator:a6ee1fed6bbb8d3571974153ac6f26751 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a977e5236693960bb1c79090a201e9e1c inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a977e5236693960bb1c79090a201e9e1c">getFreqStep</a> () const</td></tr>
 <tr class="memdesc:a977e5236693960bb1c79090a201e9e1c inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the module frequency step size that was set in constructor.  <a href="class_physical_layer.html#a977e5236693960bb1c79090a201e9e1c">More...</a><br /></td></tr>
 <tr class="separator:a977e5236693960bb1c79090a201e9e1c inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c3c0866faa474ae2ea8d5b79a73358 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a50c3c0866faa474ae2ea8d5b79a73358">calculateRxTimeout</a> (uint32_t timeoutUs)</td></tr>
+<tr class="memdesc:a50c3c0866faa474ae2ea8d5b79a73358 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the timeout value for this specific module / series (in number of symbols or units of time)  <a href="class_physical_layer.html#a50c3c0866faa474ae2ea8d5b79a73358">More...</a><br /></td></tr>
+<tr class="separator:a50c3c0866faa474ae2ea8d5b79a73358 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d1fe00d107bbc23b0315fd442bc3292 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a1d1fe00d107bbc23b0315fd442bc3292">irqRxDoneRxTimeout</a> (uint16_t &amp;irqFlags, uint16_t &amp;irqMask)</td></tr>
+<tr class="memdesc:a1d1fe00d107bbc23b0315fd442bc3292 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create the flags that make up RxDone and RxTimeout used for receiving downlinks.  <a href="class_physical_layer.html#a1d1fe00d107bbc23b0315fd442bc3292">More...</a><br /></td></tr>
+<tr class="separator:a1d1fe00d107bbc23b0315fd442bc3292 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8d8182a32439fe91f2806d73e629f4 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acb8d8182a32439fe91f2806d73e629f4">isRxTimeout</a> ()</td></tr>
+<tr class="memdesc:acb8d8182a32439fe91f2806d73e629f4 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the IRQ bit for RxTimeout is set.  <a href="class_physical_layer.html#acb8d8182a32439fe91f2806d73e629f4">More...</a><br /></td></tr>
+<tr class="separator:acb8d8182a32439fe91f2806d73e629f4 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae30dfbb5445bb674898fc54f5f90b2f9 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ae30dfbb5445bb674898fc54f5f90b2f9">startChannelScan</a> ()</td></tr>
+<tr class="memdesc:ae30dfbb5445bb674898fc54f5f90b2f9 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt-driven channel activity detection method. interrupt will be activated when packet is detected. Must be implemented in module class.  <a href="class_physical_layer.html#ae30dfbb5445bb674898fc54f5f90b2f9">More...</a><br /></td></tr>
+<tr class="separator:ae30dfbb5445bb674898fc54f5f90b2f9 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63979795a7b53557560bb95b65480906 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a63979795a7b53557560bb95b65480906">getChannelScanResult</a> ()</td></tr>
+<tr class="memdesc:a63979795a7b53557560bb95b65480906 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the channel scan result.  <a href="class_physical_layer.html#a63979795a7b53557560bb95b65480906">More...</a><br /></td></tr>
+<tr class="separator:a63979795a7b53557560bb95b65480906 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd9171bd71aa80fb86113b612c42de53 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#acd9171bd71aa80fb86113b612c42de53">random</a> (int32_t max)</td></tr>
 <tr class="memdesc:acd9171bd71aa80fb86113b612c42de53 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get truly random number in range 0 - max.  <a href="class_physical_layer.html#acd9171bd71aa80fb86113b612c42de53">More...</a><br /></td></tr>
 <tr class="separator:acd9171bd71aa80fb86113b612c42de53 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -348,6 +372,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a349e8a22cd28ad89d45460fdeeefc05c inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a349e8a22cd28ad89d45460fdeeefc05c">setDIOMapping</a> (uint32_t pin, uint32_t value)</td></tr>
 <tr class="memdesc:a349e8a22cd28ad89d45460fdeeefc05c inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure DIO pin mapping to get a given signal on a DIO pin (if available).  <a href="class_physical_layer.html#a349e8a22cd28ad89d45460fdeeefc05c">More...</a><br /></td></tr>
 <tr class="separator:a349e8a22cd28ad89d45460fdeeefc05c inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae11c191a7edf3116bf468b9153237260 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#ae11c191a7edf3116bf468b9153237260">setChannelScanAction</a> (void(*func)(void))</td></tr>
+<tr class="memdesc:ae11c191a7edf3116bf468b9153237260 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets interrupt service routine to call when a channel scan is finished.  <a href="class_physical_layer.html#ae11c191a7edf3116bf468b9153237260">More...</a><br /></td></tr>
+<tr class="separator:ae11c191a7edf3116bf468b9153237260 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a169a4d04c5c50d3336e274d70930d9f6 inherit pub_methods_class_physical_layer"><td class="memItemLeft" align="right" valign="top"><a id="a169a4d04c5c50d3336e274d70930d9f6"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_physical_layer.html#a169a4d04c5c50d3336e274d70930d9f6">clearChannelScanAction</a> ()</td></tr>
+<tr class="memdesc:a169a4d04c5c50d3336e274d70930d9f6 inherit pub_methods_class_physical_layer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears interrupt service routine to call when a channel scan is finished. <br /></td></tr>
+<tr class="separator:a169a4d04c5c50d3336e274d70930d9f6 inherit pub_methods_class_physical_layer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Base class for SX128x series. All derived classes for SX128x (e.g. <a class="el" href="class_s_x1280.html" title="Derived class for SX1280 modules.">SX1280</a> or <a class="el" href="class_s_x1281.html" title="Derived class for SX1281 modules.">SX1281</a>) inherit from this base class. This class should not be instantiated directly from Arduino sketch, only from its derived classes. </p>
@@ -834,6 +865,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">uint32_t SX128x::getTimeOnAir </td>
@@ -843,6 +877,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Get expected time-on-air for a given size of payload. </p>
@@ -854,6 +893,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Expected time-on-air in microseconds. </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000012">Todo:</a></b></dt><dd>implement this mess - <a class="el" href="class_s_x1280.html" title="Derived class for SX1280 modules.">SX1280</a> datasheet v3.0 section 7.4.4.2 </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#a55ccbe60bfc1ab58814dbd5f9cd4939e">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -883,6 +924,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t SX128x::invertIQ </td>
@@ -892,6 +936,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Enable/disable inversion of the I and Q signals. </p>
@@ -902,6 +951,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#a11b4c6d0bf3ae7b9ca04e9434180feab">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -987,7 +1038,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to array to save the received binary data. </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retrieved automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1029,11 +1080,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table>
 </div><div class="memdoc">
 
-<p>Reads data received after calling startReceive method. </p>
+<p>Reads data received after calling startReceive method. When the packet length is not known in advance, getPacketLength method must be called BEFORE calling readData! </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Pointer to array to save the received binary data. </td></tr>
-    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retreived automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
+    <tr><td class="paramname">len</td><td>Number of bytes that will be read. When set to 0, the packet length will be retrieved automatically. When more bytes than received are requested, only the number of bytes requested will be returned. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1177,6 +1228,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t SX128x::scanChannel </td>
@@ -1185,10 +1239,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Performs scan for LoRa transmission in the current channel. Detects both preamble and payload. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#abd9e39cc745acbf084cfa0d3f4d10718">PhysicalLayer</a>.</p>
 
 </div>
 </div>
@@ -1635,6 +1696,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">int16_t SX128x::setOutputPower </td>
@@ -1644,6 +1708,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Sets output power. Allowed values are in range from -18 to 13 dBm. </p>
@@ -1654,6 +1723,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#ad2286dc78dbf8e3084f38e9159b99ae5">PhysicalLayer</a>.</p>
 
 </div>
 </div>
