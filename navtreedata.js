@@ -50,10 +50,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_a_f_s_k_8h_source.html",
-"class_module.html#a4ea888758b4a7784082d513a1e7849a4",
-"class_radio_lib_hal.html#aa4f2bd49aea5a19aa9f85c720b4a883e",
-"class_s_x127x.html",
-"classn_r_f24.html#a3563453988a83d22dd07d4691543a300",
+"class_module.html#a34927454be3a34df8a5a586c46c428af",
+"class_radio_lib_hal.html#a6b5341c59728a1932e33216feee04ea5",
+"class_s_x1279.html#a324a37dee0522f43692cd414141becc2",
+"classn_r_f24.html#a31bcc5a8c3747bf08a273dbdadc5481a",
 "struct_lo_ra_w_a_n_band__t.html"
 ];
 
