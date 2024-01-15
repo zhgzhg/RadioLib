@@ -6,10 +6,6 @@ CC1101::CC1101(Module* module) : PhysicalLayer(RADIOLIB_CC1101_FREQUENCY_STEP_SI
   this->mod = module;
 }
 
-Module* CC1101::getMod() {
-  return(this->mod);
-}
-
 int16_t CC1101::begin(float freq, float br, float freqDev, float rxBw, int8_t pwr, uint8_t preambleLength) {
   // set module properties
   this->mod->SPIreadCommand = RADIOLIB_CC1101_CMD_READ;
@@ -143,7 +139,7 @@ int16_t CC1101::receive(uint8_t* data, size_t len) {
   int16_t state = startReceive();
   RADIOLIB_ASSERT(state);
 
-  // wait for packet or timeout
+  // wait for packet start or timeout
   uint32_t start = this->mod->hal->micros();
   while(this->mod->hal->digitalRead(this->mod->getIrq())) {
     this->mod->hal->yield();
@@ -155,11 +151,16 @@ int16_t CC1101::receive(uint8_t* data, size_t len) {
     }
   }
 
-  // for some reason, blocking receive will sometimes return impossible packet lengths
-  // reading packet length again in readData seems to resolve this
-  size_t length = getPacketLength();
-  if((length == 0) || (length > RADIOLIB_CC1101_MAX_PACKET_LENGTH)) {
-    this->packetLengthQueried = false;
+  // wait for packet end or timeout
+  start = this->mod->hal->micros();
+  while(!this->mod->hal->digitalRead(this->mod->getIrq())) {
+    this->mod->hal->yield();
+
+    if(this->mod->hal->micros() - start > timeout) {
+      standby();
+      SPIsendCommand(RADIOLIB_CC1101_CMD_FLUSH_RX);
+      return(RADIOLIB_ERR_RX_TIMEOUT);
+    }
   }
 
   // read packet data
@@ -1048,6 +1049,10 @@ int16_t CC1101::setPacketMode(uint8_t mode, uint16_t len) {
   this->packetLength = len;
   this->packetLengthConfig = mode;
   return(state);
+}
+
+Module* CC1101::getMod() {
+  return(this->mod);
 }
 
 int16_t CC1101::SPIgetRegValue(uint8_t reg, uint8_t msb, uint8_t lsb) {

@@ -6,10 +6,6 @@ SX127x::SX127x(Module* mod) : PhysicalLayer(RADIOLIB_SX127X_FREQUENCY_STEP_SIZE,
   this->mod = mod;
 }
 
-Module* SX127x::getMod() {
-  return(this->mod);
-}
-
 int16_t SX127x::begin(uint8_t* chipVersions, uint8_t numVersions, uint8_t syncWord, uint16_t preambleLength) {
   // set module properties
   this->mod->init();
@@ -548,7 +544,7 @@ bool SX127x::fifoGet(volatile uint8_t* data, int totalLen, volatile int* rcvLen)
 
   // get the data
   this->mod->SPIreadRegisterBurst(RADIOLIB_SX127X_REG_FIFO, len, dataPtr);
-  (*rcvLen) += (len);
+  *rcvLen = *rcvLen + len;
 
   // check if we're done
   if(*rcvLen >= totalLen) {
@@ -1483,6 +1479,10 @@ int8_t SX127x::getTempRaw() {
   return(temp);
 }
 
+Module* SX127x::getMod() {
+  return(this->mod);
+}
+
 int16_t SX127x::config() {
   // turn off frequency hopping
   int16_t state = this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_HOP_PERIOD, RADIOLIB_SX127X_HOP_PERIOD_OFF);
@@ -1727,6 +1727,28 @@ float SX127x::getRSSI(bool packet, bool skipReceive, int16_t offset) {
     // return the value
     return(rssi);
   }
+}
+
+int16_t SX127x::setLowBatteryThreshold(int8_t level, uint32_t pin) {
+  // check disable
+  if(level < 0) {
+    return(this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_LOW_BAT, RADIOLIB_SX127X_LOW_BAT_OFF, 3, 3));
+  }
+
+  // enable detector and set the threshold
+  int16_t state = this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_LOW_BAT, RADIOLIB_SX127X_LOW_BAT_ON | level, 3, 0);
+  RADIOLIB_ASSERT(state);
+
+  // set DIO mapping
+  switch(pin) {
+    case(0):
+      return(this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, RADIOLIB_SX127X_DIO0_PACK_TEMP_CHANGE_LOW_BAT, 7, 6));
+    case(3):
+      return(this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_1, RADIOLIB_SX127X_DIO3_CONT_TEMP_CHANGE_LOW_BAT, 1, 0));
+    case(4):
+      return(this->mod->SPIsetRegValue(RADIOLIB_SX127X_REG_DIO_MAPPING_2, RADIOLIB_SX127X_DIO4_PACK_TEMP_CHANGE_LOW_BAT, 7, 6));
+  }
+  return(RADIOLIB_ERR_INVALID_DIO_PIN);
 }
 
 #endif

@@ -472,14 +472,14 @@
 // RADIOLIB_SX127X_REG_LOW_BAT
 #define RADIOLIB_SX127X_LOW_BAT_OFF                             0b00000000  //  3     3   low battery detector disabled
 #define RADIOLIB_SX127X_LOW_BAT_ON                              0b00001000  //  3     3   low battery detector enabled
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_1_695_V                    0b00000000  //  2     0   battery voltage threshold: 1.695 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_1_764_V                    0b00000001  //  2     0                              1.764 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_1_835_V                    0b00000010  //  2     0                              1.835 V (default)
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_1_905_V                    0b00000011  //  2     0                              1.905 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_1_976_V                    0b00000100  //  2     0                              1.976 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_2_045_V                    0b00000101  //  2     0                              2.045 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_2_116_V                    0b00000110  //  2     0                              2.116 V
-#define RADIOLIB_SX127X_LOW_BAT_TRIM_2_185_V                    0b00000111  //  2     0                              2.185 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_1_695_V               0b00000000  //  2     0   battery voltage threshold: 1.695 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_1_764_V               0b00000001  //  2     0                              1.764 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_1_835_V               0b00000010  //  2     0                              1.835 V (default)
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_1_905_V               0b00000011  //  2     0                              1.905 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_1_976_V               0b00000100  //  2     0                              1.976 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_2_045_V               0b00000101  //  2     0                              2.045 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_2_116_V               0b00000110  //  2     0                              2.116 V
+#define RADIOLIB_SX127X_LOW_BAT_THRESHOLD_2_185_V               0b00000111  //  2     0                              2.185 V
 
 // RADIOLIB_SX127X_REG_IRQ_FLAGS_1
 #define RADIOLIB_SX127X_FLAG_MODE_READY                         0b10000000  //  7     7   requested mode is ready
@@ -595,8 +595,6 @@ class SX127x: public PhysicalLayer {
       \param mod Instance of Module that will be used to communicate with the %LoRa chip.
     */
     SX127x(Module* mod);
-
-    Module* getMod();
 
     // basic methods
 
@@ -1237,42 +1235,53 @@ class SX127x: public PhysicalLayer {
     */
     int16_t setRSSIThreshold(float dbm);
 
+    /*!
+      \brief Set low battery indicator threshold.
+      \param level Battery threshold level (one of RADIOLIB_SX127X_LOW_BAT_THRESHOLD_*),
+      or -1 to disable the detector. Disabled by default. Note that this will not attach any interrupts!
+      \param pin DIO pin number which will be used to signal low battery. Only DIO0/4 can be used
+      (in packet mode) or DIO3/4 (in continuous mode). Ignored when disabling the detector.
+      \returns \ref status_codes
+    */
+    int16_t setLowBatteryThreshold(int8_t level, uint32_t pin = RADIOLIB_NC);
+
 #if !RADIOLIB_GODMODE && !RADIOLIB_LOW_LEVEL
   protected:
 #endif
-    Module* mod;
+    Module* getMod();
 
 #if !RADIOLIB_GODMODE
   protected:
 #endif
-
     float frequency = 0;
     float bandwidth = 0;
     uint8_t spreadingFactor = 0;
-    uint8_t codingRate = 0;
-    float bitRate = 0;
-    bool ookEnabled = false;
-    bool crcEnabled = false;
-    bool crcOn = true; // default value used in FSK mode
     size_t packetLength = 0;
+    uint8_t codingRate = 0;
+    bool crcEnabled = false;
+    bool ookEnabled = false;
 
     uint32_t _transmitAtTimestampUs = 0;
 
-    int16_t setFrequencyRaw(float newFreq);
-    int16_t setBitRateCommon(float br, uint8_t fracRegAddr);
-    int16_t config();
     int16_t configFSK();
     int16_t getActiveModem();
-    int16_t directMode();
-    int16_t setPacketMode(uint8_t mode, uint8_t len);
+    int16_t setFrequencyRaw(float newFreq);
+    int16_t setBitRateCommon(float br, uint8_t fracRegAddr);
 
 #if !RADIOLIB_GODMODE
   private:
 #endif
+    Module* mod;
+
+    float bitRate = 0;
+    bool crcOn = true; // default value used in FSK mode
     float dataRate = 0;
     bool packetLengthQueried = false; // FSK packet length is the first byte in FIFO, length can only be queried once
     uint8_t packetLengthConfig = RADIOLIB_SX127X_PACKET_VARIABLE;
 
+    int16_t config();
+    int16_t directMode();
+    int16_t setPacketMode(uint8_t mode, uint8_t len);
     bool findChip(uint8_t* vers, uint8_t num);
     int16_t setMode(uint8_t mode);
     int16_t setActiveModem(uint8_t modem);

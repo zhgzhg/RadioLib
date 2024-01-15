@@ -8,10 +8,6 @@ SX126x::SX126x(Module* mod) : PhysicalLayer(RADIOLIB_SX126X_FREQUENCY_STEP_SIZE,
   this->XTAL = false;
 }
 
-Module* SX126x::getMod() {
-  return(this->mod);
-}
-
 int16_t SX126x::begin(uint8_t cr, uint8_t syncWord, uint16_t preambleLength, float tcxoVoltage, bool useRegulatorLDO) {
   // set module properties
   this->mod->init();
@@ -1850,7 +1846,8 @@ int16_t SX126x::setRfFrequency(uint32_t frf) {
   return(this->mod->SPIwriteStream(RADIOLIB_SX126X_CMD_SET_RF_FREQUENCY, data, 4));
 }
 
-int16_t SX126x::calibrateImage(uint8_t* data) {
+int16_t SX126x::calibrateImage(float freqMin, float freqMax) {
+  uint8_t data[] = { (uint8_t)floor((freqMin - 1.0f) / 4.0f), (uint8_t)ceil((freqMax + 1.0f) / 4.0f) };
   int16_t state = this->mod->SPIwriteStream(RADIOLIB_SX126X_CMD_CALIBRATE_IMAGE, data, 2);
 
   // if something failed, show the device errors
@@ -2065,6 +2062,10 @@ int16_t SX126x::fixInvertedIQ(uint8_t iqConfig) {
 
   // update with the new value
   return(writeRegister(RADIOLIB_SX126X_REG_IQ_CONFIG, &iqConfigCurrent, 1));
+}
+
+Module* SX126x::getMod() {
+  return(this->mod);
 }
 
 int16_t SX126x::config(uint8_t modem) {
