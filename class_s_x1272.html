@@ -139,6 +139,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a5b79b7cd20c4c3cd1f486f777b3457d1"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1272.html#a5b79b7cd20c4c3cd1f486f777b3457d1">setDataRate</a> (<a class="el" href="union_data_rate__t.html">DataRate_t</a> dr) override</td></tr>
 <tr class="memdesc:a5b79b7cd20c4c3cd1f486f777b3457d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data.  <a href="class_s_x1272.html#a5b79b7cd20c4c3cd1f486f777b3457d1">More...</a><br /></td></tr>
 <tr class="separator:a5b79b7cd20c4c3cd1f486f777b3457d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a36487740f15731c6e508428e4b11f0"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1272.html#a2a36487740f15731c6e508428e4b11f0">checkDataRate</a> (<a class="el" href="union_data_rate__t.html">DataRate_t</a> dr) override</td></tr>
+<tr class="memdesc:a2a36487740f15731c6e508428e4b11f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check the data rate can be configured by this module.  <a href="class_s_x1272.html#a2a36487740f15731c6e508428e4b11f0">More...</a><br /></td></tr>
+<tr class="separator:a2a36487740f15731c6e508428e4b11f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec51f08c0902145ff5f11e27e7cab638"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_s_x1272.html#aec51f08c0902145ff5f11e27e7cab638">setOutputPower</a> (int8_t power) override</td></tr>
 <tr class="memdesc:aec51f08c0902145ff5f11e27e7cab638"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets transmission output power. Allowed values range from -1 to 14 dBm (RFO pin) or +2 to +20 dBm (PA_BOOST pin). High power +20 dBm operation is also supported, on the PA_BOOST pin. Defaults to PA_BOOST.  <a href="class_s_x1272.html#aec51f08c0902145ff5f11e27e7cab638">More...</a><br /></td></tr>
 <tr class="separator:aec51f08c0902145ff5f11e27e7cab638"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -708,6 +711,45 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+</div>
+</div>
+<a id="a2a36487740f15731c6e508428e4b11f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a36487740f15731c6e508428e4b11f0">&#9670;&nbsp;</a></span>checkDataRate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int16_t SX1272::checkDataRate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="union_data_rate__t.html">DataRate_t</a>&#160;</td>
+          <td class="paramname"><em>dr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check the data rate can be configured by this module. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dr</td><td>Data rate struct. Interpretation depends on currently active modem (FSK or LoRa). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="group__status__codes.html">Status Codes</a> </dd></dl>
+
+<p>Reimplemented from <a class="el" href="class_physical_layer.html#a58d54eeb40fb586013ba48e15318abba">PhysicalLayer</a>.</p>
+
+<p>Reimplemented in <a class="el" href="class_s_x1273.html#a5eae1e82596f3a6c4c926c381c2737a7">SX1273</a>.</p>
 
 </div>
 </div>
