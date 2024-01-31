@@ -101,7 +101,9 @@ jobs:
               echo "options=':bootloader_version=original,cpu_speed=speed_72mhz'" >> $GITHUB_OUTPUT
               echo "index-url=--additional-urls http://dan.drown.org/stm32duino/package_STM32duino_index.json" >> $GITHUB_OUTPUT
           - id: MegaCoreX:megaavr:4809
-            run: echo "index-url=--additional-urls https://mcudude.github.io/MegaCoreX/package_MCUdude_MegaCoreX_index.json" >> $GITHUB_OUTPUT
+            run: |
+              echo "skip-pattern=(STM32WL|LoRaWAN)" >> $GITHUB_OUTPUT
+              echo "index-url=--additional-urls https://mcudude.github.io/MegaCoreX/package_MCUdude_MegaCoreX_index.json" >> $GITHUB_OUTPUT
           - id: arduino:mbed_rp2040:pico
             run: echo "skip-pattern=(STM32WL|LoRaWAN_End_Device_Persistent)" >> $GITHUB_OUTPUT
           - id: rp2040:rp2040:rpipico
@@ -261,3 +263,27 @@ jobs:
           ./clean.sh
           ./build.sh
           sudo ./build/rpi-sx1261
+
+  rpi-pico-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install git cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+        
+      - name: Clone the SDK
+        run: |
+          mkdir -p ~/rpi-pico
+          cd ~/rpi-pico
+          git clone https://github.com/raspberrypi/pico-sdk.git
+          cd pico-sdk && git checkout 1.5.1
+      
+      - name: Build the example
+        run: |
+          export PICO_SDK_PATH=~/rpi-pico/pico-sdk
+          cd $PWD/examples/NonArduino/Pico
+          ./build.sh
