@@ -14,11 +14,11 @@ int16_t SX127x::begin(uint8_t* chipVersions, uint8_t numVersions, uint8_t syncWo
 
   // try to find the SX127x chip
   if(!SX127x::findChip(chipVersions, numVersions)) {
-    RADIOLIB_DEBUG_PRINTLN("No SX127x found!");
+    RADIOLIB_DEBUG_BASIC_PRINTLN("No SX127x found!");
     this->mod->term();
     return(RADIOLIB_ERR_CHIP_NOT_FOUND);
   }
-  RADIOLIB_DEBUG_PRINTLN("M\tSX127x");
+  RADIOLIB_DEBUG_BASIC_PRINTLN("M\tSX127x");
 
   // set mode to standby
   int16_t state = standby();
@@ -65,11 +65,11 @@ int16_t SX127x::beginFSK(uint8_t* chipVersions, uint8_t numVersions, float freqD
 
   // try to find the SX127x chip
   if(!SX127x::findChip(chipVersions, numVersions)) {
-    RADIOLIB_DEBUG_PRINTLN("No SX127x found!");
+    RADIOLIB_DEBUG_BASIC_PRINTLN("No SX127x found!");
     this->mod->term();
     return(RADIOLIB_ERR_CHIP_NOT_FOUND);
   }
-  RADIOLIB_DEBUG_PRINTLN("M\tSX127x");
+  RADIOLIB_DEBUG_BASIC_PRINTLN("M\tSX127x");
 
   // set mode to standby
   int16_t state = standby();
@@ -204,7 +204,7 @@ int16_t SX127x::receive(uint8_t* data, size_t len) {
     uint32_t timeout = 0;
     if(this->mod->getGpio() == RADIOLIB_NC) {
       float symbolLength = (float) (uint32_t(1) << this->spreadingFactor) / (float) this->bandwidth;
-      timeout = 100*symbolLength;
+      timeout = (uint32_t)(symbolLength * 100.0 * 1000.0);
     }
 
     // wait for packet reception or timeout
@@ -1560,7 +1560,7 @@ bool SX127x::findChip(uint8_t* vers, uint8_t num) {
     }
 
     if(!flagFound) {
-      RADIOLIB_DEBUG_PRINTLN("SX127x not found! (%d of 10 tries) RADIOLIB_SX127X_REG_VERSION == 0x%04X", i + 1, version);
+      RADIOLIB_DEBUG_BASIC_PRINTLN("SX127x not found! (%d of 10 tries) RADIOLIB_SX127X_REG_VERSION == 0x%04X", i + 1, version);
       this->mod->hal->delay(10);
       i++;
     }

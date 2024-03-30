@@ -599,14 +599,14 @@ class CC1101: public PhysicalLayer {
     int16_t standby(uint8_t mode) override;
 
     /*!
-      \brief Starts direct mode transmission.
+      \brief Starts synchronous direct mode transmission.
       \param frf Raw RF frequency value. Defaults to 0, required for quick frequency shifts in RTTY.
       \returns \ref status_codes
     */
     int16_t transmitDirect(uint32_t frf = 0) override;
 
     /*!
-      \brief Starts direct mode reception.
+      \brief Starts synchronous direct mode reception.
       \returns \ref status_codes
     */
     int16_t receiveDirect() override;
@@ -874,9 +874,10 @@ class CC1101: public PhysicalLayer {
      /*!
       \brief Set modem in "sniff" mode: no packet filtering (e.g., no preamble, sync word, address, CRC).
       \param enable Set or unset promiscuous mode.
+      \param requireCarrierSense Set carriersense required above threshold, defaults to false.
       \returns \ref status_codes
     */
-    int16_t setPromiscuousMode(bool enable = true);
+    int16_t setPromiscuousMode(bool enable = true, bool requireCarrierSense = false);
 
      /*!
       \brief Get whether the modem is in promiscuous mode: no packet filtering 

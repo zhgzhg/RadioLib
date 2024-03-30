@@ -21,18 +21,18 @@ int16_t CC1101::begin(float freq, float br, float freqDev, float rxBw, int8_t pw
     if((version == RADIOLIB_CC1101_VERSION_CURRENT) || (version == RADIOLIB_CC1101_VERSION_LEGACY) || (version == RADIOLIB_CC1101_VERSION_CLONE)) {
       flagFound = true;
     } else {
-      RADIOLIB_DEBUG_PRINTLN("CC1101 not found! (%d of 10 tries) RADIOLIB_CC1101_REG_VERSION == 0x%04X, expected 0x0004/0x0014", i + 1, version);
+      RADIOLIB_DEBUG_BASIC_PRINTLN("CC1101 not found! (%d of 10 tries) RADIOLIB_CC1101_REG_VERSION == 0x%04X, expected 0x0004/0x0014", i + 1, version);
       this->mod->hal->delay(10);
       i++;
     }
   }
 
   if(!flagFound) {
-    RADIOLIB_DEBUG_PRINTLN("No CC1101 found!");
+    RADIOLIB_DEBUG_BASIC_PRINTLN("No CC1101 found!");
     this->mod->term();
     return(RADIOLIB_ERR_CHIP_NOT_FOUND);
   } else {
-    RADIOLIB_DEBUG_PRINTLN("M\tCC1101");
+    RADIOLIB_DEBUG_BASIC_PRINTLN("M\tCC1101");
   }
 
   // configure settings not accessible by API
@@ -826,7 +826,7 @@ int16_t CC1101::setCrcFiltering(bool enable) {
   }
 }
 
-int16_t CC1101::setPromiscuousMode(bool enable) {
+int16_t CC1101::setPromiscuousMode(bool enable, bool requireCarrierSense) {
   int16_t state = RADIOLIB_ERR_NONE;
 
   if(this->promiscuous == enable) {
@@ -834,9 +834,14 @@ int16_t CC1101::setPromiscuousMode(bool enable) {
   }
 
   if(enable) {
+    // Lets set PQT to 0 with Promiscuous too
+    // We have to set the length to set PQT, but it should get disabled with disableSyncWordFiltering()
+    state = setPreambleLength(16, 0);
+    RADIOLIB_ASSERT(state);
     // disable sync word filtering and insertion
     // this also disables preamble
-    state = disableSyncWordFiltering();
+    // Can enable Sync Mode with carriersense when promiscuous is enabled. Default is false: Sync Mode None	
+    state = disableSyncWordFiltering(requireCarrierSense);
     RADIOLIB_ASSERT(state);
 
     // disable CRC filtering
@@ -916,7 +921,6 @@ void CC1101::setRfSwitchTable(const uint32_t (&pins)[Module::RFSWITCH_MAX_PINS],
 uint8_t CC1101::randomByte() {
   // set mode to Rx
   SPIsendCommand(RADIOLIB_CC1101_CMD_RX);
-  RADIOLIB_DEBUG_PRINTLN("CC1101::randomByte");
 
   // wait a bit for the RSSI reading to stabilise
   this->mod->hal->delay(10);
@@ -988,11 +992,11 @@ int16_t CC1101::directMode(bool sync) {
   this->directModeEnabled = sync;
   if(sync) {
     // set GDO0 and GDO2 mapping
-  	state |= SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG0, RADIOLIB_CC1101_GDOX_SERIAL_CLOCK , 5, 0);
-  	state |= SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG2, RADIOLIB_CC1101_GDOX_SERIAL_DATA_SYNC , 5, 0);
+    state |= SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG0, RADIOLIB_CC1101_GDOX_SERIAL_CLOCK , 5, 0);
+    state |= SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG2, RADIOLIB_CC1101_GDOX_SERIAL_DATA_SYNC , 5, 0);
 
-  	// set continuous mode
-  	state |= SPIsetRegValue(RADIOLIB_CC1101_REG_PKTCTRL0, RADIOLIB_CC1101_PKT_FORMAT_SYNCHRONOUS, 5, 4);
+    // set continuous mode
+    state |= SPIsetRegValue(RADIOLIB_CC1101_REG_PKTCTRL0, RADIOLIB_CC1101_PKT_FORMAT_SYNCHRONOUS, 5, 4);
   } else {
     // set GDO0 mapping
     state |= SPIsetRegValue(RADIOLIB_CC1101_REG_IOCFG0, RADIOLIB_CC1101_GDOX_SERIAL_DATA_ASYNC , 5, 0);
@@ -1012,23 +1016,23 @@ void CC1101::getExpMant(float target, uint16_t mantOffset, uint8_t divExp, uint8
   // iterate over possible exponent values
   for(int8_t e = expMax; e >= 0; e--) {
     // get table column start value (exp = e, mant = 0);
-	  float intervalStart = ((uint32_t)1 << e) * origin;
+    float intervalStart = ((uint32_t)1 << e) * origin;
 
     // check if target value is in this column
-	  if(target >= intervalStart) {
+    if(target >= intervalStart) {
       // save exponent value
       exp = e;
 
       // calculate size of step between table rows
-	    float stepSize = intervalStart/(float)mantOffset;
+      float stepSize = intervalStart/(float)mantOffset;
 
       // get target point position (exp = e, mant = m)
-	    mant = ((target - intervalStart) / stepSize);
+      mant = ((target - intervalStart) / stepSize);
 
       // we only need the first match, terminate
-	    return;
-	  }
-	}
+      return;
+    }
+  }
 }
 
 int16_t CC1101::setPacketMode(uint8_t mode, uint16_t len) {
@@ -1113,7 +1117,7 @@ void CC1101::SPIsendCommand(uint8_t cmd) {
   // stop transfer
   this->mod->hal->spiEndTransaction();
   this->mod->hal->digitalWrite(this->mod->getCs(), this->mod->hal->GpioLevelHigh);
-  RADIOLIB_VERBOSE_PRINTLN("CMD\tW\t%02X\t%02X", cmd, status);
+  RADIOLIB_DEBUG_SPI_PRINTLN("CMD\tW\t%02X\t%02X", cmd, status);
   (void)status;
 }
 
