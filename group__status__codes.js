@@ -4,12 +4,13 @@ var group__status__codes =
     [ "RADIOLIB_ERR_A_FCNT_DOWN_INVALID", "group__status__codes.html#ga81bd164044ef4d523464ad17d1e473bb", null ],
     [ "RADIOLIB_ERR_ACK_NOT_RECEIVED", "group__status__codes.html#gafeff72bd7b618959d86b804a11f09063", null ],
     [ "RADIOLIB_ERR_ADDRESS_NOT_FOUND", "group__status__codes.html#ga806183ed238159d317132b0d44d7a0a2", null ],
+    [ "RADIOLIB_ERR_CHECKSUM_MISMATCH", "group__status__codes.html#gace49554c055f7b2d02ef0c39c006529c", null ],
     [ "RADIOLIB_ERR_CHIP_NOT_FOUND", "group__status__codes.html#ga5d11e8ce64fb412c2169d0f30b9e9c62", null ],
-    [ "RADIOLIB_ERR_COMMAND_QUEUE_EMPTY", "group__status__codes.html#ga9fc9d71b0a60dfc859b392a7474521c0", null ],
     [ "RADIOLIB_ERR_COMMAND_QUEUE_FULL", "group__status__codes.html#ga442250961d11f2582857cd1eafe0df17", null ],
     [ "RADIOLIB_ERR_COMMAND_QUEUE_ITEM_NOT_FOUND", "group__status__codes.html#gac4e026589229f7f737c77c641447d180", null ],
     [ "RADIOLIB_ERR_CRC_MISMATCH", "group__status__codes.html#ga9da949184e940a4fa6f4afb63c315963", null ],
     [ "RADIOLIB_ERR_DOWNLINK_MALFORMED", "group__status__codes.html#gab120f980c06c581cd071452464199aac", null ],
+    [ "RADIOLIB_ERR_DWELL_TIME_EXCEEDED", "group__status__codes.html#gac78ef1a402159a3be27a6b92268106b7", null ],
     [ "RADIOLIB_ERR_INVALID_ADDRESS_WIDTH", "group__status__codes.html#gafbc04b924d23cba05307e94972d7d607", null ],
     [ "RADIOLIB_ERR_INVALID_BANDWIDTH", "group__status__codes.html#ga0710b406a7e12ab6e0f77fdb3374cd9a", null ],
     [ "RADIOLIB_ERR_INVALID_BIT_RANGE", "group__status__codes.html#ga508806c18663156b0d00d1a21c957468", null ],
@@ -81,5 +82,6 @@ var group__status__codes =
     [ "RADIOLIB_ERR_UPLINK_UNAVAILABLE", "group__status__codes.html#ga8b424bb8992a6ac80e2ba46667bf9c6e", null ],
     [ "RADIOLIB_ERR_WRONG_MODEM", "group__status__codes.html#gad95d2455d580745d41ef2f319c6585f8", null ],
     [ "RADIOLIB_LORA_DETECTED", "group__status__codes.html#ga58ff08f4dba334cf8e26474ec2d3facd", null ],
+    [ "RADIOLIB_LORAWAN_NO_DOWNLINK", "group__status__codes.html#ga54253de08594806b0a6cd8fd0576e6aa", null ],
     [ "RADIOLIB_PREAMBLE_DETECTED", "group__status__codes.html#ga382dc113e93f196401914853ec176b18", null ]
 ];
