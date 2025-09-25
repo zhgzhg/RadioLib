@@ -46,7 +46,11 @@ void SPIClass::begin()
     if (wiringPiSPISetupModePort) {
       SPIClass::spiDeviceFp = wiringPiSPISetupModePort(settings.channel, settings.speed, settings.mode, settings.port);
     } else {
-      SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.speed, settings.mode);
+#ifndef HAVE_WIRINGPI_SETUPMODE_OPI
+        SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.speed, settings.mode);
+#else
+        SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.port, settings.speed, settings.mode);
+#endif
     }
   }
 }

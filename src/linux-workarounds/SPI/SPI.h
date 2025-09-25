@@ -11,7 +11,11 @@
 #include <cstring>
 
 extern "C" int wiringPiSPISetupModePort(int channel, int speed, int mode, int port) __attribute__((weak));
-extern "C" int wiringPiSPISetupMode(int channel, int speed, int mode) __attribute__((weak));
+#ifndef HAVE_WIRINGPI_SETUPMODE_OPI
+  extern "C" int wiringPiSPISetupMode(int channel, int speed, int mode) __attribute__((weak));
+#else // deviates from the standard interface alot
+  extern "C" int wiringPiSPISetupMode(int channel, int port, int speed, int mode) __attribute__((weak));
+#endif
 
 #ifndef NOWIRINGIPI
   #include <wiringPi.h>
@@ -34,7 +38,6 @@ extern "C" int wiringPiSPISetupMode(int channel, int speed, int mode) __attribut
   int digitalRead(int pin);
   void pinMode(int pin, int mode);
 #endif
-
 
 // SPI_HAS_TRANSACTION means SPI has beginTransaction(), endTransaction(),
 // usingInterrupt(), and SPISetting(clock, bitOrder, dataMode)
@@ -127,7 +130,11 @@ public:
       if (wiringPiSPISetupModePort) { // this function is missing from the standard wiringPi library
         SPIClass::spiDeviceFp = wiringPiSPISetupModePort(settings.channel, settings.speed, settings.mode, settings.port);
       } else if (wiringPiSPISetupMode) { // fall back to the standard lib setup function instead, while obiously the port parameter will be ignored
+#ifndef HAVE_WIRINGPI_SETUPMODE_OPI
         SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.speed, settings.mode);
+#else
+        SPIClass::spiDeviceFp = wiringPiSPISetupMode(settings.channel, settings.port, settings.speed, settings.mode);
+#endif
       } else { // fall back to an ancient version of the lib
         SPIClass::spiDeviceFp = wiringPiSPISetup(settings.channel, settings.speed);
       }
